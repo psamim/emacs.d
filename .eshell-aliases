@@ -1,6 +1,9 @@
+alias mci mvn clean install
 alias g git $*
-alias la ls -la
-alias ll ls -l
+alias la ls -lah
+alias ll ls -lh
 alias d dired $1
 alias gs git stash
 alias gsp git stash pop
+alias gsc git svn dcommit
+alias gsr git svn rebase

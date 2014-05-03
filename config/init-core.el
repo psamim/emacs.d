@@ -1,21 +1,6 @@
-(setq inhibit-splash-screen t
-      inhibit-startup-echo-area-message t
-      inhibit-startup-message t)
-
-; Enable clipboard integration
-(setq x-select-enable-clipboard t)
-
-(require-package 'sudo-ext)
-(require 'sudo-ext)
-
-(require-package 'elscreen)
-(require 'elscreen)
-(elscreen-start)
-(elscreen-toggle-display-tab)
-
-(setq custom-file (concat user-emacs-directory "custom.el"))
-(when (file-exists-p custom-file)
-  (load custom-file))
+(require 'server)
+(unless (server-running-p)
+  (server-start))
 
 
 ;; move cursor to the last position upon open
@@ -29,6 +14,7 @@
 (setq savehist-file (concat user-emacs-directory ".cache/savehist")
       savehist-additional-variables '(search ring regexp-search-ring)
       savehist-autosave-interval 60)
+(setq-default history-length 1000)
 (savehist-mode +1)
 
 
@@ -40,27 +26,16 @@
 (recentf-mode +1)
 
 
-;; Multi-term
-(require-package 'multi-term)
-(require 'multi-term)
-(setq multi-term-program "/bin/zsh")
-
-;; eshell
-(setq eshell-directory-name (concat user-emacs-directory ".cache/eshell"))
-(setq eshell-aliases-file (concat user-emacs-directory ".eshell-aliases"))
-(setq eshell-scroll-to-bottom-on-input 'all)
-(setq eshell-glob-case-insensitive t)
-(setq eshell-buffer-shorthand t)
-(setq eshell-error-if-no-glob t)
-(setq eshell-send-direct-to-subprocesses t)
-
-
 ;; erc
 (setq erc-log-channels-directory (concat user-emacs-directory ".cache/erc/logs"))
 
 
 ;; vc
 (setq vc-make-backup-files t)
+
+
+;; imenu
+(setq-default imenu-auto-rescan t)
 
 
 ;; narrowing
@@ -71,8 +46,22 @@
 (require 'dired-x)
 
 
+;; compile
+(setq compilation-always-kill t)
+(setq compilation-ask-about-save nil)
+
+
+;; bookmarks
+(setq bookmark-default-file (concat user-emacs-directory ".cache/bookmarks"))
+
+
+;; fringe
+(fringe-mode 16)
+
+
 ;; ediff
-(setq ediff-split-window-function 'split-window-horizontally)
+(setq ediff-split-window-function 'split-window-horizontally) ;; side-by-side diffs
+(setq ediff-window-setup-function 'ediff-setup-windows-plain) ;; no extra frames
 
 
 ;; store most files in the cache
@@ -83,17 +72,6 @@
       auto-save-list-file-prefix
       (concat user-emacs-directory ".cache/auto-save-list/.saves-"))
 
-
-;; delete old backup automatically
-(message "Deleting old backup files...")
-(let ((week (* 60 60 24 7))
-      (current (float-time (current-time))))
-  (dolist (file (directory-files temporary-file-directory t))
-    (when (and (backup-file-name-p file)
-               (> (- current (float-time (fifth (file-attributes file))))
-                  week))
-      (message "%s" file)
-      (delete-file file))))
 
 ;; better scrolling
 (setq scroll-conservatively 9999
@@ -118,24 +96,39 @@
 (prefer-coding-system 'utf-8)
 
 
-(setq sentence-end-double-space nil
-      delete-by-moving-to-trash t
-      visible-bell t
-      mark-ring-max 64
-      global-mark-ring-max 128)
+(setq sentence-end-double-space nil)
+(setq delete-by-moving-to-trash t)
+(setq ring-bell-function (lambda () ()))
+(setq mark-ring-max 64)
+(setq global-mark-ring-max 128)
+(setq save-interprogram-paste-before-kill t)
+
+(setq inhibit-splash-screen t)
+(setq inhibit-startup-echo-area-message t)
+(setq inhibit-startup-message t)
 
 
 (which-function-mode t)
 (blink-cursor-mode -1)
 (global-auto-revert-mode 1)
 (electric-indent-mode t)
+(transient-mark-mode 1)
+(delete-selection-mode 1)
 
 
 (setq-default
  indent-tabs-mode nil)
 
 
+(defun my-find-file-check-large-file ()
+  (when (> (buffer-size) (* 1024 1024))
+    (setq buffer-read-only t)
+    (buffer-disable-undo)
+    (fundamental-mode)))
+
+
 (add-hook 'find-file-hook (lambda ()
+                            (my-find-file-check-large-file)
                             (visual-line-mode)
                             (setq show-trailing-whitespace t)))
 

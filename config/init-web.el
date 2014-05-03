@@ -1,58 +1,46 @@
-(require-package 'js2-mode)
-(require 'js2-mode)
-(setq js2-highlight-level 3)
-(setq-default js2-basic-offset 2)
-
-(require-package 'ac-js2)
-(add-hook 'js2-mode-hook 'ac-js2-mode)
+(lazy-major-mode "\\.coffee\\'" coffee-mode)
+(lazy-major-mode "\\.jade$" jade-mode)
 
 
-(after 'js2-mode-autoloads
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
-
-;(require-package 'js2-refactor)
-;(require 'js2-refactor)
-;(js2r-add-keybindings-with-prefix "C-c C-m")
+(after "js2-mode-autoloads"
+  (require-package 'skewer-mode)
+  (skewer-setup))
 
 
-;(require-package 'tern)
-;(require-package 'tern-auto-complete)
-;(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
-;(after 'tern
-  ;(after 'auto-complete
-    ;(require 'tern-auto-complete)
-    ;(tern-ac-setup)))
+(require-package 'rainbow-mode)
+(add-hook 'html-mode-hook 'rainbow-mode)
+(add-hook 'web-mode-hook 'rainbow-mode)
+(add-hook 'css-mode-hook 'rainbow-mode)
+(add-hook 'stylus-mode-hook 'rainbow-mode)
 
 
-;(require-package 'coffee-mode)
-;(require-package 'jade-mode)
+(defun my-emmet-mode ()
+  (require-package 'emmet-mode)
+  (emmet-mode))
+
+(add-hook 'css-mode-hook 'my-emmet-mode)
+(add-hook 'sgml-mode-hook 'my-emmet-mode)
+(add-hook 'web-mode-hook 'my-emmet-mode)
 
 
-;(require-package 'stylus-mode)
-
-;(defvar my-stylus-command-args nil
-  ;"Additional list of arguments to pass into the stylus command.")
-
-;(defun my-stylus-compile (start end)
-  ;(let ((buffer (get-buffer "*Stylus*")))
-    ;(when buffer (with-current-buffer buffer (erase-buffer))))
-  ;(apply 'call-process-region start end "stylus" nil (get-buffer-create "*Stylus*") nil
-         ;my-stylus-command-args)
-  ;(let ((buffer (get-buffer "*Stylus*")))
-    ;(display-buffer buffer)
-    ;(when buffer (with-current-buffer buffer (css-mode)))))
-
-;(defun my-stylus-compile-region (start end)
-  ;(interactive "r")
-  ;(my-stylus-compile start end))
-
-;(defun my-stylus-compile-buffer ()
-  ;(interactive)
-  ;(my-stylus-compile (point-min) (point-max)))
+(lazy-major-mode "\\.html?$" web-mode)
 
 
-(require-package 'skewer-mode)
-(skewer-setup)
+(after 'web-mode
+  (after 'yasnippet
+    (require-package 'angular-snippets)
+    (require 'angular-snippets)
+    (angular-snippets-initialize)))
+
+;; indent after deleting a tag
+(defadvice sgml-delete-tag (after reindent activate)
+  (indent-region (point-min) (point-max)))
+
+
+;; Samim's confs
+
+;; (require-package 'ac-js2)
+;; (add-hook 'js2-mode-hook 'ac-js2-mode)
 
 (require-package 'php-mode)
 (require 'php-mode)
@@ -69,34 +57,13 @@
          (number-sequence my-tab-width 200 my-tab-width))))
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
-(require-package 'rainbow-mode)
-(require 'rainbow-mode)
-(dolist (hook '(css-mode-hook html-mode-hook sass-mode-hook web-mode-hook))
-    (add-hook hook 'rainbow-mode))
-
 ;;; Auto-complete CSS keywords
   (dolist (hook '(css-mode-hook sass-mode-hook scss-mode-hook))
     (add-hook hook 'ac-css-mode-setup))
-
 
 ;;; Use eldoc for syntax hints
 (require-package 'css-eldoc)
 (autoload 'turn-on-css-eldoc "css-eldoc")
 (add-hook 'css-mode-hook 'turn-on-css-eldoc)
-
-;(require-package 'emmet-mode)
-;(add-hook 'css-mode-hook 'emmet-mode)
-;(add-hook 'sgml-mode-hook 'emmet-mode)
-;(add-hook 'web-mode-hook 'emmet-mode)
-
-
-(require-package 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-
-
-;; indent after deleting a tag
-(defadvice sgml-delete-tag (after reindent activate)
-  (indent-region (point-min) (point-max)))
-
 
 (provide 'init-web)

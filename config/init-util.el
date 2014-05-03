@@ -1,23 +1,28 @@
-(defmacro after (feature &rest body)
-  "After FEATURE is loaded, evaluate BODY."
-  (declare (indent defun))
-  `(eval-after-load ,feature
-     '(progn ,@body)))
+(if (fboundp 'with-eval-after-load)
+    (defmacro after (feature &rest body)
+      "After FEATURE is loaded, evaluate BODY."
+      (declare (indent defun))
+      `(with-eval-after-load ,feature ,@body))
+  (defmacro after (feature &rest body)
+    "After FEATURE is loaded, evaluate BODY."
+    (declare (indent defun))
+    `(eval-after-load ,feature
+       '(progn ,@body))))
 
 
-(defun my-add-semicolon-at-the-end-of-line ()
-  "Add a semicolon to the end of line and go to next"
-  (interactive) ; Do the following interactively
-  (end-of-line) ; Move to the end of line
-  (insert ";") ; Add the semicolon
-  (evil-normal-state))
+(defmacro lazy-major-mode (pattern mode)
+  "Defines a new major-mode matched by PATTERN, installs MODE if necessary, and activates it."
+  `(add-to-list 'auto-mode-alist
+                '(,pattern . (lambda ()
+                             (require-package (quote ,mode))
+                             (,mode)))))
 
-(setq path-to-ctags "TAGS")
-(defun create-tags (dir-name)
-  "Create tags file."
-  (interactive "DDirectory: ")
-  (shell-command
-   (format "ctags-exuberant --exclude=.git -f %s -e -R %s" path-to-ctags (directory-file-name dir-name))))
+
+(defun my-recompile-init ()
+  "Byte-compile all your dotfiles again."
+  (interactive)
+  (byte-recompile-directory (concat user-emacs-directory "config") 0))
+
 
 (defun my-window-killer ()
   "closes the window, and deletes the buffer if it's the last window open."
@@ -56,25 +61,22 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
                            (buffer-substring (region-beginning) (region-end))
                          (read-string "Search Google: "))))))
 
-(defun my-ddg ()
-  "DuckDuckGo the selected region if any, display a query prompt otherwise."
-  (interactive)
-  (browse-url
-   (concat
-    "https://duckduckgo.com/?q="
-    (url-hexify-string (if mark-active
-                           (buffer-substring (region-beginning) (region-end))
-                         (read-string "Search DDG: "))))))
 
-(defun my-eval-and-replace ()
+(defun my-copy-file-name-to-clipboard ()
+  "Copy the current buffer file name to the clipboard."
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (kill-new filename)
+      (message "Copied buffer file name '%s' to the clipboard." filename))))
+
   "Replace the preceding sexp with its value."
   (interactive)
-  (backward-kill-sexp)
-  (condition-case nil
-      (prin1 (eval (read (current-kill 0)))
-             (current-buffer))
-    (error (message "Invalid expression")
-           (insert (current-kill 0)))))
+  (let ((value (eval (preceding-sexp))))
+    (backware-kill-sexp)
+    (insert (format "%s" value))))
 
 
 (defun my-rename-current-buffer-file ()
@@ -96,24 +98,82 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 
 (defun my-delete-current-buffer-file ()
-  "Removes file connected to current buffer and kills buffer."
+  "Kill the current buffer and deletes the file it is visiting."
   (interactive)
-  (let ((filename (buffer-file-name))
-        (buffer (current-buffer))
-        (name (buffer-name)))
-    (if (not (and filename (file-exists-p filename)))
-        (ido-kill-buffer)
-      (when (yes-or-no-p "Are you sure you want to remove this file? ")
-        (delete-file filename)
-        (kill-buffer buffer)
-        (message "File '%s' successfully removed" filename)))))
+  (let ((filename (buffer-file-name)))
+    (when filename
+      (if (vc-backend filename)
+          (vc-delete-file filename)
+        (when (y-or-n-p (format "Are you sure you want to delete %s? " filename))
+          (delete-file filename)
+          (message "Deleted file %s" filename)
+          (kill-buffer))))))
+
+
+(defun my-goto-scratch-buffer ()
+  "Create a new scratch buffer."
+  (interactive)
+  (progn
+    (switch-to-buffer
+     (get-buffer-create "*scratch*"))
+    (emacs-lisp-mode)))
+
+
+(defun my-describe-thing-in-popup ()
+  (interactive)
+  (let ((description (save-window-excursion
+                       (help-xref-interned (symbol-at-point))
+                       (switch-to-buffer "*Help*")
+                       (buffer-string))))
+    (require 'popup)
+    (popup-tip description
+               :point (point)
+               :around t
+               :height 30
+               :scroll-bar t
+               :margin t)))
+
+
+(defadvice kill-buffer (around my-advice-for-kill-buffer activate)
+  (let ((buffer-to-kill (ad-get-arg 0)))
+    (if (equal buffer-to-kill "*Scratch*")
+        (bury-buffer)
+      ad-do-it)))
 
 
 ;; make sure $PATH is set correctly
-(require-package 'exec-path-from-shell)
-(ignore-errors ;; windows
-  (exec-path-from-shell-initialize))
+(if (eq system-type 'windows-nt)
+    (dolist (path (split-string (getenv "PATH") ";"))
+      (add-to-list 'exec-path (replace-regexp-in-string "\\\\" "/" path)))
+  (progn
+    (require-package 'exec-path-from-shell)
+    (exec-path-from-shell-initialize)))
 
+;; Samim's cofs
+
+(defun my-add-semicolon-at-the-end-of-line ()
+  "Add a semicolon to the end of line and go to next"
+  (interactive) ; Do the following interactively
+  (end-of-line) ; Move to the end of line
+  (insert ";") ; Add the semicolon
+  (evil-normal-state))
+
+(setq path-to-ctags "TAGS")
+(defun create-tags (dir-name)
+  "Create tags file."
+  (interactive "DDirectory: ")
+  (shell-command
+   (format "ctags-exuberant --exclude=.git -f %s -e -R %s" path-to-ctags (directory-file-name dir-name))))
+
+(defun my-ddg ()
+  "DuckDuckGo the selected region if any, display a query prompt otherwise."
+  (interactive)
+  (browse-url
+   (concat
+    "https://duckduckgo.com/?q="
+    (url-hexify-string (if mark-active
+                           (buffer-substring (region-beginning) (region-end))
+                         (read-string "Search DDG: "))))))
 
 (defun switch-full-screen ()
  (interactive)
@@ -133,6 +193,5 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (find-file my-file-name)
   (split-window-right)
   (find-file "~/Note/todo.org"))
-
 
 (provide 'init-util)

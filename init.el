@@ -2,40 +2,64 @@
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (unless (display-graphic-p) (menu-bar-mode -1))
 
-(add-to-list 'load-path user-emacs-directory)
 (add-to-list 'load-path (concat user-emacs-directory "config"))
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
 (require 'cl)
-
 (require 'init-packages)
 (require 'init-util)
-(require 'init-core)
-(require 'init-org)
-(require 'init-eyecandy)
 
-(require 'init-auto-complete)
-(require 'init-editor)
-(require 'init-smartparens)
-;(require 'init-autopair)
+(setq custom-file (concat user-emacs-directory "custom.el"))
+(when (file-exists-p custom-file)
+  (load custom-file))
 
-(require 'init-yasnippet)
-;(require 'init-company)
+(defgroup dotemacs nil
+  "Custom configuration for dotemacs."
+  :group 'local)
 
-(require 'init-projectile)
-(require 'init-helm)
-(require 'init-ido)
+(defcustom dotemacs-modules
+  '(init-core
 
-(require 'init-git)
-(require 'init-flycheck)
+    init-eshell
+    init-org
+    init-eyecandy
 
-(require 'init-vim)
-(require 'init-web)
-(require 'init-lisp)
-(require 'init-markdown)
-(require 'init-latex)
+    init-smartparens
+    ;; init-autopair
 
-(require 'init-evil)
-(require 'init-misc)
-(require 'init-bindings)
-(require 'init-gnus)
+    init-yasnippet
+    ;; init-auto-complete
+    init-company
+
+    init-projectile
+    init-helm
+    init-ido
+
+    init-vcs
+    init-flycheck
+
+    init-vim
+    init-stylus
+    init-js
+    ;; init-go
+    init-web
+    init-lisp
+    init-markdown
+
+    init-misc
+    init-evil
+    init-bindings
+
+    init-overrides
+
+   	;;init-editor
+   	;;init-git
+   	;;init-flycheck
+   	init-latex
+   	init-gnus
+    )
+  "Set of modules enabled in dotemacs."
+  :group 'dotemacs)
+
+(dolist (module dotemacs-modules)
+  (require module))
