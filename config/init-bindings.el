@@ -45,7 +45,7 @@
            (setq my-eshell-buffer-count (+ 1 my-eshell-buffer-count))
            (eshell my-eshell-buffer-count))
       "C" 'customize-group
-      "b d" 'kill-this-buffer
+  ;;    "b d" 'kill-this-buffer
       "v" (kbd "C-w v C-w l")
       "s" (kbd "C-w s C-w j")
       "P" 'package-list-packages

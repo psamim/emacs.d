@@ -28,11 +28,11 @@
     ;; init-autopair
 
     init-yasnippet
-    ;; init-auto-complete
+    init-auto-complete
     init-company
 
     init-projectile
-    init-helm
+    ;; init-helm
     init-ido
 
     init-vcs
@@ -56,8 +56,7 @@
    	;;init-git
    	;;init-flycheck
    	init-latex
-   	init-gnus
-    )
+   	init-gnus)
   "Set of modules enabled in dotemacs."
   :group 'dotemacs)
 

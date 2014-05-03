@@ -72,12 +72,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       (kill-new filename)
       (message "Copied buffer file name '%s' to the clipboard." filename))))
 
-  "Replace the preceding sexp with its value."
-  (interactive)
-  (let ((value (eval (preceding-sexp))))
-    (backware-kill-sexp)
-    (insert (format "%s" value))))
-
 
 (defun my-rename-current-buffer-file ()
   "Renames current buffer and file it is visiting."
