@@ -29,7 +29,7 @@
 
     init-yasnippet
     init-auto-complete
-    init-company
+    ;; init-company
 
     init-projectile
     ;; init-helm
