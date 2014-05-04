@@ -2,6 +2,9 @@
 (setq org-default-notes-file "~/Note/notes.org"
       org-log-done t)
 
+(require-package 'org-bullets)
+(require 'org-bullets)
+
 (require 'epa-file)
 (epa-file-enable)
 (setq epa-file-select-keys nil)
@@ -9,6 +12,7 @@
 (defun my-org-mode-hook()
   (setq bidi-paragraph-direction nil)
   (auto-complete-mode t)
+  (org-bullets-mode 1)
   (flyspell-mode t))
 
 (add-hook 'org-mode-hook 'my-org-mode-hook)
