@@ -24,11 +24,12 @@
 (after 'magit (diminish 'magit-auto-revert-mode))
 
 
-(require-package 'smart-mode-line)
-(setq sml/show-client t)
-(setq sml/show-eol t)
-(setq sml/show-frame-identification t)
-(sml/setup)
+;; Samim diabled sml
+;; (require-package 'smart-mode-line)
+;; (setq sml/show-client t)
+;; (setq sml/show-eol t)
+;; (setq sml/show-frame-identification t)
+;; (sml/setup)
 
 
 (if (fboundp 'global-prettify-symbols-mode)
