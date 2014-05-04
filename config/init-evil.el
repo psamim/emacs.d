@@ -83,4 +83,7 @@
 (defadvice evil-jump-backward (after advice-for-evil-jump-backward activate)
   (evil-scroll-line-to-center (line-number-at-pos)))
 
+;; Samim's conf
+(evil-mode t)
+
 (provide 'init-evil)
