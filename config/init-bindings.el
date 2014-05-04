@@ -126,8 +126,8 @@
   (define-key evil-motion-state-map "ا" 'evil-forward-char)
   (define-key evil-motion-state-map "م" 'evil-backward-char)
   (define-key evil-motion-state-map "ه" 'evil-insert)
-  (define-key evil-motion-state-map "خ" 'evil-insert-newline-above)
-  (define-key evil-motion-state-map "]" 'evil-insert-newline-below)
+  (define-key evil-motion-state-map "خ" 'evil-insert-newline-below)
+  (define-key evil-motion-state-map "]" 'evil-insert-newline-above)
 
   (define-key evil-normal-state-map (kbd "Q") 'my-window-killer)
   (define-key evil-normal-state-map (kbd "Y") (kbd "y$"))
@@ -274,5 +274,8 @@
     (message "Thou shall not quit!"))
   (defadvice evil-quit-all (around advice-for-evil-quit-all activate)
     (message "Thou shall not quit!")))
+
+;; Samim's confs
+(global-set-key (kbd "<f11>") 'switch-full-screen)
 
 (provide 'init-bindings)
