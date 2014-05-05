@@ -88,4 +88,5 @@
  '(secondary-selection ((t (:background "#002B36")))))
 (require-package 'writeroom-mode)
 
+(menu-bar-mode -1)
 (provide 'init-eyecandy)
