@@ -89,4 +89,9 @@
 (require-package 'writeroom-mode)
 
 (menu-bar-mode -1)
+
+(require 'elscreen)
+(elscreen-start)
+(elscreen-toggle-display-tab)
+
 (provide 'init-eyecandy)
