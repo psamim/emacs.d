@@ -48,6 +48,7 @@
 ; Custom agendas and trees
 (setq org-agenda-custom-commands
       (quote (
+        ("d" "All todos" tags-tree "+TODO=\"TODO\"")
         ("un" "@uni NEXT" tags-tree "@uni+TODO=\"NEXT\"")
         ("ut" "@uni TODO" tags-tree "@uni+TODO=\"TODO\"")
         ("ua" "@uni ALL" tags-tree "@uni+TODO=\"NEXT\"|@uni+TODO=\"TODO\"")
