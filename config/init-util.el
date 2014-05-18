@@ -185,6 +185,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
       ()
     (copy-file "~/Note/template.org" my-file-name))
   (find-file my-file-name)
+  (insert (concat (calendar-persian-date-string) "\n\n"))
   (split-window-right)
   (find-file "~/Note/todo.org"))
 
