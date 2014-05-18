@@ -145,7 +145,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;; Samim's cofs
 
-(defun my-add-semicolon-at-the-end-of-line ()
+(defun psamim-add-semicolon-at-the-end-of-line ()
   "Add a semicolon to the end of line and go to next"
   (interactive) ; Do the following interactively
   (end-of-line) ; Move to the end of line
@@ -159,7 +159,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (shell-command
    (format "ctags-exuberant --exclude=.git -f %s -e -R %s" path-to-ctags (directory-file-name dir-name))))
 
-(defun my-ddg ()
+(defun psamim-ddg ()
   "DuckDuckGo the selected region if any, display a query prompt otherwise."
   (interactive)
   (browse-url
@@ -169,16 +169,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
                            (buffer-substring (region-beginning) (region-end))
                          (read-string "Search DDG: "))))))
 
-(defun switch-full-screen ()
+(defun psamim-switch-full-screen ()
  (interactive)
  (shell-command "wmctrl -r :ACTIVE: -btoggle,fullscreen"))
 
-(defun my-insert-today-date ()
-  (interactive)
-   (insert
-          (format-time-string "%Y-%m-%d")))
-
-(defun my-new-daily-journal ()
+(defun psamim-new-daily-journal ()
   (interactive)
   (setq my-file-name (concat "~/Note/daily/" (concat (format-time-string "%Y-%m-%d") ".org")))
   (if (file-exists-p my-file-name)
@@ -189,12 +184,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (split-window-right)
   (find-file "~/Note/todo.org"))
 
-(defun my-writeroom-mode ()
+(defun psamim-writeroom-mode ()
   (interactive)
   (writeroom-mode)
   (set-transparency 0.9))
 
-(defun my-archive-todo ()
+(defun psamim-archive-todo ()
   (interactive)
   (copy-file "~/Note/todo.org"  (concat "~/Note/archive/todos/" (concat (format-time-string "%Y-%m-%d") ".org"))))
 

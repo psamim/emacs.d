@@ -30,7 +30,7 @@
   (key-chord-mode 1)
   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
   (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
-  (key-chord-define evil-insert-state-map "jj" 'my-add-semicolon-at-the-end-of-line)
+  (key-chord-define evil-insert-state-map "jj" 'psamim-add-semicolon-at-the-end-of-line)
 
   (after "evil-leader-autoloads"
     (evil-leader/set-leader "<SPC>")
