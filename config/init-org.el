@@ -5,6 +5,9 @@
 (require-package 'org-bullets)
 (require 'org-bullets)
 
+(require-package 'ox-reveal)
+(require 'ox-reveal)
+
 (require 'epa-file)
 (epa-file-enable)
 (setq epa-file-select-keys nil)
@@ -115,8 +118,18 @@
 "\\documentclass[11pt,a4paper]{article}
 \\usepackage[T1]{fontenc}
 \\usepackage{fontspec}
+\\usepackage{longtable}
 \\usepackage{graphicx}
 \\usepackage{geometry}
+\\usepackage{float}
+\\usepackage{wrapfig}
+\\usepackage{rotating}
+\\usepackage[normalem]{ulem}
+\\usepackage{amsmath}
+\\usepackage{textcomp}
+\\usepackage{marvosym}
+\\usepackage{wasysym}
+\\usepackage{amssymb}
 \\usepackage{hyperref}
 \\geometry{a4paper, textwidth=6.5in, textheight=10in,
             marginparsep=7pt, marginparwidth=.6in}
