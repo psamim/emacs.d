@@ -189,4 +189,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (split-window-right)
   (find-file "~/Note/todo.org"))
 
+(defun my-writeroom-mode ()
+  (interactive)
+  (writeroom-mode)
+  (set-transparency 0.9))
+
 (provide 'init-util)
