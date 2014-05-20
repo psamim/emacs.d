@@ -16,7 +16,8 @@
   (setq bidi-paragraph-direction nil)
   (auto-complete-mode t)
   (org-bullets-mode 1)
-  (flyspell-mode t))
+  (flyspell-mode t)
+  (ac-flyspell-workaround))
 
 (add-hook 'org-mode-hook 'my-org-mode-hook)
 
