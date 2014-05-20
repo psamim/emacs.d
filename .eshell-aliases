@@ -3,7 +3,8 @@ alias g git $*
 alias la ls -lah
 alias ll ls -lh
 alias d dired $1
-alias gs git stash
+alias gs git status
 alias gsp git stash pop
 alias gsc git svn dcommit
 alias gsr git svn rebase
+alias o find-file $1
