@@ -110,6 +110,14 @@
 (setq org-latex-pdf-process
       '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
 
+(setq org-latex-minted-options
+           '(("frame" "leftline")
+             ("fontsize" "\\scriptsize")
+             ("bgcolor" "bg")
+             ("stepnumber" "2")
+             ("mathescape" "true")
+             ("linenos" "true")))
+
 ;; My latex templates for org-mode
 (require 'org-latex)
 (unless (boundp 'org-latex-classes)
@@ -133,13 +141,15 @@
 \\usepackage{wasysym}
 \\usepackage{amssymb}
 \\usepackage{hyperref}
-\\usepackage{minted}}
+\\usepackage{color}
+\\definecolor{bg}{rgb}{0.95,0.95,0.95}
 \\geometry{a4paper, textwidth=6.5in, textheight=10in,
             marginparsep=7pt, marginparwidth=.6in}
 \\pagestyle{empty}
-\\usepackage{xepersian}
       [NO-DEFAULT-PACKAGES]
-      [NO-PACKAGES]
+      [PACKAGES]
+      [EXTRA]
+\\usepackage{xepersian}
 \\linespread{1.4}
 \\hypersetup{pdfborder=0 0 0}
 \\settextfont{Yas}"
@@ -168,11 +178,14 @@
 \\usepackage{wasysym}
 \\usepackage{amssymb}
 \\usepackage{hyperref}
-\\usepackage{minted}
+\\usepackage{mathpazo}
+\\usepackage{color}
+\\definecolor{bg}{rgb}{0.95,0.95,0.95}
 \\tolerance=1000
       [NO-DEFAULT-PACKAGES]
-      [NO-PACKAGES]
-\\linespread{1.4}
+      [PACKAGES]
+      [EXTRA]
+\\linespread{1.1}
 \\hypersetup{pdfborder=0 0 0}"
      ("\\section{%s}" . "\\section*{%s}")
      ("\\subsection{%s}" . "\\subsection*{%s}")
