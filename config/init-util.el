@@ -189,8 +189,4 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (writeroom-mode)
   (set-transparency 0.9))
 
-(defun psamim-archive-todo ()
-  (interactive)
-  (copy-file "~/Note/todo.org"  (concat "~/Note/archive/todos/" (concat (format-time-string "%Y-%m-%d") ".org"))))
-
 (provide 'init-util)
