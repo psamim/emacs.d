@@ -89,6 +89,7 @@
 ;; (setq org-mobile-directory "~/.orgs/mob")
 (setq org-directory "~/Note")
 (setq org-mobile-inbox-for-pull "~/Note/mob.org")
+(setq org-archive-location "~/Note/archive/todo.org::")
 
 ;; Syntax Highlighting
 ;; http://praveen.kumar.in/2012/03/10/org-mode-latex-and-minted-syntax-highlighting/
