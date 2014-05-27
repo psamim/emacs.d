@@ -12,6 +12,10 @@
 (epa-file-enable)
 (setq epa-file-select-keys nil)
 
+(require-package 'org-ac)
+(require 'org-ac)
+(org-ac/config-default)
+
 (defun my-org-mode-hook()
   (setq bidi-paragraph-direction nil)
   (auto-complete-mode t)
