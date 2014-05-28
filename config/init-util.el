@@ -189,13 +189,36 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (writeroom-mode)
   (set-transparency 0.9))
 
-(defun psamim-sync-gtasks ()
+(defun psamim-push-gtasks ()
   "Asynchronously syncs to Google tasks"
   (interactive)
+  (setq mobile-org-file "~/Note/mobile.org")
+  (org-tags-sparse-tree t "+TODO=\"NEXT\"")
+  (org-export-visible ?\s nil)
+  (write-file mobile-org-file nil)
+  (my-window-killer)
   (message "Sync started")
-  (let ((process (start-process
-                  "gtasks-sync" "*output*" "/bin/sh" "-c"
-                  "torify ~/src/michel-orgmode/michel/michel.py --sync --orgfile ~/Note/todo.org --listname org-todos")))
+  (let ((process
+         (start-process
+          "gtasks-sync" "*sync-output*" "/bin/sh" "-c"
+          (concat
+           "torify ~/src/michel-orgmode/michel/michel.py --push --orgfile "
+           mobile-org-file
+           " --listname org-todos"))))
+    (set-process-sentinel process 'gtasks-sentinel)))
+
+(defun psamim-pull-gtasks ()
+  "Asynchronously syncs to Google tasks"
+  (interactive)
+  (setq mobile-inbox-org-file "~/Note/inbox.org")
+  (message "Sync started")
+  (let ((process
+         (start-process
+          "gtasks-sync" "*sync-output*" "/bin/sh" "-c"
+          (concat
+           "torify ~/src/michel-orgmode/michel/michel.py --pull --orgfile "
+           mobile-inbox-org-file
+           " --listname Inbox"))))
     (set-process-sentinel process 'gtasks-sentinel)))
 
 (defun gtasks-sentinel (p e)
@@ -203,6 +226,5 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (if (= 0 (process-exit-status p))
       (message "Google tasks sync was successful")
     (message "Sync failed")))
-
 
 (provide 'init-util)
