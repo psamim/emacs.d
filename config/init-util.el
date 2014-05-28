@@ -189,4 +189,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (writeroom-mode)
   (set-transparency 0.9))
 
+(defun psamim-sync-gtasks ()
+(interactive)
+(shell-command "torify ~/src/michel-orgmode/michel/michel.py --sync --orgfile ~/Note/todo.org --listname org-todos"))
+
 (provide 'init-util)
