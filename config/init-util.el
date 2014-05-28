@@ -190,7 +190,19 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (set-transparency 0.9))
 
 (defun psamim-sync-gtasks ()
-(interactive)
-(shell-command "torify ~/src/michel-orgmode/michel/michel.py --sync --orgfile ~/Note/todo.org --listname org-todos"))
+  "Asynchronously syncs to Google tasks"
+  (interactive)
+  (message "Sync started")
+  (let ((process (start-process
+                  "gtasks-sync" "*output*" "/bin/sh" "-c"
+                  "torify ~/src/michel-orgmode/michel/michel.py --sync --orgfile ~/Note/todo.org --listname org-todos")))
+    (set-process-sentinel process 'gtasks-sentinel)))
+
+(defun gtasks-sentinel (p e)
+  "Display the result of the sync"
+  (if (= 0 (process-exit-status p))
+      (message "Google tasks sync was successful")
+    (message "Sync failed")))
+
 
 (provide 'init-util)
