@@ -56,7 +56,8 @@
    	;;init-git
    	;;init-flycheck
    	init-latex
-   	init-gnus)
+   	init-gnus
+        init-sync)
   "Set of modules enabled in dotemacs."
   :group 'dotemacs)
 
