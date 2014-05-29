@@ -89,12 +89,15 @@
 
 
 (setq org-agenda-files (quote ("~/Note/todo.org")))
-(setq org-mobile-directory "~/Owncloud/orgs")
+;; (setq org-mobile-directory "~/Owncloud/orgs")
 ;; (setq org-mobile-directory "~/.orgs/mob")
 (setq org-directory "~/Note")
-(setq org-mobile-inbox-for-pull "~/Note/mob.org")
+;; (setq org-mobile-inbox-for-pull "~/Note/mob.org")
 (setq org-archive-location "~/Note/archive/todo.org::")
-
+(setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                 (org-agenda-files :maxlevel . 1)
+                                 ("~/Note/ideas.org" :maxlevel . 1)
+                                 )))
 ;; Syntax Highlighting
 ;; http://praveen.kumar.in/2012/03/10/org-mode-latex-and-minted-syntax-highlighting/
 ;; (require 'org-latex)
