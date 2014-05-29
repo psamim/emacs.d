@@ -73,8 +73,8 @@
 (add-hook 'before-make-frame-hook
           #'(lambda ()
               (menu-bar-mode t)
-              (font . "Inconsolata-14")
-              ))
+              (font . "source code pro-14")
+             ))
 
 
 (require-package 'solarized-theme)
@@ -93,5 +93,10 @@
 (require 'elscreen)
 (elscreen-start)
 (elscreen-toggle-display-tab)
+
+(setq frame-title-format
+  '("emacs%@" (:eval (system-name)) ": " (:eval (if (buffer-file-name)
+                (abbreviate-file-name (buffer-file-name))
+                  "%b")) " [%*]"))
 
 (provide 'init-eyecandy)
