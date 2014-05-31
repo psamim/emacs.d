@@ -35,12 +35,13 @@
   (after "evil-leader-autoloads"
     (evil-leader/set-leader "<SPC>")
     (evil-leader/set-key
+      "c" 'evilnc-comment-or-uncomment-lines
       "w" 'save-buffer
       "ص" 'save-buffer
       "e" (kbd "C-x C-e")
       ", e" (kbd "C-M-x")
       "E" (kbd "C-M-x")
-      "c" (bind
+      "t" (bind
            (evil-window-split)
            (setq my-eshell-buffer-count (+ 1 my-eshell-buffer-count))
            (eshell my-eshell-buffer-count))
@@ -266,7 +267,7 @@
     (message "Thou shall not quit!")))
 
 ;; Samim's confs
-(global-set-key (kbd "<f11>") 'switch-full-screen)
+(global-set-key (kbd "<f11>") 'psamim-switch-full-screen)
 
 ;; Farsi keyboard layout bindings
 (after 'evil
