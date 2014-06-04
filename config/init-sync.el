@@ -10,9 +10,9 @@
   (org-export-visible ?\s nil)
   (delete-matching-lines "^\* .*")
   (replace-string "** NEXT" "*")
-  (write-file psamim-mobile-org-file nil)
+  (write-file psamim-mobile-todo-org-file nil)
   (my-window-killer)
-  (message "Sync started")
+  (message "Pushing todos started")
   (let ((process
          (start-process
           "gtasks-sync" "*sync-output*" "/bin/sh" "-c"
@@ -26,7 +26,7 @@
 (defun psamim-pull-gtasks-inbox ()
   "Asynchronously syncs to Google tasks"
   (interactive)
-  (message "Sync started")
+  (message "Pulling inbox started")
   (let ((process
          (start-process
           "gtasks-sync" "*sync-output*" "/bin/sh" "-c"
@@ -40,7 +40,7 @@
 (defun psamim-push-gtasks-inbox ()
   "Asynchronously syncs to Google tasks"
   (interactive)
-  (message "Sync started")
+  (message "Pushing inbox started")
   (let ((process
          (start-process
           "gtasks-sync" "*sync-output*" "/bin/sh" "-c"
