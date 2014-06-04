@@ -61,22 +61,17 @@
 (add-hook 'find-file-hook 'hl-line-mode)
 
 ;; Samim's confs
-
-(set-face-attribute 'default nil :font
-"DejaVu Sans Mono:pixelsize=15:foundry=unknown:weight=normal:slant=normal:width=normal:spacing=100:scalable=true")
+(when (window-system)
+  (set-frame-font "Source Code Pro")
+  (set-face-attribute 'default nil :font "Source Code Pro" :height 130)
+  (set-face-font 'default "Source Code Pro"))
 
 (set-fontset-font
    "fontset-default"
    (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
    "Dejavu Sans Mono-13")
 
-(add-hook 'before-make-frame-hook
-          #'(lambda ()
-              (menu-bar-mode t)
-              (font . "source code pro-14")
-             ))
-
-
+;;   (set-face-attribute 'default nil :height 105 :family "Fira Mono")
 (require-package 'solarized-theme)
 (load-theme 'solarized-dark)
 
@@ -98,5 +93,7 @@
   '("emacs%@" (:eval (system-name)) ": " (:eval (if (buffer-file-name)
                 (abbreviate-file-name (buffer-file-name))
                   "%b")) " [%*]"))
+
+(set-transparency 0.9)
 
 (provide 'init-eyecandy)
