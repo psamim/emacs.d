@@ -64,12 +64,13 @@
 (when (window-system)
   (set-frame-font "Source Code Pro")
   (set-face-attribute 'default nil :font "Source Code Pro" :height 130)
-  (set-face-font 'default "Source Code Pro"))
-
+  (set-face-font 'default "Source Code Pro")
 (set-fontset-font
    "fontset-default"
    (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
-   "Dejavu Sans Mono-13")
+   ;; "FreeFarsi Monospace-17"))
+   "B Traffic-15"))
+
 
 ;;   (set-face-attribute 'default nil :height 105 :family "Fira Mono")
 (require-package 'solarized-theme)
