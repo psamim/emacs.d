@@ -27,6 +27,17 @@
 
 (setq org-todo-keywords '("TODO" "NEXT" "WAITING" "DONE"))
 
+;; Show sum of clocks in hours
+(setq org-time-clocksum-format
+      (quote
+       (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
+
+;; make org-archive-subtree keep inherited tags
+(defadvice org-archive-subtree
+  (before add-inherited-tags-before-org-archive-subtree activate)
+    "add inherited tags before org-archive-subtree"
+    (org-set-tags-to (org-get-tags-at)))
+
 (defvar ash-org-current-task-loc nil
 "A cons of the buffer & location of the current task")
 
@@ -116,8 +127,8 @@
 ;; execute external programs.
 ;; This obviously and can be dangerous to activate!
 (setq org-latex-pdf-process
-      '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+(setq org-clock-into-drawer t)
 (setq org-latex-minted-options
            '(("frame" "leftline")
              ("fontsize" "\\scriptsize")
