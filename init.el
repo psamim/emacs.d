@@ -1,3 +1,11 @@
+(defgroup dotemacs nil
+  "Custom configuration for dotemacs."
+  :group 'local)
+
+(defcustom dotemacs-cache-directory (concat user-emacs-directory ".cache/")
+  "The storage location for various persistent files."
+  :group 'dotemacs)
+
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (unless (display-graphic-p) (menu-bar-mode -1))
@@ -13,15 +21,12 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
-(defgroup dotemacs nil
-  "Custom configuration for dotemacs."
-  :group 'local)
-
 (defcustom dotemacs-modules
   '(init-core
 
     init-eshell
     init-org
+    init-erc
     init-eyecandy
 
     init-smartparens
@@ -49,6 +54,7 @@
     init-misc
     init-evil
     init-bindings
+    init-macros
 
     init-overrides
 

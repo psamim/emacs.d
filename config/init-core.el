@@ -1,17 +1,19 @@
-(require 'server)
-(unless (server-running-p)
-  (server-start))
+(add-hook 'after-init-hook
+          (lambda ()
+            (require 'server)
+            (unless (server-running-p)
+              (server-start))))
 
 
 ;; move cursor to the last position upon open
 (require 'saveplace)
-(setq save-place-file (concat user-emacs-directory ".cache/places"))
+(setq save-place-file (concat dotemacs-cache-directory "places"))
 (setq-default save-place t)
 
 
 ;; minibuffer history
 (require 'savehist)
-(setq savehist-file (concat user-emacs-directory ".cache/savehist")
+(setq savehist-file (concat dotemacs-cache-directory "savehist")
       savehist-additional-variables '(search ring regexp-search-ring)
       savehist-autosave-interval 60)
 (setq-default history-length 1000)
@@ -20,14 +22,15 @@
 
 ;; recent files
 (require 'recentf)
-(setq recentf-save-file (concat user-emacs-directory ".cache/recentf")
-      recentf-max-saved-items 1000
-      recentf-max-menu-items 500)
+(setq recentf-save-file (concat dotemacs-cache-directory "recentf"))
+(setq recentf-max-saved-items 1000)
+(setq recentf-max-menu-items 500)
+(add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
 (recentf-mode +1)
 
 
 ;; erc
-(setq erc-log-channels-directory (concat user-emacs-directory ".cache/erc/logs"))
+(setq erc-log-channels-directory (concat dotemacs-cache-directory "erc/logs"))
 
 
 ;; vc
@@ -49,10 +52,17 @@
 ;; compile
 (setq compilation-always-kill t)
 (setq compilation-ask-about-save nil)
+(add-hook 'compilation-filter-hook
+          (lambda ()
+            (when (eq major-mode 'compilation-mode)
+              (require 'ansi-color)
+              (let ((inhibit-read-only t))
+                (ansi-color-apply-on-region (point-min) (point-max))))))
 
 
 ;; bookmarks
-(setq bookmark-default-file (concat user-emacs-directory ".cache/bookmarks"))
+(setq bookmark-default-file (concat dotemacs-cache-directory "bookmarks"))
+(setq bookmark-save-flag 1) ;; save after every change
 
 
 ;; fringe
@@ -64,13 +74,21 @@
 (setq ediff-window-setup-function 'ediff-setup-windows-plain) ;; no extra frames
 
 
+;; re-builder
+(setq reb-re-syntax 'string) ;; fix backslash madness
+
+
+;; clean up old buffers periodically
+(require 'midnight)
+
+
 ;; store most files in the cache
 (setq backup-directory-alist
-      `((".*" . ,(concat user-emacs-directory ".cache/backups")))
+      `((".*" . ,(concat dotemacs-cache-directory "backups")))
       auto-save-file-name-transforms
-      `((".*" ,(concat user-emacs-directory ".cache/backups") t))
+      `((".*" ,(concat dotemacs-cache-directory "backups") t))
       auto-save-list-file-prefix
-      (concat user-emacs-directory ".cache/auto-save-list/.saves-"))
+      (concat dotemacs-cache-directory "auto-save-list/saves-"))
 
 
 ;; better scrolling
@@ -84,6 +102,15 @@
       uniquify-separator "/"
       uniquify-ignore-buffers-re "^\\*" ; leave special buffers alone
       uniquify-after-kill-buffer-p t)
+
+
+(defun my-do-not-kill-scratch-buffer ()
+  (if (member (buffer-name (current-buffer)) '("*scratch*" "*Messages*"))
+      (progn
+        (bury-buffer)
+        nil)
+    t))
+(add-hook 'kill-buffer-query-functions 'my-do-not-kill-scratch-buffer)
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -130,7 +157,8 @@
 (add-hook 'find-file-hook (lambda ()
                             (my-find-file-check-large-file)
                             (visual-line-mode)
-                            (setq show-trailing-whitespace t)))
+                            (unless (eq major-mode 'org-mode)
+                              (setq show-trailing-whitespace t))))
 
 
 (random t) ;; seed

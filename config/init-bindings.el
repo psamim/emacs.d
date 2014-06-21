@@ -7,7 +7,7 @@
 
 (require-package 'guide-key)
 (require 'guide-key)
-(setq guide-key/guide-key-sequence '("C-x" "C-c"))
+(setq guide-key/guide-key-sequence '("C-x" "C-c" ","))
 (setq guide-key/recursive-key-sequence-flag t)
 (guide-key-mode 1)
 
@@ -82,7 +82,7 @@
   (define-key evil-normal-state-map (kbd "SPC f") 'ido-find-file)
 
   (after "helm-autoloads"
-    (define-key evil-normal-state-map (kbd "g b") 'helm-buffers-list)
+    (define-key evil-normal-state-map (kbd "g b") 'helm-mini)
     (define-key evil-normal-state-map (kbd "SPC f") 'helm-find-files)
     (define-key evil-normal-state-map (kbd "SPC o") 'helm-imenu)
     (define-key evil-normal-state-map (kbd "SPC t") 'helm-etags-select)
@@ -106,11 +106,6 @@
   (define-key evil-normal-state-map (kbd "] q") 'next-error)
   (define-key evil-normal-state-map (kbd "g p") (kbd "` [ v ` ]"))
 
-  (after "etags-select-autoloads"
-    (define-key evil-normal-state-map (kbd "g ]") 'etags-select-find-tag-at-point))
-
-  (define-key evil-normal-state-map (kbd "C-q") 'universal-argument)
-
   (global-set-key (kbd "C-w") 'evil-window-map)
   (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
@@ -126,7 +121,7 @@
   (define-key evil-visual-state-map (kbd ", e") 'eval-region)
 
   ;; emacs lisp
-  (evil-define-key 'normal emacs-lisp-mode-map (kbd "K") 'my-describe-thing-in-popup)
+  (evil-define-key 'normal emacs-lisp-mode-map "K" (bind (help-xref-interned (symbol-at-point))))
   (after "elisp-slime-nav-autoloads"
     (evil-define-key 'normal emacs-lisp-mode-map (kbd "g d") 'elisp-slime-nav-find-elisp-thing-at-point))
 
@@ -161,20 +156,14 @@
     (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file))
 
   (after "multiple-cursors-autoloads"
-    (define-key evil-normal-state-map (kbd "C->") 'mc/mark-next-like-this)
-    (define-key evil-normal-state-map (kbd "C-<") 'mc/mark-previous-like-this)
-    (define-key evil-emacs-state-map (kbd "C->") 'mc/mark-next-like-this)
-    (define-key evil-emacs-state-map (kbd "C-<") 'mc/mark-previous-like-this)
-    (define-key evil-visual-state-map (kbd "C->") 'mc/mark-all-like-this))
+    (after 'js2-mode
+      (evil-define-key 'normal js2-mode-map (kbd "g r") 'js2r-rename-var))
+    (define-key evil-normal-state-map (kbd "g r") 'mc/mark-all-like-this-dwim))
 
   (after "ace-jump-mode-autoloads"
     (define-key evil-operator-state-map (kbd "z") 'evil-ace-jump-char-mode)
     (define-key evil-normal-state-map (kbd "s") 'evil-ace-jump-char-mode)
     (define-key evil-motion-state-map (kbd "S-SPC") 'evil-ace-jump-line-mode))
-
-  (after 'magit
-    (define-key magit-status-mode-map (kbd "C-n") 'magit-goto-next-sibling-section)
-    (define-key magit-status-mode-map (kbd "C-p") 'magit-goto-previous-sibling-section))
 
   ;; butter fingers
   (evil-ex-define-cmd "Q" 'evil-quit)
@@ -192,9 +181,12 @@
 (define-key minibuffer-local-map (kbd "C-w") 'backward-kill-word)
 
 
-(after 'magit
-  (define-key magit-status-mode-map (kbd "q") 'my-magit-quit-session)
-  (global-set-key (kbd "C-x g") 'magit-status))
+(after "magit-autoloads"
+  (global-set-key (kbd "C-x g") 'magit-status)
+  (after 'magit
+    (define-key magit-status-mode-map (kbd "C-n") 'magit-goto-next-sibling-section)
+    (define-key magit-status-mode-map (kbd "C-p") 'magit-goto-previous-sibling-section)
+    (define-key magit-status-mode-map (kbd "q") 'my-magit-quit-session)))
 
 
 (after "project-explorer-autoloads"
@@ -203,6 +195,13 @@
   (global-set-key [f3] 'pe/show-file)
   (after 'project-explorer
     (define-key project-explorer-mode-map (kbd "C-l") 'evil-window-right)))
+
+
+(after "multiple-cursors-autoloads"
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+  (global-unset-key (kbd "M-<down-mouse-1>"))
+  (global-set-key (kbd "M-<mouse-1>") 'mc/add-cursor-on-click))
 
 
 (after 'comint

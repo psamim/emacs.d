@@ -1,5 +1,5 @@
 ;; eshell
-(setq eshell-directory-name (concat user-emacs-directory ".cache/eshell"))
+(setq eshell-directory-name (concat dotemacs-cache-directory "eshell"))
 (setq eshell-scroll-to-bottom-on-input 'all)
 (setq eshell-buffer-shorthand t)
 
@@ -11,6 +11,20 @@
 ;; em-glob
 (setq eshell-glob-case-insensitive t)
 (setq eshell-error-if-no-glob t)
+
+
+;; plan 9 smart shell
+(after 'esh-module
+  (add-to-list 'eshell-modules-list 'eshell-smart)
+  (setq eshell-where-to-jump 'begin)
+  (setq eshell-review-quick-commands nil)
+  (setq eshell-smart-space-goes-to-end t))
+
+
+(defun eshell/clear ()
+  "Clears the buffer."
+  (let ((inhibit-read-only t))
+    (erase-buffer)))
 
 
 (defun eshell/ff (&rest args)
@@ -36,7 +50,6 @@
 
 ;; em-prompt
 (setq eshell-prompt-function 'my-eshell-prompt)
-(setq eshell-highlight-prompt nil)
 
 
 (provide 'init-eshell)

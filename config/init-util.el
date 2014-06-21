@@ -107,32 +107,14 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (defun my-goto-scratch-buffer ()
   "Create a new scratch buffer."
   (interactive)
-  (progn
-    (switch-to-buffer
-     (get-buffer-create "*scratch*"))
-    (emacs-lisp-mode)))
+  (switch-to-buffer (get-buffer-create "*scratch*"))
+  (emacs-lisp-mode))
 
 
-(defun my-describe-thing-in-popup ()
+(defun my-insert-last-kbd-macro ()
   (interactive)
-  (let ((description (save-window-excursion
-                       (help-xref-interned (symbol-at-point))
-                       (switch-to-buffer "*Help*")
-                       (buffer-string))))
-    (require 'popup)
-    (popup-tip description
-               :point (point)
-               :around t
-               :height 30
-               :scroll-bar t
-               :margin t)))
-
-
-(defadvice kill-buffer (around my-advice-for-kill-buffer activate)
-  (let ((buffer-to-kill (ad-get-arg 0)))
-    (if (equal buffer-to-kill "*Scratch*")
-        (bury-buffer)
-      ad-do-it)))
+  (name-last-kbd-macro 'my-last-macro)
+  (insert-kbd-macro 'my-last-macro))
 
 
 ;; make sure $PATH is set correctly

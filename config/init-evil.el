@@ -1,5 +1,3 @@
-(setq evil-want-C-w-in-emacs-state t)
-
 (setq evil-search-module 'evil-search)
 (setq evil-magic 'very-magic)
 
@@ -19,25 +17,33 @@
 (require-package 'evil-nerd-commenter)
 (require-package 'evil-indent-textobject)
 (require-package 'evil-matchit)
-(require-package 'surround)
+(require-package 'evil-exchange)
+(require-package 'evil-surround)
 
 (require 'evil)
-(require 'evil-leader)
-(require 'evil-numbers)
 (require 'evil-nerd-commenter)
 (require 'evil-indent-textobject)
 (require 'evil-visualstar)
-(require 'evil-matchit)
-(require 'surround)
 
-(global-evil-leader-mode)
-(global-surround-mode 1)
+(defcustom dotemacs-evil-state-modes
+  '(fundamental-mode
+    text-mode
+    prog-mode
+    sws-mode
+    compilation-mode)
+  "List of modes that should start up in Evil state."
+  :type '(repeat (symbol))
+  :group 'dotemacs)
 
-(dolist (hook '(text-mode-hook
-                prog-mode-hook
-                find-file-hook
-                compilation-mode-hook))
-  (add-hook hook 'turn-on-evil-mode))
+(defun my-enable-evil-mode ()
+  (if (apply 'derived-mode-p dotemacs-evil-state-modes)
+      (turn-on-evil-mode)
+    (set-cursor-color "red")))
+(add-hook 'after-change-major-mode-hook 'my-enable-evil-mode)
+
+(global-evil-leader-mode t)
+(global-evil-surround-mode t)
+(evil-exchange-install)
 
 (defun evilmi-customize-keybinding ()
   (evil-define-key 'normal evil-matchit-mode-map

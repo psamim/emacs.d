@@ -1,11 +1,12 @@
 (require-package 'undo-tree)
 (setq undo-tree-auto-save-history t)
 (setq undo-tree-history-directory-alist
-      `(("." . ,(concat user-emacs-directory ".cache/undo"))))
+      `(("." . ,(concat dotemacs-cache-directory "undo"))))
 (global-undo-tree-mode)
 
 
 (require-package 'multiple-cursors)
+(setq mc/unsupported-minor-modes '(company-mode auto-complete-mode flyspell-mode jedi-mode))
 (after 'evil
   (add-hook 'multiple-cursors-mode-enabled-hook 'evil-emacs-state)
   (add-hook 'multiple-cursors-mode-disabled-hook 'evil-normal-state))
@@ -15,7 +16,8 @@
 
 
 (when (executable-find "pt")
-  (require-package 'pt))
+  (require-package 'pt)
+  (require-package 'wgrep-pt))
 
 
 (when (executable-find "ag")
@@ -32,7 +34,7 @@
 
 (require-package 'project-explorer)
 (after 'project-explorer
-  (setq pe/cache-directory (concat user-emacs-directory ".cache/project-explorer"))
+  (setq pe/cache-directory (concat dotemacs-cache-directory "project-explorer"))
   (setq pe/omit-regex (concat pe/omit-regex "\\|^node_modules$")))
 
 
@@ -69,5 +71,8 @@
 (require-package 'elscreen)
 (require-package 'org)
 (require-package `org-pomodoro)
+
+(require-package 'discover-my-major)
+
 
 (provide 'init-misc)
