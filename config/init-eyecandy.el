@@ -61,18 +61,18 @@
 (add-hook 'find-file-hook 'hl-line-mode)
 
 ;; Samim's confs
-(when (window-system)
-  (set-frame-font "Source Code Pro")
-  (set-face-attribute 'default nil :font "Source Code Pro" :height 130)
-  (set-face-font 'default "Source Code Pro")
-(set-fontset-font
-   "fontset-default"
-   (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
-   ;; "FreeFarsi Monospace-17"))
-   "B Traffic-15"))
+(defun psamim-set-window-fonts (&rest frame)
+  (if (display-graphic-p)
+      (progn
+        (set-fontset-font
+         "fontset-default"
+         (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
+         ;; "FreeFarsi Monospace-17"))
+         "B Traffic-15")
+          (set-face-attribute 'default nil :family "Source Code Pro" :height 130)
+          ;; (set-face-attribute 'default nil :height 105 :family "Fira Mono")
+        (set-transparency 0.9))))
 
-
-;;   (set-face-attribute 'default nil :height 105 :family "Fira Mono")
 (require-package 'solarized-theme)
 (load-theme 'solarized-dark)
 
@@ -95,6 +95,5 @@
                 (abbreviate-file-name (buffer-file-name))
                   "%b")) " [%*]"))
 
-(set-transparency 0.9)
 
 (provide 'init-eyecandy)
