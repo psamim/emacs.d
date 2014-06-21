@@ -17,7 +17,7 @@
          (start-process
           "gtasks-sync" "*sync-output*" "/bin/sh" "-c"
           (concat
-           "torify ~/src/michel-orgmode/michel/michel.py --push --orgfile "
+           " ~/src/michel-orgmode/michel/michel.py --push --orgfile "
            psamim-mobile-todo-org-file
            " --listname "
            psamim-mobile-todo-list))))
@@ -35,7 +35,8 @@
            psamim-mobile-inbox-org-file
            " --listname "
            psamim-mobile-inbox-list))))
-    (set-process-sentinel process 'gtasks-sentinel)))
+    (set-process-sentinel process 'gtasks-sentinel))
+  (find-file psamim-mobile-inbox-org-file))
 
 (defun psamim-push-gtasks-inbox ()
   "Asynchronously syncs to Google tasks"
