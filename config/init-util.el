@@ -175,18 +175,40 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (defun psamim-new-daily-journal ()
   (interactive)
-  (setq my-file-name (concat "~/Note/daily/" (concat (format-time-string "%Y-%m-%d") ".org")))
+  (setq yesterday
+        (format-time-string "%Y-%m-%d"
+                            (time-subtract (current-time)
+                                           (seconds-to-time (* 24 60 60)))))
+
+  (setq my-file-name (concat "~/Note/daily/" (concat yesterday ".org") ))
+
   (if (file-exists-p my-file-name)
       ()
     (copy-file "~/Note/template.org" my-file-name))
   (find-file my-file-name)
-  (insert (concat (calendar-persian-date-string) "\n\n"))
+  (insert (concat (calendar-persian-date-string (calendar-current-date -1)) "\n\n"))
   (split-window-right)
   (find-file "~/Note/todo.org"))
 
-(defun psamim-writeroom-mode ()
+(defun xah-open-in-external-app (&optional file)
+  "Open the current file or dired marked files in external app. The app is chosen from your OS's preference."
   (interactive)
-  (writeroom-mode)
-  (set-transparency 0.9))
+  (let (doIt
+        (myFileList
+         (cond
+          ((string-equal major-mode "dired-mode") (dired-get-marked-files))
+          ((not file) (list (buffer-file-name)))
+          (file (list file)))))
+    (setq doIt (if (<= (length myFileList) 5)
+                   t
+                 (y-or-n-p "Open more than 5 files? ")))
+    (when doIt
+      (cond
+       ((string-equal system-type "windows-nt")
+        (mapc (lambda (fPath) (w32-shell-execute "open" (replace-regexp-in-string "/" "\\" fPath t t))) myFileList))
+       ((string-equal system-type "darwin")
+        (mapc (lambda (fPath) (shell-command (format "open \"%s\"" fPath)))  myFileList))
+       ((string-equal system-type "gnu/linux")
+        (mapc (lambda (fPath) (let ((process-connection-type nil)) (start-process "" nil "xdg-open" fPath))) myFileList))))))
 
 (provide 'init-util)
