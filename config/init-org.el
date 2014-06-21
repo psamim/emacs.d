@@ -64,7 +64,7 @@
 ; Custom agendas and trees
 (setq org-agenda-custom-commands
       (quote (
-        ("d" "All todos" tags-tree "+TODO=\"TODO\"")
+        ("d" "All todos" tags-tree "TODO=\"TODO\"|TODO=\"NEXT\"")
         ("un" "@uni NEXT" tags-tree "@uni+TODO=\"NEXT\"")
         ("ut" "@uni TODO" tags-tree "@uni+TODO=\"TODO\"")
         ("ua" "@uni ALL" tags-tree "@uni+TODO=\"NEXT\"|@uni+TODO=\"TODO\"")
@@ -106,9 +106,8 @@
 ;; (setq org-mobile-inbox-for-pull "~/Note/mob.org")
 (setq org-archive-location "~/Note/archive/todo.org::")
 (setq org-refile-targets (quote ((nil :maxlevel . 9)
-                                 (org-agenda-files :maxlevel . 1)
-                                 ("~/Note/ideas.org" :maxlevel . 1)
-                                 )))
+                                 (org-agenda-files :maxlevel . 2)
+                                 ("~/Note/ideas.org" :maxlevel . 1))))
 ;; Syntax Highlighting
 ;; http://praveen.kumar.in/2012/03/10/org-mode-latex-and-minted-syntax-highlighting/
 ;; (require 'org-latex)
