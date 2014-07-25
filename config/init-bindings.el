@@ -267,6 +267,7 @@
 
 ;; Samim's confs
 (global-set-key (kbd "<f11>") 'psamim-switch-full-screen)
+(define-key dired-mode-map (kbd "C-c") 'xah-open-in-external-app)
 
 ;; Farsi keyboard layout bindings
 (after 'evil

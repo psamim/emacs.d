@@ -31,7 +31,7 @@
          (start-process
           "gtasks-sync" "*sync-output*" "/bin/sh" "-c"
           (concat
-           "torify ~/src/michel-orgmode/michel/michel.py --pull --orgfile "
+           "~/src/michel-orgmode/michel/michel.py --pull --orgfile "
            psamim-mobile-inbox-org-file
            " --listname "
            psamim-mobile-inbox-list))))
@@ -46,7 +46,7 @@
          (start-process
           "gtasks-sync" "*sync-output*" "/bin/sh" "-c"
           (concat
-           "torify ~/src/michel-orgmode/michel/michel.py --push --orgfile "
+           "~/src/michel-orgmode/michel/michel.py --push --orgfile "
            psamim-mobile-inbox-org-file
            " --listname "
            psamim-mobile-inbox-list))))

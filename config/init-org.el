@@ -64,7 +64,8 @@
 ; Custom agendas and trees
 (setq org-agenda-custom-commands
       (quote (
-        ("d" "All todos" tags-tree "TODO=\"TODO\"|TODO=\"NEXT\"")
+        ("dt" "All todos" tags-tree "TODO=\"TODO\"|TODO=\"NEXT\"")
+        ("dn" "All todos" tags-tree "TODO=\"NEXT\"")
         ("un" "@uni NEXT" tags-tree "@uni+TODO=\"NEXT\"")
         ("ut" "@uni TODO" tags-tree "@uni+TODO=\"TODO\"")
         ("ua" "@uni ALL" tags-tree "@uni+TODO=\"NEXT\"|@uni+TODO=\"TODO\"")
@@ -136,6 +137,11 @@
              ("mathescape" "true")
              ("linenos" "true")))
 
+;; Open PDFs after Export with Zathura
+(custom-set-variables '(org-file-apps (quote ((auto-mode . emacs) ("\\.mm\\'" . default) ("\\.x?html?\\'" . default) ("\\.pdf\\'" . "zathura %s")))))
+
+
+
 ;; My latex templates for org-mode
 (require 'org-latex)
 (unless (boundp 'org-latex-classes)
@@ -159,6 +165,7 @@
 \\usepackage{wasysym}
 \\usepackage{amssymb}
 \\usepackage{hyperref}
+\\usepackage{enumerate}
 \\usepackage{color}
 \\definecolor{bg}{rgb}{0.95,0.95,0.95}
 \\geometry{a4paper, textwidth=6.5in, textheight=10in,
@@ -198,6 +205,7 @@
 \\usepackage{hyperref}
 \\usepackage{mathpazo}
 \\usepackage{color}
+\\usepackage{enumerate}
 \\definecolor{bg}{rgb}{0.95,0.95,0.95}
 \\tolerance=1000
       [NO-DEFAULT-PACKAGES]

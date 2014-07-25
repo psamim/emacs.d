@@ -3,9 +3,9 @@
 
 
 (line-number-mode t)
-(column-number-mode t)
-(display-time-mode t)
-(size-indication-mode t)
+;; (column-number-mode nil)
+;; (display-time-mode nil)
+;; (size-indication-mode nil)
 
 
 (defun my-fold-overlay (ov)
@@ -35,13 +35,14 @@
 (after 'elisp-slime-nav (diminish 'elisp-slime-nav-mode))
 (after 'git-gutter+ (diminish 'git-gutter+-mode))
 (after 'magit (diminish 'magit-auto-revert-mode))
+(after 'flycheck-mode (diminish 'flycheck-mode))
 
 
 ;; Samim diabled sml
 ;; (require-package 'smart-mode-line)
-;; (setq sml/show-client t)
-;; (setq sml/show-eol t)
-;; (setq sml/show-frame-identification t)
+;; (setq sml/show-client nil)
+;; (setq sml/show-eol nil)
+;; (setq sml/show-frame-identification nil)
 ;; (sml/setup)
 
 
