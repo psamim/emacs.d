@@ -4,4 +4,8 @@ auto-save-list
 eshell
 el-get
 custom.el
+tramp
+url
+session*
 *.elc
+emms

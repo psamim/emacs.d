@@ -3,9 +3,9 @@
 
 
 (line-number-mode t)
-(column-number-mode t)
-(display-time-mode t)
-(size-indication-mode t)
+;; (column-number-mode nil)
+;; (display-time-mode nil)
+;; (size-indication-mode nil)
 
 
 (defun my-fold-overlay (ov)
@@ -35,13 +35,15 @@
 (after 'elisp-slime-nav (diminish 'elisp-slime-nav-mode))
 (after 'git-gutter+ (diminish 'git-gutter+-mode))
 (after 'magit (diminish 'magit-auto-revert-mode))
+(after 'flycheck-mode (diminish 'flycheck-mode))
 
 
-(require-package 'smart-mode-line)
-(setq sml/show-client t)
-(setq sml/show-eol t)
-(setq sml/show-frame-identification t)
-(sml/setup)
+;; Samim diabled sml
+;; (require-package 'smart-mode-line)
+;; (setq sml/show-client nil)
+;; (setq sml/show-eol nil)
+;; (setq sml/show-frame-identification nil)
+;; (sml/setup)
 
 
 (if (fboundp 'global-prettify-symbols-mode)
@@ -76,6 +78,41 @@
 
 
 (add-hook 'find-file-hook 'hl-line-mode)
+
+;; Samim's confs
+(defun psamim-set-window-fonts (&rest frame)
+  (if (display-graphic-p)
+      (progn
+        (set-fontset-font
+         "fontset-default"
+         (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
+         ;; "FreeFarsi Monospace-17"))
+         "B Traffic-15")
+          (set-face-attribute 'default nil :family "Source Code Pro" :height 130)
+          ;; (set-face-attribute 'default nil :height 105 :family "Fira Mono")
+        (set-transparency 0.9))))
+
+(require-package 'solarized-theme)
+(load-theme 'solarized-dark)
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(secondary-selection ((t (:background "#002B36")))))
+(require-package 'writeroom-mode)
+
+(menu-bar-mode -1)
+
+(require 'elscreen)
+(elscreen-start)
+(elscreen-toggle-display-tab)
+
+(setq frame-title-format
+  '("emacs%@" (:eval (system-name)) ": " (:eval (if (buffer-file-name)
+                (abbreviate-file-name (buffer-file-name))
+                  "%b")) " [%*]"))
 
 
 (provide 'init-eyecandy)
