@@ -21,7 +21,10 @@
   (auto-complete-mode t)
   (org-bullets-mode 1)
   (flyspell-mode t)
-  (ac-flyspell-workaround))
+  (ac-flyspell-workaround)
+  (after 'evil
+    (define-key evil-normal-state-map (kbd "C-S-j") 'flyspell-goto-next-error)
+    (define-key evil-normal-state-map (kbd "C-S-k") 'flyspell-check-previous-highlighted-word)))
 
 (add-hook 'org-mode-hook 'my-org-mode-hook)
 
@@ -126,8 +129,15 @@
 ;; Let the exporter use the -shell-escape option to let latex
 ;; execute external programs.
 ;; This obviously and can be dangerous to activate!
+;; (setq org-latex-pdf-process
+;;       '("")
+;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
 (setq org-latex-pdf-process
-      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+      (quote ("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+              "biber %b"
+              "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
+
 (setq org-clock-into-drawer t)
 (setq org-latex-minted-options
            '(("frame" "leftline")
