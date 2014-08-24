@@ -62,6 +62,21 @@
 '((plantuml . t)))
 
 (setq org-plantuml-jar-path (expand-file-name "~/Downloads/plantuml.jar"))
+(setq org-confirm-babel-evaluate nil)
+
+;; Display code-block natively
+(setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
+(require-package 'htmlize)
+
+(setq org-edit-src-auto-save-idle-delay 5)
+(setq org-edit-src-content-indentation 0)
+
+(add-hook 'org-src-mode-hook
+          (lambda ()
+            (make-local-variable 'evil-ex-commands)
+            (setq evil-ex-commands (copy-list evil-ex-commands))
+            (evil-ex-define-cmd "w[rite]" 'org-edit-src-save)))
 
 
 ; Custom agendas and trees
@@ -122,7 +137,7 @@
 ;; Include the latex-exporter
 (require 'ox-latex)
 ;; Add minted to the defaults packages to include when exporting.
-(add-to-list 'org-latex-packages-alist '("" "minted"))
+(add-to-list 'org-latex-packages-alist '("" "minted" nil))
 ;; Tell the latex export to use the minted package for source
 ;; code coloration.
 (setq org-latex-listings 'minted)
