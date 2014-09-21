@@ -17,6 +17,7 @@
 (org-ac/config-default)
 
 (defun my-org-mode-hook()
+  (org-indent-mode)
   (setq bidi-paragraph-direction nil)
   (auto-complete-mode t)
   (org-bullets-mode 1)
@@ -136,6 +137,7 @@
 ;; http://joat-programmer.blogspot.com/2013/07/org-mode-version-8-and-pdf-export-with.html
 ;; Include the latex-exporter
 (require 'ox-latex)
+(require 'ox-beamer)
 ;; Add minted to the defaults packages to include when exporting.
 (add-to-list 'org-latex-packages-alist '("" "minted" nil))
 ;; Tell the latex export to use the minted package for source

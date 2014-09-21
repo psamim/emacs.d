@@ -23,6 +23,7 @@
 
 ;; AUCTeX configuration
 (setq-default TeX-master nil)
+(setq reftex-default-bibliography '("refs.bib"))
 
 ;(add-hook 'LaTeX-mode-hook
 ;       (lambda ()

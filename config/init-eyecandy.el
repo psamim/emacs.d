@@ -88,19 +88,21 @@
          (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
          ;; "FreeFarsi Monospace-17"))
          "B Traffic-15")
-          (set-face-attribute 'default nil :family "Source Code Pro" :height 130)
+          ;; (set-face-attribute 'default nil :family "Source Code Pro" :height 130)
+          (set-face-attribute 'default nil :family "Ubuntu Mono" :height 150)
           ;; (set-face-attribute 'default nil :height 105 :family "Fira Mono")
         (set-transparency 0.9))))
 
 (require-package 'solarized-theme)
 (load-theme 'solarized-dark)
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(secondary-selection ((t (:background "#002B36")))))
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(secondary-selection ((t (:background "#002B36")))))
+
 (require-package 'writeroom-mode)
 
 (menu-bar-mode -1)
