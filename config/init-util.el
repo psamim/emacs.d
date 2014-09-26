@@ -197,4 +197,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (setq auto-mode-alist (append '(("/PKGBUILD$" . pkgbuild-mode))
                               auto-mode-alist))
 
+(defun psamim-dired-current-buffer-file-directory()
+  (interactive)
+  (find-file (file-name-directory buffer-file-name)))
+
 (provide 'init-util)

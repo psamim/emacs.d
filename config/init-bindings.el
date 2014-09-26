@@ -52,6 +52,7 @@
       "P" 'package-list-packages
       "V" (bind (term "vim"))
       "h" help-map
+      "d" 'psamim-dired-current-buffer-file-directory
       "h h" 'help-for-help-internal)
 
     (after "magit-autoloads"
@@ -146,7 +147,7 @@
                                   'projectile-ack)
                                  (t
                                   'projectile-grep)))))
-    (define-key evil-normal-state-map (kbd "SPC e") 'projectile-recentf)
+    (define-key evil-normal-state-map (kbd "C-P") 'projectile-recentf)
     (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file))
 
   (after "multiple-cursors-autoloads"
@@ -187,6 +188,7 @@
   (global-set-key [f2] 'project-explorer-open)
   (autoload 'pe/show-file "project-explorer")
   (global-set-key [f3] 'pe/show-file)
+  (define-key evil-normal-state-map (kbd "SPC D")  'pe/show-file)
   (after 'project-explorer
     (define-key project-explorer-mode-map (kbd "C-l") 'evil-window-right)))
 
