@@ -92,4 +92,7 @@
 (defadvice evil-ex-search-previous (after advice-for-evil-ex-search-previous activate)
   (recenter))
 
+;; Samim's conf
+(evil-mode t)
+
 (provide 'init-evil)

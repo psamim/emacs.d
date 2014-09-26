@@ -1,63 +1,248 @@
-(add-hook
- 'org-load-hook
- (lambda ()
-   (unless (file-exists-p org-directory)
-     (make-directory org-directory))
+(require 'org)
+(setq org-default-notes-file "~/Note/notes.org"
+      org-log-done t)
 
-   (setq my-inbox-org-file (concat org-directory "/inbox.org"))
+(require-package 'org-bullets)
+(require 'org-bullets)
 
-   (setq org-mobile-directory (concat org-directory "/MobileOrg"))
-   (unless (file-exists-p org-mobile-directory)
-     (make-directory org-mobile-directory))
-   (setq org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org"))
+(require-package 'ox-reveal)
+(require 'ox-reveal)
 
-   (setq org-default-notes-file my-inbox-org-file)
-   (setq org-log-done t)
+(require 'epa-file)
+(epa-file-enable)
+(setq epa-file-select-keys nil)
 
-   (setq org-startup-indented t)
-   (setq org-indent-indentation-per-level 3)
+(require-package 'org-ac)
+(require 'org-ac)
+(org-ac/config-default)
 
-   (setq org-agenda-files `(,org-directory))
-   (setq org-capture-templates
-         '(("t" "Todo" entry (file+headline my-inbox-org-file "INBOX")
-            "* TODO %?\n%U\n%a\n")
-           ("n" "Note" entry (file+headline my-inbox-org-file "NOTES")
-            "* %? :NOTE:\n%U\n%a\n")
-           ("m" "Meeting" entry (file my-inbox-org-file)
-            "* MEETING %? :MEETING:\n%U")
-           ("j" "Journal" entry (file+datetree (concat org-directory "/journal.org"))
-            "* %?\n%U\n")))
+(defun my-org-mode-hook()
+  (org-indent-mode)
+  (setq bidi-paragraph-direction nil)
+  (auto-complete-mode t)
+  (org-bullets-mode 1)
+  (flyspell-mode t)
+  (ac-flyspell-workaround)
+  (after 'evil
+    (define-key evil-normal-state-map (kbd "C-S-j") 'flyspell-goto-next-error)
+    (define-key evil-normal-state-map (kbd "C-S-k") 'flyspell-check-previous-highlighted-word)))
 
-   (setq org-use-fast-todo-selection t)
-   (setq org-treat-S-cursor-todo-selection-as-state-change nil)
-   (setq org-todo-keywords
-         '((sequence "TODO(t)" "NEXT(n@)" "|" "DONE(d)")
-           (sequence "WAITING(w@/!)" "|" "CANCELLED(c@/!)")))
+(add-hook 'org-mode-hook 'my-org-mode-hook)
 
-   (setq org-todo-state-tags-triggers
-         ' (("CANCELLED" ("CANCELLED" . t))
-            ("WAITING" ("WAITING" . t))
-            ("TODO" ("WAITING") ("CANCELLED"))
-            ("NEXT" ("WAITING") ("CANCELLED"))
-            ("DONE" ("WAITING") ("CANCELLED"))))
+(setq org-todo-keywords '("TODO" "NEXT" "WAITING" "DONE"))
 
-   (setq org-refile-targets '((nil :maxlevel . 9)
-                              (org-agenda-files :maxlevel . 9)))
-   (setq org-completion-use-ido t)
+;; Show sum of clocks in hours
+(setq org-time-clocksum-format
+      (quote
+       (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
 
-   (after 'evil
-     (add-hook 'org-capture-mode-hook 'evil-insert-state))
+;; make org-archive-subtree keep inherited tags
+(defadvice org-archive-subtree
+  (before add-inherited-tags-before-org-archive-subtree activate)
+    "add inherited tags before org-archive-subtree"
+    (org-set-tags-to (org-get-tags-at)))
 
-   (when (boundp 'org-plantuml-jar-path)
-     (org-babel-do-load-languages
-      'org-babel-load-languages
-      '((plantuml . t))))
+(defvar ash-org-current-task-loc nil
+"A cons of the buffer & location of the current task")
 
-   (add-hook 'org-mode-hook (lambda ()
-                              (when (or (executable-find "aspell")
-                                        (executable-find "ispell")
-                                        (executable-find "hunspell"))
-                                (flyspell-mode))))))
+(defadvice org-clock-in (after ash-org-mark-task activate)
+"When the user clocks in, bind F9 to go back to the worked on task."
 
+(setq ash-org-current-task-loc (cons (current-buffer)
+                                     (point)))
+(define-key global-map [f9] (lambda ()
+                              (interactive)
+                              (switch-to-buffer
+                               (car ash-org-current-task-loc))
+                              (goto-char
+                               (cdr ash-org-current-task-loc)))))
+
+(require 'ob)
+(org-babel-do-load-languages
+'org-babel-load-languages
+'((plantuml . t)))
+
+(setq org-plantuml-jar-path (expand-file-name "~/Downloads/plantuml.jar"))
+(setq org-confirm-babel-evaluate nil)
+
+;; Display code-block natively
+(setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
+(require-package 'htmlize)
+
+(setq org-edit-src-auto-save-idle-delay 5)
+(setq org-edit-src-content-indentation 0)
+
+(add-hook 'org-src-mode-hook
+          (lambda ()
+            (make-local-variable 'evil-ex-commands)
+            (setq evil-ex-commands (copy-list evil-ex-commands))
+            (evil-ex-define-cmd "w[rite]" 'org-edit-src-save)))
+
+
+; Custom agendas and trees
+(setq org-agenda-custom-commands
+      (quote (
+        ("dt" "All todos" tags-tree "TODO=\"TODO\"|TODO=\"NEXT\"")
+        ("dn" "All todos" tags-tree "TODO=\"NEXT\"")
+        ("un" "@uni NEXT" tags-tree "@uni+TODO=\"NEXT\"")
+        ("ut" "@uni TODO" tags-tree "@uni+TODO=\"TODO\"")
+        ("ua" "@uni ALL" tags-tree "@uni+TODO=\"NEXT\"|@uni+TODO=\"TODO\"")
+        ("wn" "@work NEXT" tags-tree "@work+TODO=\"NEXT\"")
+        ("wt" "@work TODO" tags-tree "@work+TODO=\"TODO\"")
+        ("wa" "@work ALL" tags-tree "@work+TODO=\"NEXT\"|@work+TODO=\"TODO\"")
+        ("mn" "@me NEXT" tags-tree "@me+TODO=\"NEXT\"|@tasks+TODO=\"NEXT\"")
+        ("mt" "@me TODO" tags-tree "@me+TODO=\"TODO\"|@tasks+TODO=\"TODO\"")
+        ("ma" "@me ALL" tags-tree "@me+TODO=\"TODO\"|@tasks+TODO=\"TODO\"|@me+TODO=\"NEXT\"|@tasks+TODO=\"NEXT\"")
+
+       ("wg" "Work Agenda"
+         (
+          (tags-todo "@work+TODO=\"NEXT\"")
+          (tags-todo "@work+TODO=\"TODO\"")
+          )
+         ((org-agenda-compact-blocks t))) ;; options set here apply to the entire block
+
+        ("ug" "Uni Agenda"
+         (
+          (tags-todo "@uni+TODO=\"NEXT\"")
+          (tags-todo "@uni+TODO=\"TODO\"")
+          )
+         ((org-agenda-compact-blocks t))) ;; options set here apply to the entire block
+
+        ("mg" "Me Agenda"
+         (
+          (tags-todo "@me+TODO=\"NEXT\"|@tasks+TODO=\"NEXT\"")
+          (tags-todo "@me+TODO=\"TODO\"|@tasks+TODO=\"TODO\"")
+          )
+         ((org-agenda-compact-blocks t))) ;; options set here apply to the entire block
+
+        )))
+
+
+(setq org-agenda-files (quote ("~/Note/todo.org")))
+;; (setq org-mobile-directory "~/Owncloud/orgs")
+;; (setq org-mobile-directory "~/.orgs/mob")
+(setq org-directory "~/Note")
+;; (setq org-mobile-inbox-for-pull "~/Note/mob.org")
+(setq org-archive-location "~/Note/archive/todo.org::")
+(setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                 (org-agenda-files :maxlevel . 2)
+                                 ("~/Note/ideas.org" :maxlevel . 1))))
+;; Syntax Highlighting
+;; http://praveen.kumar.in/2012/03/10/org-mode-latex-and-minted-syntax-highlighting/
+;; (require 'org-latex)
+;; (setq org-export-latex-listings 'minted)
+;; (add-to-list 'org-export-latex-packages-alist '("" "minted"))
+
+;; http://joat-programmer.blogspot.com/2013/07/org-mode-version-8-and-pdf-export-with.html
+;; Include the latex-exporter
+(require 'ox-latex)
+(require 'ox-beamer)
+;; Add minted to the defaults packages to include when exporting.
+(add-to-list 'org-latex-packages-alist '("" "minted" nil))
+;; Tell the latex export to use the minted package for source
+;; code coloration.
+(setq org-latex-listings 'minted)
+;; Let the exporter use the -shell-escape option to let latex
+;; execute external programs.
+;; This obviously and can be dangerous to activate!
+;; (setq org-latex-pdf-process
+;;       '("")
+;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+(setq org-latex-pdf-process
+      (quote ("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+              "biber %b"
+              "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
+
+(setq org-clock-into-drawer t)
+(setq org-latex-minted-options
+           '(("frame" "leftline")
+             ("fontsize" "\\scriptsize")
+             ("bgcolor" "bg")
+             ("stepnumber" "2")
+             ("mathescape" "true")
+             ("linenos" "true")))
+
+;; Open PDFs after Export with Zathura
+(custom-set-variables '(org-file-apps (quote ((auto-mode . emacs) ("\\.mm\\'" . default) ("\\.x?html?\\'" . default) ("\\.pdf\\'" . "zathura %s")))))
+
+
+
+;; My latex templates for org-mode
+(require 'org-latex)
+(unless (boundp 'org-latex-classes)
+  (setq org-latex-classes nil))
+
+(add-to-list 'org-latex-classes
+  '("article-fa"
+"\\documentclass[11pt,a4paper]{article}
+\\usepackage[T1]{fontenc}
+\\usepackage{fontspec}
+\\usepackage{longtable}
+\\usepackage{graphicx}
+\\usepackage{geometry}
+\\usepackage{float}
+\\usepackage{wrapfig}
+\\usepackage{rotating}
+\\usepackage[normalem]{ulem}
+\\usepackage{amsmath}
+\\usepackage{textcomp}
+\\usepackage{marvosym}
+\\usepackage{wasysym}
+\\usepackage{amssymb}
+\\usepackage{hyperref}
+\\usepackage{enumerate}
+\\usepackage{color}
+\\definecolor{bg}{rgb}{0.95,0.95,0.95}
+\\geometry{a4paper, textwidth=6.5in, textheight=10in,
+            marginparsep=7pt, marginparwidth=.6in}
+\\pagestyle{empty}
+      [NO-DEFAULT-PACKAGES]
+      [PACKAGES]
+      [EXTRA]
+\\usepackage{xepersian}
+\\linespread{1.4}
+\\hypersetup{pdfborder=0 0 0}
+\\settextfont{Yas}"
+     ("\\section{%s}" . "\\section*{%s}")
+     ("\\subsection{%s}" . "\\subsection*{%s}")
+     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+     ("\\paragraph{%s}" . "\\paragraph*{%s}")
+     ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+
+(add-to-list 'org-latex-classes
+  '("assignment"
+"\\documentclass[11pt,a4paper]{article}
+\\usepackage[utf8]{inputenc}
+\\usepackage[T1]{fontenc}
+\\usepackage{fixltx2e}
+\\usepackage{graphicx}
+\\usepackage{longtable}
+\\usepackage{float}
+\\usepackage{wrapfig}
+\\usepackage{rotating}
+\\usepackage[normalem]{ulem}
+\\usepackage{amsmath}
+\\usepackage{textcomp}
+\\usepackage{marvosym}
+\\usepackage{wasysym}
+\\usepackage{amssymb}
+\\usepackage{hyperref}
+\\usepackage{mathpazo}
+\\usepackage{color}
+\\usepackage{enumerate}
+\\definecolor{bg}{rgb}{0.95,0.95,0.95}
+\\tolerance=1000
+      [NO-DEFAULT-PACKAGES]
+      [PACKAGES]
+      [EXTRA]
+\\linespread{1.1}
+\\hypersetup{pdfborder=0 0 0}"
+     ("\\section{%s}" . "\\section*{%s}")
+     ("\\subsection{%s}" . "\\subsection*{%s}")
+     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+     ("\\paragraph{%s}" . "\\paragraph*{%s}")))
 
 (provide 'init-org)
