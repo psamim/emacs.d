@@ -71,5 +71,5 @@
   (require module))
 
 (server-force-delete)
-(setq server-socket-dir "/tmp/samim/emacs1000/server")
+(setq server-socket-dir "/tmp/bersam/emacs1000/server")
 (server-start)
