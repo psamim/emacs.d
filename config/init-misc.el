@@ -80,5 +80,8 @@
 (when (eq system-type 'darwin)
   (require-package 'vkill))
 
+;; Bersam's confs
+(add-hook 'prog-mode-hook (lambda ()
+                            (local-set-key (kbd "M-RET") 'evil-goto-definition)))
 
 (provide 'init-misc)
