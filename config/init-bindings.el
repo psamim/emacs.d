@@ -155,8 +155,8 @@
                                   'projectile-ack)
                                  (t
                                   'projectile-grep)))))
-    (define-key evil-normal-state-map (kbd "C-P") 'projectile-recentf)
-    (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file))
+    (define-key evil-normal-state-map (kbd "C-p") 'projectile-recentf)
+    (define-key evil-normal-state-map (kbd "C-S-p") 'projectile-switch-project))
 
   (after "multiple-cursors-autoloads"
     (after 'js2-mode
