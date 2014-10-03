@@ -14,7 +14,9 @@
 (dolist (mode '(vimrc-mode
                 enh-ruby-mode
                 ;; shell-mode term-mode terminal-mode eshell-mode comint-mode skewer-repl-mode
-                html-mode stylus-mode))
+                html-mode
+                stylus-mode
+                c-mode))
   (add-to-list 'ac-modes mode))
 
 (ac-config-default)
@@ -38,7 +40,7 @@
 ;; Samim's configs
 (setq ac-disable-faces nil)
 
- (ac-config-default)
+(ac-config-default)
 (setq-default ac-sources
     	'(ac-source-filename
           ac-source-files-in-current-dir
