@@ -40,6 +40,16 @@
 (require 'yasnippet)
 (yas-global-mode 1)
 
+(require-package 'auto-complete-c-headers)
+
+(defun my:ac-c-headers-init ()
+  (require 'auto-complete-c-headers)
+  (add-to-list 'ac-sources 'ac-source-c-headers)
+  (add-to-list 'achead:include-directories '"/usr/include/"))
+
+(add-hook 'c++-mode-hook 'my:ac-c-headers-init)
+(add-hook 'c-mode-hook 'my:ac-c-headers-init)
+
 (require-package 'auto-complete-clang)
 (require 'auto-complete-clang)
 
