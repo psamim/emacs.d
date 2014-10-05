@@ -44,7 +44,14 @@
 
 (defun my:ac-c-headers-init ()
   (require 'auto-complete-c-headers)
-  (add-to-list 'ac-sources 'ac-source-c-headers)
+  (setq ac-sources (append '(ac-source-c-headers) ac-sources))
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/../../../../include/c++/4.9.1")
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/../../../../include/c++/4.9.1/x86_64-unknown-linux-gnu")
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/../../../../include/c++/4.9.1/backward")
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/include")
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/include-fixed")
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/include-fixed")
+  (add-to-list 'achead:include-directories '"/usr/local/include")
   (add-to-list 'achead:include-directories '"/usr/include/"))
 
 (add-hook 'c++-mode-hook 'my:ac-c-headers-init)
@@ -72,8 +79,8 @@
 /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/../../../../include/c++/4.9.1/x86_64-unknown-linux-gnu
 /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/../../../../include/c++/4.9.1/backward
 /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/include
-/usr/local/include
 /usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/include-fixed
+/usr/local/include
 /usr/include
 /usr/include/GL/
 "
