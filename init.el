@@ -33,8 +33,8 @@
     ;; init-autopair
 
     init-yasnippet
-    init-auto-complete
-    ;; init-company
+    ;; init-auto-complete
+    init-company
 
     init-projectile
     ;; init-helm

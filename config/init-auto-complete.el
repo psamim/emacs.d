@@ -94,7 +94,7 @@
 (ac-config-default)
 (setq-default ac-sources
     	'(ac-source-filename
-          ac-source-files-in-current-dir
+        ac-source-files-in-current-dir
         ;ac-etags
         ;ac-source-abbrev
         ac-source-dictionary

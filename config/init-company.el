@@ -30,4 +30,28 @@
   (when (null (yas-expand))
     ad-do-it))
 
+;; Bersam's Config
+(require-package 'cc-mode)
+(require 'cc-mode)
+
+(setq company-backends (delete 'company-semantic company-backends))
+(define-key c-mode-map  [(tab)] 'company-complete)
+(define-key c++-mode-map  [(tab)] 'company-complete)
+
+(require-package 'company-c-headers)
+
+(add-to-list 'company-backends 'company-c-headers)
+
+;; ((nil . ((company-clang-arguments . ("-I/home/<user>/project_root/include1/"
+                                     ;; "-I/home/<user>/project_root/include2/")))))
+
+
+;(require-package 'function-args)
+;(require 'function-args)
+;(fa-config-default)
+;(define-key c-mode-map  [(contrl tab)] 'moo-complete)
+;(define-key c++-mode-map  [(control tab)] 'moo-complete)
+;(define-key c-mode-map (kbd "M-o")  'fa-show)
+;(define-key c++-mode-map (kbd "M-o")  'fa-show)
+
 (provide 'init-company)
