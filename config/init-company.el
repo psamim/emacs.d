@@ -42,9 +42,10 @@
 
 (add-to-list 'company-backends 'company-c-headers)
 
+(global-set-key (kbd "<tab>") 'company-complete)
+
 ;; ((nil . ((company-clang-arguments . ("-I/home/<user>/project_root/include1/"
                                      ;; "-I/home/<user>/project_root/include2/")))))
-
 
 ;(require-package 'function-args)
 ;(require 'function-args)
