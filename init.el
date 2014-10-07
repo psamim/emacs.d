@@ -63,6 +63,7 @@
    	;;init-flycheck
    	init-latex
    	init-gnus
+        init-ruby
         init-sync)
   "Set of modules enabled in dotemacs."
   :group 'dotemacs)
