@@ -95,7 +95,7 @@
       (run-with-timer 1 nil
                       (lambda (buf)
                         (bury-buffer buf)
-                        (switch-to-prev-buffer (get-buffer-window buf) 'kill))
+                        (delete-window (get-buffer-window buf)))
                       buffer)))
 (add-hook 'compilation-finish-functions 'bury-compile-buffer-if-successful)
 
