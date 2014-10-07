@@ -245,4 +245,38 @@
      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
      ("\\paragraph{%s}" . "\\paragraph*{%s}")))
 
+;; Calendar Settings
+(require-package 'calfw)
+(require 'calfw-cal)
+(require 'calfw-org)
+(require 'calfw-ical)
+(setq calendar-week-start-day 6) ; 0:Sunday, 1:Monday
+
+(defun psamim-open-calendar ()
+  (interactive)
+  (cfw:open-calendar-buffer
+   :contents-sources
+   (list
+    (cfw:org-create-source "gainsboro")  ; orgmode source
+    (cfw:ical-create-source "gcal"
+                            "https://www.google.com/calendar/ical/fm79ocs70hfo6b8q1qsp3mj6b4%40group.calendar.google.com/public/basic.ics"
+                            "grey40"))))
+
+(defun psamim-cfw-hook()
+  (evil-emacs-state))
+
+(after 'cfw:calendar-mode
+(add-hook 'cfw:calendar-mode-hook 'psamim-cfw-hook))
+
+(custom-set-variables
+ '(cfw:display-calendar-holidays nil)
+ '(org-agenda-files (quote ("~/Note/todo.org")))
+ '(org-agenda-ndays 7)
+ '(org-deadline-warning-days 14)
+ '(org-agenda-show-all-dates t)
+ '(org-agenda-skip-deadline-if-done t)
+ '(org-agenda-skip-scheduled-if-done t)
+ '(org-agenda-start-on-weekday nil)
+ '(org-reverse-note-order t))
+
 (provide 'init-org)
