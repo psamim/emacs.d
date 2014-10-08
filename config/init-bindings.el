@@ -57,7 +57,7 @@
       "P" 'package-list-packages
       "V" (bind (term "vim"))
       "h" help-map
-      "d" 'psamim-dired-current-buffer-file-directory
+      "d" 'dired-jump
       "h h" 'help-for-help-internal)
 
     (after "magit-autoloads"
