@@ -304,21 +304,4 @@
   (define-key evil-normal-state-map (kbd "C-ن") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "C-م") 'evil-window-right))
 
-;; Be nicer in dired mode
-
-(custom-set-variables
- '(dired-listing-switches "-Aogh --time-style=+")) ; This is ls options
-(define-minor-mode psamim-dired-mode
-  "Minor mode over dired-mode."
-  :lighter " pdired "
-  :keymap (make-sparse-keymap))
-(evil-define-key 'normal psamim-dired-mode-map "l" 'dired-find-file)
-(evil-define-key 'normal psamim-dired-mode-map "h" 'dired-up-directory)
-(evil-define-key 'normal psamim-dired-mode-map "n" 'evil-search-next)
-(evil-define-key 'normal psamim-dired-mode-map "N" 'evil-search-previous)
-(evil-define-key 'normal psamim-dired-mode-map "/" 'evil-search-forward)
-(evil-define-key 'normal psamim-dired-mode-map "o" 'xah-open-in-external-app)
-;; (evil-define-key 'normal psamim-dired-mode-map "gg" 'evil-goto-first-line)
-(add-hook 'dired-mode-hook (lambda() (psamim-dired-mode) (hl-line-mode)))
-
 (provide 'init-bindings)
