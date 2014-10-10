@@ -94,7 +94,7 @@
          "fontset-default"
          (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
          ;; "FreeFarsi Monospace-17"))
-         "B Traffic-15")
+         "Traffic-15")
           ;; (set-face-attribute 'default nil :family "Source Code Pro" :height 130)
           (set-face-attribute 'default nil :family "Ubuntu Mono" :height 150)
           ;; (set-face-attribute 'default nil :height 105 :family "Fira Mono")
