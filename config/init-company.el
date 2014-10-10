@@ -35,14 +35,14 @@
 (require 'cc-mode)
 
 (setq company-backends (delete 'company-semantic company-backends))
-(define-key c-mode-map  [(tab)] 'company-complete)
-(define-key c++-mode-map  [(tab)] 'company-complete)
+(define-key c-mode-map (kbd "<tab>") 'company-complete)
+(define-key c++-mode-map  (kbd "<tab>") 'company-complete)
 
 (require-package 'company-c-headers)
 
 (add-to-list 'company-backends 'company-c-headers)
 
-(global-set-key (kbd "<tab>") 'company-complete)
+;; (global-set-key (kbd "<tab>") 'company-complete)
 
 ;; ((nil . ((company-clang-arguments . ("-I/home/<user>/project_root/include1/"
                                      ;; "-I/home/<user>/project_root/include2/")))))
