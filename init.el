@@ -65,6 +65,7 @@
    	init-gnus
         init-ruby
         init-dired
+        init-r
         init-sync)
   "Set of modules enabled in dotemacs."
   :group 'dotemacs)
