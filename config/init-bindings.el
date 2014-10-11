@@ -53,10 +53,10 @@
       "C" 'customize-group
   ;;    "b d" 'kill-this-buffer
       "v" (kbd "C-w v C-w l")
-      "s" (kbd "C-w s C-w j")
+      "h" (kbd "C-w s C-w j")
       "P" 'package-list-packages
-      "V" (bind (term "vim"))
-      "h" help-map
+      ;; "V" (bind (term "vim"))
+      ;; "h" help-map
       "d" 'dired-jump
       "h h" 'help-for-help-internal)
 
