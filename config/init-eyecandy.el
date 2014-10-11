@@ -99,7 +99,9 @@
           ;; (set-face-attribute 'default nil :family "Source Code Pro" :height 130)
           (set-face-attribute 'default nil :family "Ubuntu Mono" :height 150)
           ;; (set-face-attribute 'default nil :height 105 :family "Fira Mono")
-        (set-transparency 0.9))))
+          (set-transparency 0.9)
+          (git-gutter+-toggle-fringe)
+          )))
 
 (require-package 'solarized-theme)
 (load-theme 'solarized-dark)
