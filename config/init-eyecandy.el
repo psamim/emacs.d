@@ -82,6 +82,7 @@
 (setq indent-guide-recursive t)
 (add-to-list 'indent-guide-inhibit-modes 'package-menu-mode)
 (indent-guide-global-mode)
+(setq indent-guide-char "¦")
 
 
 (add-hook 'find-file-hook 'hl-line-mode)
