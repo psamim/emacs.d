@@ -58,12 +58,13 @@
 
     init-overrides
 
-   	;;init-editor
-   	;;init-git
-   	;;init-flycheck
-   	init-latex
-   	init-gnus
-        init-sync)
+    ;;init-editor
+    ;;init-git
+    ;;init-flycheck
+    init-latex
+    init-gnus
+    init-sync
+    init-python)
   "Set of modules enabled in dotemacs."
   :group 'dotemacs)
 
