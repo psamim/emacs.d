@@ -31,6 +31,7 @@
     ad-do-it))
 
 ;; Bersam's Config
+;; cc-mode
 (require-package 'cc-mode)
 (require 'cc-mode)
 
@@ -54,5 +55,11 @@
 ;(define-key c++-mode-map  [(control tab)] 'moo-complete)
 ;(define-key c-mode-map (kbd "M-o")  'fa-show)
 ;(define-key c++-mode-map (kbd "M-o")  'fa-show)
+
+(require-package 'anaconda-mode)
+(add-hook 'python-mode-hook 'anaconda-mode)
+
+(require-package 'company-anaconda)
+(add-to-list 'company-backends 'company-anaconda)
 
 (provide 'init-company)
