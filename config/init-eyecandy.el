@@ -81,6 +81,7 @@
 (require 'indent-guide)
 (setq indent-guide-recursive t)
 (add-to-list 'indent-guide-inhibit-modes 'package-menu-mode)
+(add-to-list 'indent-guide-inhibit-modes 'mu4e-main-mode)
 (indent-guide-global-mode)
 (setq indent-guide-char "¦")
 
