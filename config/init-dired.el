@@ -43,9 +43,11 @@
 (require 'dired-open)
 (custom-set-variables
  '(dired-open-extensions (quote (
+                                 ("mp3" . "mplayer")
                                  ("mp4" . "mplayer")
                                  ("png" . "sxiv")
                                  ("pdf" . "zathura")
+                                 ("jpg" . "sxiv")
                                  ))))
 
 ;; allow dired to be able to delete or copy a whole dir.
