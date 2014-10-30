@@ -1,6 +1,6 @@
 
 (require-package 'ess)
-(require 'ess)
+(require 'ess-site)
 
 (add-to-list 'auto-mode-alist '("\\.R$" . R-mode))
 (add-to-list 'auto-mode-alist '("\\.r$" . R-mode))
