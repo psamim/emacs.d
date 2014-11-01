@@ -57,8 +57,8 @@
       "P" 'package-list-packages
       ;; "V" (bind (term "vim"))
       ;; "h" help-map
-      "d" 'dired-jump
-      "h h" 'help-for-help-internal)
+      "d" 'dired-jump)
+      ;; "h h" 'help-for-help-internal)
 
     (after "magit-autoloads"
       (evil-leader/set-key
