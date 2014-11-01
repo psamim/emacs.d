@@ -2,10 +2,11 @@
 
 ;; default
 ;; (setq mu4e-maildir "~/Maildir")
+(setq mu4e-maildir (expand-file-name "~/email"))
 
-(setq mu4e-drafts-folder "/[Gmail].Drafts")
-(setq mu4e-sent-folder   "/[Gmail].Sent Mail")
-(setq mu4e-trash-folder  "/[Gmail].Trash")
+(setq mu4e-drafts-folder "/gmail/drafts")
+(setq mu4e-sent-folder   "/gmail/sent")
+(setq mu4e-trash-folder  "/gmail/trash")
 
 ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
 (setq mu4e-sent-messages-behavior 'delete)
@@ -16,13 +17,18 @@
 ;; the 'All Mail' folder by pressing ``ma''.
 
 (setq mu4e-maildir-shortcuts
-    '( ("/INBOX"               . ?i)
-       ("/[Gmail].Sent Mail"   . ?s)
-       ("/[Gmail].Trash"       . ?t)
-       ("/[Gmail].All Mail"    . ?a)))
+    '( ("/gmail/INBOX"               . ?i)
+       ("/gmail/sent"   . ?s)
+       ("/gmail/trash"       . ?t)
+       ("/gmail/all"    . ?a)))
 
 ;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "offlineimap")
+;; (setq mu4e-get-mail-command "offlineimap")
+; get mail
+(setq mu4e-get-mail-command "mbsync gmail"
+      mu4e-html2text-command "w3m -T text/html"
+      mu4e-update-interval 120
+      mu4e-headers-auto-update t)
 
 ;; something about ourselves
 (setq mu4e-compose-signature-auto-include nil)
@@ -31,7 +37,7 @@
    user-full-name  "Samim Pezeshki"
    mu4e-compose-signature
     (concat
-      "Samim"
+      "Samim\n"
       "http://psam.im\n"))
 
 ;; sending mail -- replace USERNAME with your gmail username
@@ -39,16 +45,7 @@
 ;; package 'gnutls-bin' in Debian/Ubuntu
 
 (require 'smtpmail)
-;; (setq message-send-mail-function 'smtpmail-send-it
-;;    starttls-use-gnutls t
-;;    smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-;;    smtpmail-auth-credentials
-;;      '(("smtp.gmail.com" 587 "psamim@gmail.com" nil))
-;;    smtpmail-default-smtp-server "smtp.gmail.com"
-;;    smtpmail-smtp-server "smtp.gmail.com"
-;;    smtpmail-smtp-service 587)
 
-;; alternatively, for emacs-24 you can use:
 (setq message-send-mail-function 'smtpmail-send-it
      smtpmail-stream-type 'starttls
      smtpmail-default-smtp-server "smtp.gmail.com"
@@ -66,7 +63,7 @@
 (setq mu4e-headers-encrypted-mark '("x" . "⚷")) ;encrypted
 
 ;; save attachment to my desktop (this can also be a function)
-(setq mu4e-attachment-dir "~/Desktop")
+(setq mu4e-attachment-dir "~/Downloads/")
 
 ;; show images
 (setq
@@ -75,19 +72,18 @@
 
 ;; Show related messages, toggles with W
 (setq
- mu4e-headers-include-related t
+ ;; mu4e-headers-include-related t
  mu4e-headers-skip-duplicates t)
 
 (setq mu4e-confirm-quit nil
       mu4e-headers-date-format "%d/%b/%Y %H:%M" ; date format
-      mu4e-html2text-command "html2text -width 72"
+      ;; mu4e-html2text-command "html2text -width 72"
       )
 
 ;; use imagemagick, if available
 (when (fboundp 'imagemagick-register-types)
   (imagemagick-register-types))
 
-;; don't keep message buffers around
 ; mu4e-action-view-in-browser is built into mu4e
 ;; by adding it to these lists of custom actions
 ;; it can be invoked by first pressing a, then selecting
@@ -96,10 +92,12 @@
 (add-to-list 'mu4e-view-actions
              '("in browser" . mu4e-action-view-in-browser) t)
 
-(add-hook 'mu4e-compose-pre-hook
-          '(lambda ()
-             (interactive)
-            ))
+;; spell check
+(add-hook 'mu4e-compose-mode-hook
+        (defun psamim-compose-stuff ()
+           "My settings for message composition."
+           (set-fill-column 72)
+           (flyspell-mode)))
 
 (require 'gnus-dired)
 ;; make the `gnus-dired-mail-buffers' function also work on
@@ -117,8 +115,6 @@
 
 (setq gnus-dired-mail-mode 'mu4e-user-agent)
 (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
-
-(setq mu4e-update-interval 300)
 
 ;; the headers to show in the headers list -- a pair of a field
 ;; and its width, with `nil' meaning 'unlimited'
@@ -139,5 +135,8 @@
 (add-hook 'mu4e-index-updated-hook
   (defun new-mail-notify ()
     (shell-command "notify-send 'New email receieved!'")))
+
+;; Compatibility with mbsync
+(setq mu4e-change-filenames-when-moving t)
 
 (provide 'init-mu)
