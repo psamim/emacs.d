@@ -134,7 +134,8 @@
 
 (add-hook 'mu4e-index-updated-hook
   (defun new-mail-notify ()
-    (shell-command "notify-send 'New email receieved!'")))
+;; https://github.com/psamim/dotfiles/blob/master/bin/check_mail_notify
+    (shell-command  (expand-file-name "~/.bin/check_mail_notify"))))
 
 ;; Compatibility with mbsync
 (setq mu4e-change-filenames-when-moving t)
