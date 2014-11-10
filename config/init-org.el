@@ -22,6 +22,7 @@
   (auto-complete-mode t)
   (org-bullets-mode 1)
   (flyspell-mode t)
+  (writegood-turn-on)
   (ac-flyspell-workaround)
   (after 'evil
     (define-key evil-normal-state-map (kbd "C-S-j") 'flyspell-goto-next-error)
@@ -129,11 +130,6 @@
                                  (org-agenda-files :maxlevel . 2)
                                  ("~/Note/ideas.org" :maxlevel . 1))))
 ;; Syntax Highlighting
-;; http://praveen.kumar.in/2012/03/10/org-mode-latex-and-minted-syntax-highlighting/
-;; (require 'org-latex)
-;; (setq org-export-latex-listings 'minted)
-;; (add-to-list 'org-export-latex-packages-alist '("" "minted"))
-
 ;; http://joat-programmer.blogspot.com/2013/07/org-mode-version-8-and-pdf-export-with.html
 ;; Include the latex-exporter
 (require 'ox-latex)
@@ -146,14 +142,13 @@
 ;; Let the exporter use the -shell-escape option to let latex
 ;; execute external programs.
 ;; This obviously and can be dangerous to activate!
-;; (setq org-latex-pdf-process
-;;       '("")
-;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-
 (setq org-latex-pdf-process
-      (quote ("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+      (quote ("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
               "biber %b"
-              "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
+              "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
+
+(require-package 'writegood-mode)
+(require 'writegood-mode)
 
 (setq org-clock-into-drawer t)
 (setq org-latex-minted-options
@@ -170,7 +165,7 @@
 
 
 ;; My latex templates for org-mode
-(require 'org-latex)
+;; (require 'org-latex)
 (unless (boundp 'org-latex-classes)
   (setq org-latex-classes nil))
 
@@ -244,5 +239,39 @@
      ("\\subsection{%s}" . "\\subsection*{%s}")
      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
      ("\\paragraph{%s}" . "\\paragraph*{%s}")))
+
+;; Calendar Settings
+(require-package 'calfw)
+(require 'calfw-cal)
+(require 'calfw-org)
+(require 'calfw-ical)
+(setq calendar-week-start-day 6) ; 0:Sunday, 1:Monday
+
+(defun psamim-open-calendar ()
+  (interactive)
+  (cfw:open-calendar-buffer
+   :contents-sources
+   (list
+    (cfw:org-create-source "gainsboro")  ; orgmode source
+    (cfw:ical-create-source "gcal"
+                            "https://www.google.com/calendar/ical/fm79ocs70hfo6b8q1qsp3mj6b4%40group.calendar.google.com/public/basic.ics"
+                            "grey40"))))
+
+(defun psamim-cfw-hook()
+  (evil-emacs-state))
+
+(after 'cfw:calendar-mode
+(add-hook 'cfw:calendar-mode-hook 'psamim-cfw-hook))
+
+(custom-set-variables
+ '(cfw:display-calendar-holidays nil)
+ '(org-agenda-files (quote ("~/Note/todo.org")))
+ '(org-agenda-ndays 7)
+ '(org-deadline-warning-days 14)
+ '(org-agenda-show-all-dates t)
+ '(org-agenda-skip-deadline-if-done t)
+ '(org-agenda-skip-scheduled-if-done t)
+ '(org-agenda-start-on-weekday nil)
+ '(org-reverse-note-order t))
 
 (provide 'init-org)

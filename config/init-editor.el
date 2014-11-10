@@ -30,6 +30,7 @@
                   scheme-mode-hook
                   clojure-mode-hook
                   ruby-mode-hook
+                  ruby-mode
                   yaml-mode
                   python-mode-hook
                   shell-mode-hook

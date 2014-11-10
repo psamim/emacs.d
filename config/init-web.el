@@ -23,7 +23,7 @@
 (add-hook 'web-mode-hook 'my-emmet-mode)
 
 
-(lazy-major-mode "\\.html?$" web-mode)
+(lazy-major-mode "\\.html?.*$" web-mode)
 
 
 (after 'web-mode

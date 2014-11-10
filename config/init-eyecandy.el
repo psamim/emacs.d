@@ -81,7 +81,9 @@
 (require 'indent-guide)
 (setq indent-guide-recursive t)
 (add-to-list 'indent-guide-inhibit-modes 'package-menu-mode)
+(add-to-list 'indent-guide-inhibit-modes 'mu4e-main-mode)
 (indent-guide-global-mode)
+(setq indent-guide-char "¦")
 
 
 (add-hook 'find-file-hook 'hl-line-mode)
@@ -90,25 +92,26 @@
 (defun psamim-set-window-fonts (&rest frame)
   (if (display-graphic-p)
       (progn
+        (set-fontset-font "fontset-default" 'unicode "Dejavu Sans Mono")
         (set-fontset-font
          "fontset-default"
          (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
          ;; "FreeFarsi Monospace-17"))
-         "Traffic-15")
-          ;; (set-face-attribute 'default nil :family "Source Code Pro" :height 130)
-          (set-face-attribute 'default nil :family "Ubuntu Mono" :height 150)
-          ;; (set-face-attribute 'default nil :height 105 :family "Fira Mono")
-        (set-transparency 0.9))))
+         "B Traffic-15")
+        (set-face-font 'default "Ubuntu Mono-15")
+        (set-transparency 0.9)
+          ;; (git-gutter+-toggle-fringe)
+          )))
 
 (require-package 'solarized-theme)
 (load-theme 'solarized-dark)
 
-;; (custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;;  '(secondary-selection ((t (:background "#002B36")))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(secondary-selection ((t (:background "#002B36")))))
 
 (require-package 'writeroom-mode)
 

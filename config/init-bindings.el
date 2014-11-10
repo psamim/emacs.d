@@ -65,12 +65,12 @@
       "C" 'customize-group
   ;;    "b d" 'kill-this-buffer
       "v" (kbd "C-w v C-w l")
-      "s" (kbd "C-w s C-w j")
+      "h" (kbd "C-w s C-w j")
       "P" 'package-list-packages
-      "V" (bind (term "vim"))
-      "h" help-map
-      "d" 'psamim-dired-current-buffer-file-directory
-      "h h" 'help-for-help-internal)
+      ;; "V" (bind (term "vim"))
+      ;; "h" help-map
+      "d" 'dired-jump)
+      ;; "h h" 'help-for-help-internal)
 
     (after "magit-autoloads"
       (evil-leader/set-key
@@ -120,8 +120,8 @@
   (define-key evil-normal-state-map (kbd "] e") (kbd "ddp"))
   (define-key evil-normal-state-map (kbd "[ b") 'previous-buffer)
   (define-key evil-normal-state-map (kbd "] b") 'next-buffer)
-  (define-key evil-normal-state-map (kbd "[ q") 'previous-error)
-  (define-key evil-normal-state-map (kbd "] q") 'next-error)
+  (define-key evil-normal-state-map (kbd "[ q") 'flycheck-previous-error)
+  (define-key evil-normal-state-map (kbd "] q") 'flycheck-next-error)
   (define-key evil-normal-state-map (kbd "g p") (kbd "` [ v ` ]"))
 
   (after "etags-select-autoloads"
@@ -167,8 +167,8 @@
                                   'projectile-ack)
                                  (t
                                   'projectile-grep)))))
-    (define-key evil-normal-state-map (kbd "C-P") 'projectile-recentf)
-    (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file))
+    (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file)
+    (define-key evil-normal-state-map (kbd "C-S-p") 'projectile-switch-project))
 
   (after "multiple-cursors-autoloads"
     (after 'js2-mode
@@ -288,7 +288,6 @@
 
 ;; Samim's confs
 (global-set-key (kbd "<f11>") 'psamim-switch-full-screen)
-(define-key dired-mode-map (kbd "C-c") 'xah-open-in-external-app)
 
 ;; Farsi keyboard layout bindings
 (after 'evil
