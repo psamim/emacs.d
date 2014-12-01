@@ -24,9 +24,11 @@
 
 (when (executable-find "ag")
   (require-package 'ag)
+  (require 'ag)
   (setq ag-highlight-search t)
   (add-hook 'ag-mode-hook (lambda () (toggle-truncate-lines t)))
-  (require-package 'wgrep-ag))
+  (require-package 'wgrep-ag)
+  (add-to-list 'ag-arguments "--silent"))
 
 
 (when (executable-find "ack")
@@ -83,7 +85,7 @@
 ;; Bersam's confs
 (add-hook 'prog-mode-hook (lambda ()
                             (local-set-key (kbd "M-RET") 'evil-goto-definition)))
-;; bury buffer if successful compile 
+;; bury buffer if successful compile
 (defun bury-compile-buffer-if-successful (buffer string)
   "Bury a compilation buffer if succeeded without warnings "
   (if (and
