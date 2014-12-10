@@ -50,6 +50,8 @@
      smtpmail-stream-type 'starttls
      smtpmail-default-smtp-server "smtp.gmail.com"
      smtpmail-smtp-server "smtp.gmail.com"
+     ;; smtpmail-queue-mail t  ;; start in queuing mode
+     smtpmail-queue-dir   "~/email/queue"
      smtpmail-smtp-service 587)
 
 ;; use 'fancy' non-ascii characters in various places in mu4e
