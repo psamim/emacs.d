@@ -1,6 +1,8 @@
 (require 'org)
 (setq org-default-notes-file "~/Note/notes.org"
-      org-log-done t)
+      org-log-done t
+      org-startup-indented t
+      org-indent-indentation-per-level 3)
 
 (require-package 'org-bullets)
 (require 'org-bullets)

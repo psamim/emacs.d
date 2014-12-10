@@ -22,12 +22,17 @@
 
 (setq company-global-modes
       '(not
-        eshell-mode comint-mode org-mode))
-
-(add-hook 'after-init-hook 'global-company-mode)
+        eshell-mode comint-mode org-mode erc-mode))
 
 (defadvice company-complete-common (around advice-for-company-complete-common activate)
   (when (null (yas-expand))
     ad-do-it))
+
+(defun my-company-tab ()
+  (interactive)
+  (when (null (yas-expand))
+    (company-select-next)))
+
+(global-company-mode)
 
 (provide 'init-company)
