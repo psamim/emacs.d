@@ -9,3 +9,4 @@ url
 session*
 *.elc
 emms
+/.org-id-locations
