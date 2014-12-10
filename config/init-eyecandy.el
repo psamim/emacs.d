@@ -68,8 +68,8 @@
 (diminish 'color-identifiers-mode)
 
 
-;; (require-package 'fancy-narrow)
-;; (fancy-narrow-mode)
+(require-package 'fancy-narrow)
+(fancy-narrow-mode)
 
 
 (require-package 'idle-highlight-mode)
@@ -104,14 +104,15 @@
           )))
 
 (require-package 'solarized-theme)
-(load-theme 'solarized-dark)
+(load-theme 'solarized-light)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(secondary-selection ((t (:background "#002B36")))))
+ ; '(secondary-selection ((t (:background "#002B36")))))
+ )
 
 (require-package 'writeroom-mode)
 
