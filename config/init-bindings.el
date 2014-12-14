@@ -24,13 +24,14 @@
 
 
 (setq my-eshell-buffer-count 0)
+(defun my-new-eshell-split ()
+  (interactive)
+  (split-window)
+  (setq my-eshell-buffer-count (+ 1 my-eshell-buffer-count))
+  (eshell my-eshell-buffer-count))
 
 
 (after 'evil
-  ;; fix conflict with electric-indent-mode in 24.4
-  (define-key evil-insert-state-map [remap newline] 'newline)
-  (define-key evil-insert-state-map [remap newline-and-indent] 'newline-and-indent)
-
   (require-package 'key-chord)
   (key-chord-mode 1)
 
@@ -55,15 +56,13 @@
       "c" 'evilnc-comment-or-uncomment-lines
       "w" 'save-buffer
       "ص" 'save-buffer
-      "e" (kbd "C-x C-e")
-      ", e" (kbd "C-M-x")
-      "E" (kbd "C-M-x")
-      "t" (bind
-           (evil-window-split)
-           (setq my-eshell-buffer-count (+ 1 my-eshell-buffer-count))
-           (eshell my-eshell-buffer-count))
+      "e" 'eval-last-sexp
+      ", e" 'eval-defun
+      "E" 'eval-defun
+      "f" 'ctl-x-5-prefix
+      "t" 'my-new-eshell-split
       "C" 'customize-group
-  ;;    "b d" 'kill-this-buffer
+      "b d" 'kill-this-buffer
       "v" (kbd "C-w v C-w l")
       "h" (kbd "C-w s C-w j")
       "P" 'package-list-packages
@@ -102,7 +101,7 @@
   (after "helm-autoloads"
     (define-key evil-normal-state-map (kbd "g b") 'helm-mini)
     (define-key evil-normal-state-map (kbd "SPC f") 'helm-find-files)
-    (define-key evil-normal-state-map (kbd "SPC o") 'helm-imenu)
+    (define-key evil-normal-state-map (kbd "SPC o") 'helm-semantic-or-imenu)
     (define-key evil-normal-state-map (kbd "SPC t") 'helm-etags-select)
     (define-key evil-normal-state-map (kbd "SPC y") 'helm-show-kill-ring)
     (define-key evil-normal-state-map (kbd "SPC m") 'helm-bookmarks)
@@ -230,9 +229,14 @@
   (define-key ac-completing-map (kbd "C-p") 'ac-previous))
 
 
-(after 'company
+(after "company-autoloads"
   (define-key company-active-map (kbd "C-n") 'company-select-next)
-  (define-key company-active-map (kbd "C-p") 'company-select-previous))
+  (define-key company-active-map (kbd "C-p") 'company-select-previous)
+  (define-key company-active-map (kbd "<tab>") 'my-company-tab)
+  (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
+  (after "helm-company-autoloads"
+    (define-key company-mode-map (kbd "<C-return>") 'helm-company)
+    (define-key company-active-map (kbd "<C-return>") 'helm-company)))
 
 
 (after "expand-region-autoloads"
@@ -258,6 +262,7 @@
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c s") 'my-goto-scratch-buffer)
 (global-set-key (kbd "C-c e") 'my-eval-and-replace)
+(global-set-key (kbd "C-c t") 'my-new-eshell-split)
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-k") 'kill-this-buffer)

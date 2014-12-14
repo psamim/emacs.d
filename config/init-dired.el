@@ -14,6 +14,8 @@
 (evil-define-key 'normal psamim-dired-mode-map "r" 'revert-buffer)
 (evil-define-key 'normal psamim-dired-mode-map "[tab]" 'dired-hide-subdir)
 (evil-define-key 'normal psamim-dired-mode-map "w" 'dired-toggle-read-only)
+;; (evil-define-key 'normal psamim-dired-mode-map "d" 'dired-details-toggle)
+(evil-define-key 'normal psamim-dired-mode-map "a" 'gnus-dired-attach)
 
 ;; Go to home
 (evil-define-key 'normal psamim-dired-mode-map "gh" (lambda() (interactive) (find-file "~")))

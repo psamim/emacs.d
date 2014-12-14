@@ -14,12 +14,11 @@
                  (move-end-of-line 0)
                  (current-column)))
           (count (count-lines (overlay-start ov) (overlay-end ov))))
-      (overlay-put ov 'display
-                   (format " %s [ %d lines ] ----"
-                           (make-string (- (window-width) col 32) (string-to-char "-"))
+      (overlay-put ov 'after-string
+                   (format "%s [ %d ] ... "
+                           (make-string (- (window-width) col 32) (string-to-char "."))
                            count)))))
 (setq hs-set-up-overlay 'my-fold-overlay)
-
 
 (require-package 'diminish)
 (diminish 'visual-line-mode)
@@ -36,6 +35,8 @@
 (after 'git-gutter+ (diminish 'git-gutter+-mode))
 (after 'magit (diminish 'magit-auto-revert-mode))
 (after 'flycheck-mode (diminish 'flycheck-mode))
+(after 'highlight-symbol-mode (diminish 'highlight-symbol-mode))
+(after 'indent-guide-mode (diminish 'indent-guide-mode))
 
 
 ;; Samim diabled sml
@@ -68,23 +69,29 @@
 (diminish 'color-identifiers-mode)
 
 
-;; (require-package 'fancy-narrow)
-;; (fancy-narrow-mode)
+(require-package 'fancy-narrow)
+(fancy-narrow-mode)
 
 
-(require-package 'idle-highlight-mode)
-(setq idle-highlight-idle-time 0.3)
-(add-hook 'prog-mode-hook 'idle-highlight-mode)
+(require-package 'highlight-symbol)
+(setq highlight-symbol-idle-delay 0.3)
+(add-hook 'prog-mode-hook 'highlight-symbol-mode)
+
+(require-package 'highlight-numbers)
+(add-hook 'prog-mode-hook 'highlight-numbers-mode)
+
+(require-package 'highlight-quoted)
+(add-hook 'prog-mode-hook 'highlight-quoted-mode)
 
 
 (require-package 'indent-guide)
+;; this is pretty slow on big files
 (require 'indent-guide)
 (setq indent-guide-recursive t)
 (add-to-list 'indent-guide-inhibit-modes 'package-menu-mode)
 (add-to-list 'indent-guide-inhibit-modes 'mu4e-main-mode)
 (indent-guide-global-mode)
 (setq indent-guide-char "¦")
-
 
 (add-hook 'find-file-hook 'hl-line-mode)
 
@@ -104,14 +111,15 @@
           )))
 
 (require-package 'solarized-theme)
-(load-theme 'solarized-dark)
+(load-theme 'solarized-light)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(secondary-selection ((t (:background "#002B36")))))
+ ; '(secondary-selection ((t (:background "#002B36")))))
+ )
 
 (require-package 'writeroom-mode)
 

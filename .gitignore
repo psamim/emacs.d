@@ -10,3 +10,4 @@ session*
 *.elc
 emms
 semanticdb
+/.org-id-locations

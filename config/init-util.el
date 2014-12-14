@@ -129,14 +129,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (set-buffer-file-coding-system 'undecided-dos nil))
 
 
-;; make sure $PATH is set correctly
-(if (eq system-type 'windows-nt)
-    (dolist (path (split-string (getenv "PATH") ";"))
-      (add-to-list 'exec-path (replace-regexp-in-string "\\\\" "/" path)))
-  (progn
-    (require-package 'exec-path-from-shell)
-    (exec-path-from-shell-initialize)))
-
 ;; Samim's cofs
 
 (defun psamim-add-semicolon-at-the-end-of-line ()

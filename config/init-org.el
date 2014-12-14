@@ -1,6 +1,8 @@
 (require 'org)
 (setq org-default-notes-file "~/Note/notes.org"
-      org-log-done t)
+      org-log-done t
+      org-startup-indented t
+      org-indent-indentation-per-level 3)
 
 (require-package 'org-bullets)
 (require 'org-bullets)
@@ -84,17 +86,17 @@
 ; Custom agendas and trees
 (setq org-agenda-custom-commands
       (quote (
-        ("dt" "All todos" tags-tree "TODO=\"TODO\"|TODO=\"NEXT\"")
-        ("dn" "All todos" tags-tree "TODO=\"NEXT\"")
+        ("tt" "All todos" tags-tree "TODO=\"TODO\"|TODO=\"NEXT\"")
+        ("tn" "All todos" tags-tree "TODO=\"NEXT\"")
         ("un" "@uni NEXT" tags-tree "@uni+TODO=\"NEXT\"")
         ("ut" "@uni TODO" tags-tree "@uni+TODO=\"TODO\"")
         ("ua" "@uni ALL" tags-tree "@uni+TODO=\"NEXT\"|@uni+TODO=\"TODO\"")
         ("wn" "@work NEXT" tags-tree "@work+TODO=\"NEXT\"")
         ("wt" "@work TODO" tags-tree "@work+TODO=\"TODO\"")
         ("wa" "@work ALL" tags-tree "@work+TODO=\"NEXT\"|@work+TODO=\"TODO\"")
-        ("mn" "@me NEXT" tags-tree "@me+TODO=\"NEXT\"|@tasks+TODO=\"NEXT\"")
-        ("mt" "@me TODO" tags-tree "@me+TODO=\"TODO\"|@tasks+TODO=\"TODO\"")
-        ("ma" "@me ALL" tags-tree "@me+TODO=\"TODO\"|@tasks+TODO=\"TODO\"|@me+TODO=\"NEXT\"|@tasks+TODO=\"NEXT\"")
+        ;; ("mn" "@me NEXT" tags-tree "@me+TODO=\"NEXT\"|@tasks+TODO=\"NEXT\"")
+        ;; ("mt" "@me TODO" tags-tree "@me+TODO=\"TODO\"|@tasks+TODO=\"TODO\"")
+        ;; ("ma" "@me ALL" tags-tree "@me+TODO=\"TODO\"|@tasks+TODO=\"TODO\"|@me+TODO=\"NEXT\"|@tasks+TODO=\"NEXT\"")
 
        ("wg" "Work Agenda"
          (

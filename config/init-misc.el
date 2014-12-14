@@ -8,7 +8,6 @@
 
 
 (require-package 'multiple-cursors)
-(setq mc/unsupported-minor-modes '(company-mode auto-complete-mode flyspell-mode jedi-mode))
 (after 'evil
   (add-hook 'multiple-cursors-mode-enabled-hook 'evil-emacs-state)
   (add-hook 'multiple-cursors-mode-disabled-hook 'evil-normal-state))
@@ -50,6 +49,13 @@
 
 (require-package 'editorconfig)
 (require 'editorconfig)
+
+
+(require-package 'aggressive-indent)
+(require 'aggressive-indent)
+(add-to-list 'aggressive-indent-excluded-modes 'stylus-mode)
+(add-to-list 'aggressive-indent-excluded-modes 'org-mode)
+(global-aggressive-indent-mode)
 
 
 (require-package 'etags-select)
@@ -100,5 +106,14 @@
                         (delete-window (get-buffer-window buf)))
                       buffer)))
 (add-hook 'compilation-finish-functions 'bury-compile-buffer-if-successful)
+
+;; make sure $PATH is set correctly
+(if (eq system-type 'windows-nt)
+    (dolist (path (split-string (getenv "PATH") ";"))
+      (add-to-list 'exec-path (replace-regexp-in-string "\\\\" "/" path)))
+  (progn
+    (require-package 'exec-path-from-shell)
+    (exec-path-from-shell-initialize)))
+
 
 (provide 'init-misc)

@@ -1,3 +1,4 @@
+
 (defgroup dotemacs nil
   "Custom configuration for dotemacs."
   :group 'local)
@@ -11,11 +12,18 @@
 (unless (display-graphic-p) (menu-bar-mode -1))
 
 (add-to-list 'load-path (concat user-emacs-directory "config"))
-(add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
 (require 'cl)
 (require 'init-packages)
 (require 'init-util)
+
+(let ((base (concat user-emacs-directory "elisp")))
+  (add-to-list 'load-path base)
+  (dolist (dir (directory-files base t))
+    (when (and (file-directory-p dir)
+               (not (equal (file-name-nondirectory dir) ".."))
+               (not (equal (file-name-nondirectory dir) ".")))
+      (add-to-list 'load-path dir))))
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
@@ -59,21 +67,25 @@
     init-overrides
 
     init-python
-   	;;init-editor
-   	;;init-git
-   	;;init-flycheck
-   	init-latex
-   	init-gnus
+   	init-editor
+   	init-git
+   	init-flycheck
+   	;; init-latex
+   	;; init-gnus
     init-ruby
     init-dired
     init-r
-    init-sync)
+    init-sync
+    init-mu)
+
   "Set of modules enabled in dotemacs."
   :group 'dotemacs)
 
-(dolist (module dotemacs-modules)
-  (require module))
-
+(add-to-list 'after-init-hook
+             (lambda ()
+               (dolist (module dotemacs-modules)
+                 (with-demoted-errors "######## INIT-ERROR ######## %s"
+                   (require module)))))
 (server-force-delete)
 (setq server-socket-dir "/tmp/bersam/emacs1000/server")
 (server-start)
