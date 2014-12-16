@@ -21,8 +21,8 @@
   (add-to-list 'load-path base)
   (dolist (dir (directory-files base t))
     (when (and (file-directory-p dir)
-               (not (equal (file-name-nondirectory dir) ".."))
-               (not (equal (file-name-nondirectory dir) ".")))
+             (not (equal (file-name-nondirectory dir) ".."))
+             (not (equal (file-name-nondirectory dir) ".")))
       (add-to-list 'load-path dir))))
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -67,11 +67,11 @@
     init-overrides
 
     init-python
-   	init-editor
-   	init-git
-   	init-flycheck
-   	;; init-latex
-   	;; init-gnus
+    init-editor
+    init-git
+    init-flycheck
+    ;; init-latex
+    ;; init-gnus
     init-ruby
     init-dired
     init-r
