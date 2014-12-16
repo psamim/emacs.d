@@ -111,7 +111,7 @@
           )))
 
 (require-package 'solarized-theme)
-(load-theme 'solarized-light)
+(load-theme 'solarized-dark)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
