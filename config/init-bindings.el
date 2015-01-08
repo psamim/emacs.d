@@ -56,8 +56,9 @@
       "P" 'package-list-packages
       ;; "V" (bind (term "vim"))
       ;; "h" help-map
+      "b" 'switch-to-buffer
       "d" 'dired-jump)
-      ;; "h h" 'help-for-help-internal)
+    ;; "h h" 'help-for-help-internal)
 
     (after "magit-autoloads"
       (evil-leader/set-key
@@ -82,7 +83,7 @@
     (define-key evil-normal-state-map (kbd "SPC SPC") 'smex))
 
   (define-key evil-normal-state-map (kbd "SPC o") 'imenu)
-  (define-key evil-normal-state-map (kbd "SPC b") 'switch-to-buffer)
+  ;; (define-key evil-normal-state-map (kbd "SPC b") 'switch-to-buffer)
   (define-key evil-normal-state-map (kbd "SPC k") 'ido-kill-buffer)
   (define-key evil-normal-state-map (kbd "SPC f") 'ido-find-file)
 
