@@ -2,6 +2,7 @@
 (setq org-default-notes-file "~/Note/notes.org"
       org-log-done t
       org-startup-indented t
+      org-export-babel-evaluate nil
       org-indent-indentation-per-level 3)
 
 (require-package 'org-bullets)
@@ -62,9 +63,14 @@
 
 (require 'ob)
 (org-babel-do-load-languages
-'org-babel-load-languages
-'((plantuml . t)))
-
+ 'org-babel-load-languages
+ '((R . t)
+   (org . t)
+   (plantuml . t)
+   (latex . t)
+   (emacs-lisp . t)
+   (sh . t)
+   (sql . nil)))
 (setq org-plantuml-jar-path (expand-file-name "~/Downloads/plantuml.jar"))
 (setq org-confirm-babel-evaluate nil)
 
