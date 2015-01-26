@@ -27,6 +27,7 @@
   (flyspell-mode t)
   (writegood-turn-on)
   (ac-flyspell-workaround)
+  (load-library "reftex")
   (after 'evil
     (define-key evil-normal-state-map (kbd "C-S-j") 'flyspell-goto-next-error)
     (define-key evil-normal-state-map (kbd "C-S-k") 'flyspell-check-previous-highlighted-word)))
@@ -247,6 +248,20 @@
      ("\\subsection{%s}" . "\\subsection*{%s}")
      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
      ("\\paragraph{%s}" . "\\paragraph*{%s}")))
+
+;; RefTeX formats for biblatex (not natbib)
+;; C-c [ and one the below citing styles
+(setq reftex-cite-format
+      '(
+        (?\C-m . "\\cite[]{%l}")
+        (?t . "\\textcite{%l}")
+        (?a . "\\autocite[]{%l}")
+        (?p . "\\parencite{%l}")
+        (?f . "\\footcite[][]{%l}")
+        (?F . "\\fullcite[]{%l}")
+        (?x . "[]{%l}")
+        (?X . "{%l}")
+        ))
 
 ;; Calendar Settings
 (require-package 'calfw)
