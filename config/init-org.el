@@ -161,12 +161,12 @@
 
 (setq org-clock-into-drawer t)
 (setq org-latex-minted-options
-           '(("frame" "leftline")
-             ("fontsize" "\\scriptsize")
-             ("bgcolor" "bg")
-             ("stepnumber" "2")
-             ("mathescape" "true")
-             ("linenos" "true")))
+      '(("frame" "leftline")
+        ("fontsize" "\\scriptsize")
+        ("bgcolor" "bg")
+        ("stepnumber" "2")
+        ("mathescape" "true")
+        ("linenos" "true")))
 
 ;; Open PDFs after Export with Zathura
 (custom-set-variables '(org-file-apps (quote ((auto-mode . emacs) ("\\.mm\\'" . default) ("\\.x?html?\\'" . default) ("\\.pdf\\'" . "zathura %s")))))
@@ -179,8 +179,8 @@
   (setq org-latex-classes nil))
 
 (add-to-list 'org-latex-classes
-  '("article-fa"
-"\\documentclass[11pt,a4paper]{article}
+             '("article-fa"
+               "\\documentclass[11pt,a4paper]{article}
 \\usepackage[T1]{fontenc}
 \\usepackage{fontspec}
 \\usepackage{longtable}
@@ -209,16 +209,16 @@
 \\linespread{1.4}
 \\hypersetup{pdfborder=0 0 0}
 \\settextfont{Yas}"
-     ("\\section{%s}" . "\\section*{%s}")
-     ("\\subsection{%s}" . "\\subsection*{%s}")
-     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-     ("\\paragraph{%s}" . "\\paragraph*{%s}")
-     ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
 
 (add-to-list 'org-latex-classes
-  '("assignment"
-"\\documentclass[11pt,a4paper]{article}
+             '("assignment"
+               "\\documentclass[11pt,a4paper]{article}
 \\usepackage[utf8]{inputenc}
 \\usepackage[T1]{fontenc}
 \\usepackage{fixltx2e}
@@ -244,10 +244,11 @@
       [EXTRA]
 \\linespread{1.1}
 \\hypersetup{pdfborder=0 0 0}"
-     ("\\section{%s}" . "\\section*{%s}")
-     ("\\subsection{%s}" . "\\subsection*{%s}")
-     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-     ("\\paragraph{%s}" . "\\paragraph*{%s}")))
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")))
+
 
 ;; RefTeX formats for biblatex (not natbib)
 ;; C-c [ and one the below citing styles
