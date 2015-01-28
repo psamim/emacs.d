@@ -106,7 +106,7 @@
          ;; "FreeFarsi Monospace-17"))
          "B Traffic-15")
         (set-face-font 'default "Ubuntu Mono-15")
-        (set-transparency 0.9)
+        (my-set-transparency 0.9)
           ;; (git-gutter+-toggle-fringe)
           )))
 
