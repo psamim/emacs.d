@@ -40,11 +40,11 @@
     init-smartparens
 
     init-yasnippet
-    ;; init-auto-complete
-    init-company
+    init-auto-complete
+    ;; init-company
 
     init-projectile
-    init-helm
+    ;; init-helm
     init-ido
 
     init-vcs
@@ -63,7 +63,19 @@
     init-bindings
     init-macros
 
-    init-overrides)
+    init-overrides
+
+    init-editor
+    init-git
+    init-flycheck
+    ;; init-latex
+    ;; init-gnus
+    init-ruby
+    init-dired
+    init-r
+    init-sync
+    init-mu)
+
   "Set of modules enabled in dotemacs."
   :group 'dotemacs)
 
@@ -72,3 +84,6 @@
                (dolist (module dotemacs-modules)
                  (with-demoted-errors "######## INIT-ERROR ######## %s"
                    (require module)))))
+(server-force-delete)
+(setq server-socket-dir "/tmp/samim/emacs1000/server")
+(server-start)

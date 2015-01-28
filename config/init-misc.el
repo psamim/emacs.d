@@ -75,6 +75,10 @@
 (require 'framemove)
 (setq framemove-hook-into-windmove t)
 
+;; Samim's confs
+(require-package 'elscreen)
+(require-package 'org)
+(require-package `org-pomodoro)
 
 (require-package 'discover-my-major)
 
