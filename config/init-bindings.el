@@ -24,6 +24,18 @@
 (after 'evil
   (require-package 'key-chord)
   (key-chord-mode 1)
+
+  ;;; The following is just an example of using key-chord in insert mode
+  (defun add-semicolon-and-go-next-line ()
+    "Add a semicolon to the end of line and go to next"
+    (interactive) ; Do the following interactively
+    (end-of-line) ; Move to the end of line
+    (insert ";") ; Add the semicolon
+    ;; (evil-next-line) ; Go to the next line
+    )
+  (key-chord-define evil-insert-state-map ";;" 'add-semicolon-and-go-next-line);
+
+
   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
   (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
   (key-chord-define evil-insert-state-map "jj" 'psamim-add-semicolon-at-the-end-of-line)

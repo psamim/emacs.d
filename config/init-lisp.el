@@ -12,4 +12,10 @@
 (add-hook 'lisp-interaction-mode-hook 'my-lisp-hook)
 (add-hook 'ielm-mode-hook 'my-lisp-hook)
 
+(require-package 'pretty-mode)
+
+(require 'pretty-mode)
+(add-hook 'scheme-mode-hook (lambda () (pretty-mode 1)))
+(add-hook 'emacs-lisp-mode-hook (lambda () (pretty-mode 1)))
+
 (provide 'init-lisp)

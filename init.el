@@ -21,8 +21,8 @@
   (add-to-list 'load-path base)
   (dolist (dir (directory-files base t))
     (when (and (file-directory-p dir)
-               (not (equal (file-name-nondirectory dir) ".."))
-               (not (equal (file-name-nondirectory dir) ".")))
+             (not (equal (file-name-nondirectory dir) ".."))
+             (not (equal (file-name-nondirectory dir) ".")))
       (add-to-list 'load-path dir))))
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
@@ -40,8 +40,8 @@
     init-smartparens
 
     init-yasnippet
-    init-auto-complete
-    ;; init-company
+    ;; init-auto-complete
+    init-company
 
     init-projectile
     ;; init-helm
@@ -65,6 +65,7 @@
 
     init-overrides
 
+    init-python
     init-editor
     init-git
     init-flycheck
@@ -85,5 +86,5 @@
                  (with-demoted-errors "######## INIT-ERROR ######## %s"
                    (require module)))))
 (server-force-delete)
-(setq server-socket-dir "/tmp/samim/emacs1000/server")
+(setq server-socket-dir "/tmp/bersam/emacs1000/server")
 (server-start)

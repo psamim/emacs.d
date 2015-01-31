@@ -28,6 +28,40 @@
   (when (null (yas-expand))
     ad-do-it))
 
+;; Bersam's Config
+;; cc-mode
+(require-package 'cc-mode)
+(require 'cc-mode)
+
+(setq company-backends (delete 'company-semantic company-backends))
+(define-key c-mode-map (kbd "<tab>") 'company-complete)
+(define-key c++-mode-map  (kbd "<tab>") 'company-complete)
+
+(require-package 'company-c-headers)
+
+(add-to-list 'company-backends 'company-c-headers)
+
+;; (global-set-key (kbd "<tab>") 'company-complete)
+
+;; ((nil . ((company-clang-arguments . ("-I/home/<user>/project_root/include1/"
+                                     ;; "-I/home/<user>/project_root/include2/")))))
+
+;(require-package 'function-args)
+;(require 'function-args)
+;(fa-config-default)
+;(define-key c-mode-map  [(contrl tab)] 'moo-complete)
+;(define-key c++-mode-map  [(control tab)] 'moo-complete)
+;(define-key c-mode-map (kbd "M-o")  'fa-show)
+;(define-key c++-mode-map (kbd "M-o")  'fa-show)
+
+(require-package 'anaconda-mode)
+(add-hook 'python-mode-hook 'anaconda-mode)
+
+(require-package 'company-anaconda)
+(add-to-list 'company-backends 'company-anaconda)
+
+;; Psamim's Config
+;; company-mode
 (defun my-company-tab ()
   (interactive)
   (when (null (yas-expand))

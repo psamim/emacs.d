@@ -14,10 +14,11 @@
 (dolist (mode '(vimrc-mode
                 enh-ruby-mode
                 ;; shell-mode term-mode terminal-mode eshell-mode comint-mode skewer-repl-mode
-                html-mode stylus-mode))
+                html-mode
+                ;; c-mode
+                stylus-mode))
   (add-to-list 'ac-modes mode))
 
-(ac-config-default)
 
 (after 'linum
   (ac-linum-workaround))
@@ -34,14 +35,66 @@
 (after 'etags
   (ac-etags-setup))
 
+;; Bersam's configs
+
+(require 'yasnippet)
+(yas-global-mode 1)
+
+(require-package 'auto-complete-c-headers)
+
+(defun my:ac-c-headers-init ()
+  (require 'auto-complete-c-headers)
+  (setq ac-sources (append '(ac-source-c-headers) ac-sources))
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/../../../../include/c++/4.9.1")
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/../../../../include/c++/4.9.1/x86_64-unknown-linux-gnu")
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/../../../../include/c++/4.9.1/backward")
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/include")
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/include-fixed")
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/include-fixed")
+  (add-to-list 'achead:include-directories '"/usr/local/include")
+  (add-to-list 'achead:include-directories '"/usr/include/"))
+
+(add-hook 'c++-mode-hook 'my:ac-c-headers-init)
+(add-hook 'c-mode-hook 'my:ac-c-headers-init)
+
+(require-package 'auto-complete-clang)
+(require 'auto-complete-clang)
+
+;; (setq ac-auto-start nil)
+(setq ac-quick-help-delay 0.5)
+(ac-set-trigger-key "TAB")
+(ac-set-trigger-key "<tab>")
+;; (define-key ac-mode-map  [(control tab)] 'auto-complete)
+;; (define-key ac-mode-map  [(control tab)] 'auto-complete)
+(global-auto-complete-mode t)
+(defun my-ac-cc-mode-setup ()
+  (setq ac-sources (append '(ac-source-clang ac-source-yasnippet) ac-sources)))
+(add-hook 'c-mode-common-hook 'my-ac-cc-mode-setup)
+;; ac-source-gtags
+(setq ac-clang-flags
+      (mapcar (lambda (item)(concat "-I" item))
+              (split-string
+               "
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/../../../../include/c++/4.9.1
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/../../../../include/c++/4.9.1/x86_64-unknown-linux-gnu
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/../../../../include/c++/4.9.1/backward
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/include
+/usr/lib/gcc/x86_64-unknown-linux-gnu/4.9.1/include-fixed
+/usr/local/include
+/usr/include
+/usr/include/GL/
+"
+               )))
+
+;; Bersam's End
 
 ;; Samim's configs
 (setq ac-disable-faces nil)
 
- (ac-config-default)
+(ac-config-default)
 (setq-default ac-sources
     	'(ac-source-filename
-          ac-source-files-in-current-dir
+        ac-source-files-in-current-dir
         ;ac-etags
         ;ac-source-abbrev
         ac-source-dictionary
