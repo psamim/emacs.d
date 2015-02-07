@@ -1,5 +1,5 @@
 (defcustom dotemacs-completion-engine
-  'company
+  'auto-complete
   "The completion engine the use."
   :type '(radio
           (const :tag "company-mode" company)
