@@ -137,5 +137,7 @@
           (unless (or (eobp) (eolp)) (forward-char))
           ad-do-it)
       ad-do-it)))
+;; Samim's conf
+(evil-mode t)
 
 (provide 'init-evil)

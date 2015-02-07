@@ -19,24 +19,29 @@
   (key-chord-mode 1)
   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
   (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
+  (key-chord-define evil-insert-state-map "jj" 'psamim-add-semicolon-at-the-end-of-line)
 
   (after "evil-leader-autoloads"
-    (evil-leader/set-leader ",")
+    (evil-leader/set-leader "<SPC>")
     (evil-leader/set-key
+      "c" 'evilnc-comment-or-uncomment-lines
       "w" 'save-buffer
+      "ص" 'save-buffer
       "e" 'eval-last-sexp
       ", e" 'eval-defun
       "E" 'eval-defun
       "f" 'ctl-x-5-prefix
-      "c" 'my-new-eshell-split
+      "t" 'my-new-eshell-split
       "C" 'customize-group
       "b d" 'kill-this-buffer
       "v" (kbd "C-w v C-w l")
-      "s" (kbd "C-w s C-w j")
+      "h" (kbd "C-w s C-w j")
       "P" 'package-list-packages
-      "V" (bind (term "vim"))
-      "h" help-map
-      "h h" 'help-for-help-internal)
+      ;; "V" (bind (term "vim"))
+      ;; "h" help-map
+      "b" 'switch-to-buffer
+      "d" 'dired-jump)
+    ;; "h h" 'help-for-help-internal)
 
     (after "paradox-autoloads"
       (evil-leader/set-key "P" 'paradox-list-packages))
@@ -60,7 +65,7 @@
     (evil-ex-define-cmd "Gw" (bind (git-gutter+-stage-whole-buffer))))
 
   (define-key evil-normal-state-map (kbd "SPC o") 'imenu)
-  (define-key evil-normal-state-map (kbd "SPC b") 'switch-to-buffer)
+  ;; (define-key evil-normal-state-map (kbd "SPC b") 'switch-to-buffer)
   (define-key evil-normal-state-map (kbd "SPC k") 'ido-kill-buffer)
   (define-key evil-normal-state-map (kbd "SPC f") 'ido-find-file)
 
@@ -89,9 +94,8 @@
   (define-key evil-normal-state-map (kbd "] e") (kbd "ddp"))
   (define-key evil-normal-state-map (kbd "[ b") 'previous-buffer)
   (define-key evil-normal-state-map (kbd "] b") 'next-buffer)
-  (define-key evil-normal-state-map (kbd "[ q") 'previous-error)
-  (define-key evil-normal-state-map (kbd "] q") 'next-error)
-
+  (define-key evil-normal-state-map (kbd "[ q") 'flycheck-previous-error)
+  (define-key evil-normal-state-map (kbd "] q") 'flycheck-next-error)
   (define-key evil-normal-state-map (kbd "g p") (kbd "` [ v ` ]"))
 
   (after "etags-select-autoloads"
@@ -177,6 +181,7 @@
   (global-set-key [f2] 'project-explorer-open)
   (autoload 'pe/show-file "project-explorer")
   (global-set-key [f3] 'pe/show-file)
+  (define-key evil-normal-state-map (kbd "SPC D")  'pe/show-file)
   (after 'project-explorer
     (define-key project-explorer-mode-map (kbd "C-l") 'evil-window-right)))
 
@@ -271,11 +276,41 @@
 
 ;; replace with [r]eally [q]uit
 (global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
-(global-set-key (kbd "C-x C-c") (bind (message "Thou shall not quit!")))
+;; (global-set-key (kbd "C-x C-c") (bind (message "Thou shall not quit!")))
+;; (after 'evil
+;;   (defadvice evil-quit (around advice-for-evil-quit activate)
+;;     (message "Thou shall not quit!"))
+;;   (defadvice evil-quit-all (around advice-for-evil-quit-all activate)
+;;     (message "Thou shall not quit!")))
+
+;; Samim's confs
+(global-set-key (kbd "<f11>") 'psamim-switch-full-screen)
+
+;; Farsi keyboard layout bindings
 (after 'evil
-  (defadvice evil-quit (around advice-for-evil-quit activate)
-    (message "Thou shall not quit!"))
-  (defadvice evil-quit-all (around advice-for-evil-quit-all activate)
-    (message "Thou shall not quit!")))
+  (define-key evil-motion-state-map "ت" 'evil-next-visual-line)
+  (define-key evil-motion-state-map "ن" 'evil-previous-visual-line)
+  (define-key evil-motion-state-map "ؤ" 'evil-append-line)
+  (define-key evil-motion-state-map "ا" 'evil-forward-char)
+  (define-key evil-motion-state-map "م" 'evil-backward-char)
+  (define-key evil-motion-state-map "ه" 'evil-insert)
+  (define-key evil-motion-state-map "ه" 'evil-insert)
+  (define-key evil-motion-state-map "ی" 'evil-delete)
+  (define-key evil-motion-state-map "ط" 'evil-delete-char)
+  (define-key evil-motion-state-map "ع" 'undo-tree-undo)
+  (define-key evil-motion-state-map "خ" (bind (evil-insert-newline-below) (forward-line -1)))
+  (define-key evil-normal-state-map "غ" 'evil-yank)
+  (define-key evil-normal-state-map "ح" 'evil-paste-after)
+  (define-key evil-normal-state-map "ر" 'evil-visual-char)
+  (define-key evil-normal-state-map "ٰ" 'evil-visual-line)
+  (define-key evil-normal-state-map "ش" 'evil-append)
+  (define-key evil-normal-state-map "ؤ" 'evil-append-line)
+  (define-key evil-normal-state-map "ز" 'evil-change)
+  (define-key evil-normal-state-map "ژ" 'evil-change-line)
+  (define-key evil-normal-state-map "ي" 'evil-delete-line)
+  (define-key evil-normal-state-map (kbd "C-ا") 'evil-window-left)
+  (define-key evil-normal-state-map (kbd "C-ت") 'evil-window-down)
+  (define-key evil-normal-state-map (kbd "C-ن") 'evil-window-up)
+  (define-key evil-normal-state-map (kbd "C-م") 'evil-window-right))
 
 (provide 'init-bindings)

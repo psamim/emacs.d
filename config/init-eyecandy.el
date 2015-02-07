@@ -3,9 +3,9 @@
 
 
 (line-number-mode t)
-(column-number-mode t)
-(display-time-mode t)
-(size-indication-mode t)
+;; (column-number-mode nil)
+;; (display-time-mode nil)
+;; (size-indication-mode nil)
 
 
 (defun my-fold-overlay (ov)
@@ -36,13 +36,15 @@
 (after 'magit (diminish 'magit-auto-revert-mode))
 (after 'highlight-symbol (diminish 'highlight-symbol-mode))
 (after 'indent-guide (diminish 'indent-guide-mode))
+(after 'flycheck (diminish 'flycheck-mode))
 
 
-(require-package 'smart-mode-line)
-(setq sml/show-client t)
-(setq sml/show-eol t)
-(setq sml/show-frame-identification t)
-(sml/setup)
+;; Samim diabled sml
+;; (require-package 'smart-mode-line)
+;; (setq sml/show-client nil)
+;; (setq sml/show-eol nil)
+;; (setq sml/show-frame-identification nil)
+;; (sml/setup)
 
 
 (if (fboundp 'global-prettify-symbols-mode)
@@ -67,8 +69,8 @@
 (diminish 'color-identifiers-mode)
 
 
-;; (require-package 'fancy-narrow)
-;; (fancy-narrow-mode)
+(require-package 'fancy-narrow)
+(fancy-narrow-mode)
 
 
 (require-package 'highlight-symbol)
@@ -82,15 +84,55 @@
 (add-hook 'prog-mode-hook 'highlight-quoted-mode)
 
 
+(require-package 'indent-guide)
 ;; this is pretty slow on big files
-;; (require-package 'indent-guide)
-;; (require 'indent-guide)
-;; (setq indent-guide-recursive t)
-;; (add-to-list 'indent-guide-inhibit-modes 'package-menu-mode)
-;; (indent-guide-global-mode)
-
+(require 'indent-guide)
+(setq indent-guide-recursive t)
+(add-to-list 'indent-guide-inhibit-modes 'package-menu-mode)
+(add-to-list 'indent-guide-inhibit-modes 'mu4e-main-mode)
+(indent-guide-global-mode)
+(setq indent-guide-char "¦")
 
 (add-hook 'find-file-hook 'hl-line-mode)
+
+;; Samim's confs
+(defun psamim-set-window-fonts (&rest frame)
+  (if (display-graphic-p)
+      (progn
+        (set-fontset-font "fontset-default" 'unicode "Dejavu Sans Mono")
+        (set-fontset-font
+         "fontset-default"
+         (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
+         ;; "FreeFarsi Monospace-17"))
+         "B Traffic-15")
+        (set-face-font 'default "Ubuntu Mono-15")
+        (my-set-transparency 0.9)
+          ;; (git-gutter+-toggle-fringe)
+          )))
+
+(require-package 'solarized-theme)
+(load-theme 'solarized-light)
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ ; '(secondary-selection ((t (:background "#002B36")))))
+ )
+
+(require-package 'writeroom-mode)
+
+(menu-bar-mode -1)
+
+(require 'elscreen)
+(elscreen-start)
+(elscreen-toggle-display-tab)
+
+(setq frame-title-format
+  '("emacs%@" (:eval (system-name)) ": " (:eval (if (buffer-file-name)
+                (abbreviate-file-name (buffer-file-name))
+                  "%b")) " [%*]"))
 
 
 (provide 'init-eyecandy)
