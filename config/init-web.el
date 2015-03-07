@@ -66,4 +66,15 @@
 (autoload 'turn-on-css-eldoc "css-eldoc")
 (add-hook 'css-mode-hook 'turn-on-css-eldoc)
 
+;; Bersam's Configs
+
+(require-package 'less-css-mode)
+(require 'less-css-mode)
+
+(require-package 'js2-mode)
+(require 'js2-mode)
+
+(setq-default js2-basic-offset 2)
+(setq js-indent-level 2)
+
 (provide 'init-web)
