@@ -21,7 +21,7 @@
   (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
   (key-chord-define evil-insert-state-map "jj" 'psamim-add-semicolon-at-the-end-of-line)
 
-  (after "evil-leader-autoloads"
+  (after 'evil-leader
     (evil-leader/set-leader "<SPC>")
     (evil-leader/set-key
       "c" 'evilnc-comment-or-uncomment-lines
@@ -72,7 +72,7 @@
   (after "helm-autoloads"
     (define-key evil-visual-state-map (kbd "SPC SPC") 'helm-M-x)
     (define-key evil-normal-state-map (kbd "SPC SPC") 'helm-M-x)
-    (define-key evil-normal-state-map (kbd "SPC b") 'helm-buffers-list)
+    (define-key evil-normal-state-map (kbd "SPC b") 'helm-mini)
     (define-key evil-normal-state-map (kbd "g b") 'helm-mini)
     (define-key evil-normal-state-map (kbd "SPC a") 'helm-apropos)
     (define-key evil-normal-state-map (kbd "SPC f") 'helm-find-files)
@@ -136,7 +136,10 @@
       (cond ((executable-find "pt")
              (define-key evil-normal-state-map binding 'projectile-pt))
             ((executable-find "ag")
-             (define-key evil-normal-state-map binding 'projectile-ag))
+             (define-key evil-normal-state-map binding
+	       (bind
+		(setq current-prefix-arg t)
+		(call-interactively #'projectile-ag))))
             ((executable-find "ack")
              (define-key evil-normal-state-map binding 'projectile-ack))
             (t
@@ -240,10 +243,11 @@
             (local-set-key (kbd "C-c h") #'my-eshell-ido-complete-command-history)))
 
 
-(define-key help-mode-map (kbd "n") 'next-line)
-(define-key help-mode-map (kbd "p") 'previous-line)
-(define-key help-mode-map (kbd "j") 'next-line)
-(define-key help-mode-map (kbd "k") 'previous-line)
+(after 'help-mode
+  (define-key help-mode-map (kbd "n") 'next-line)
+  (define-key help-mode-map (kbd "p") 'previous-line)
+  (define-key help-mode-map (kbd "j") 'next-line)
+  (define-key help-mode-map (kbd "k") 'previous-line))
 
 
 (global-set-key [prior] 'previous-buffer)

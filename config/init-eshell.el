@@ -1,13 +1,22 @@
-(defcustom dotemacs-eshell-plan9
+(defgroup dotemacs-eshell nil
+  "Configuration options for eshell-mode."
+  :group 'dotemacs
+  :prefix 'dotemacs-eshell)
+
+(defcustom dotemacs-eshell/plan9
   nil
   "Turns on Plan9 style prompt in eshell when non-nil."
-  :group 'dotemacs)
+  :group 'dotemacs-eshell)
 
 
 ;; eshell
 (setq eshell-directory-name (concat dotemacs-cache-directory "eshell"))
 (setq eshell-scroll-to-bottom-on-input 'all)
 (setq eshell-buffer-shorthand t)
+
+(when (executable-find "fortune")
+  (defadvice eshell (before advice-for-eshell activate)
+    (setq eshell-banner-message (concat (shell-command-to-string "fortune") "\n"))))
 
 
 ;; em-alias
@@ -28,7 +37,7 @@
 
 
 ;; plan 9 smart shell
-(when dotemacs-eshell-plan9
+(when dotemacs-eshell/plan9
   (after 'esh-module
     (add-to-list 'eshell-modules-list 'eshell-smart)
     (setq eshell-where-to-jump 'begin)
@@ -87,6 +96,13 @@
   (split-window)
   (setq my-eshell-buffer-count (+ 1 my-eshell-buffer-count))
   (eshell my-eshell-buffer-count))
+
+
+(add-hook 'eshell-mode-hook
+	  (lambda ()
+	    ;; get rid of annoying 'terminal is not fully functional' warning
+	    (when (executable-find "cat")
+	      (setenv "PAGER" "cat"))))
 
 
 (provide 'init-eshell)

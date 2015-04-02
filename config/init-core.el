@@ -1,4 +1,5 @@
 (require 'server)
+(setq server-socket-dir "/tmp/samim/emacs1000/server")
 (unless (server-running-p)
   (server-start))
 
@@ -15,7 +16,7 @@
       savehist-additional-variables '(search ring regexp-search-ring)
       savehist-autosave-interval 60
       history-length 1000)
-(savehist-mode +1)
+(savehist-mode t)
 
 
 ;; recent files
@@ -23,21 +24,14 @@
 (setq recentf-save-file (concat dotemacs-cache-directory "recentf"))
 (setq recentf-max-saved-items 1000)
 (setq recentf-max-menu-items 500)
+(setq recentf-auto-cleanup 300)
 (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
-(recentf-mode +1)
+(recentf-mode t)
 (run-with-timer 1800 1800 'recentf-save-list)
 
 
 ;; pcomplete
 (setq pcomplete-ignore-case t)
-
-
-;; erc
-(setq erc-log-channels-directory (concat dotemacs-cache-directory "erc/logs"))
-
-
-;; vc
-(setq vc-make-backup-files t)
 
 
 ;; imenu
@@ -93,12 +87,13 @@
 
 ;; clean up old buffers periodically
 (require 'midnight)
+(midnight-delay-set 'midnight-delay 0)
 
 
 ;; ibuffer
 (setq ibuffer-expert t)
 (setq ibuffer-show-empty-filter-groups nil)
-(add-hook 'ibuffer-mode-hook (lambda () (ibuffer-auto-mode t)))
+(add-hook 'ibuffer-mode-hook #'ibuffer-auto-mode)
 
 
 ;; store most files in the cache
@@ -133,7 +128,6 @@
 
 
 (defalias 'yes-or-no-p 'y-or-n-p)
-(xterm-mouse-mode t)
 
 
 (set-terminal-coding-system 'utf-8)
@@ -144,7 +138,7 @@
 
 (setq sentence-end-double-space nil)
 (setq delete-by-moving-to-trash t)
-(setq ring-bell-function (lambda () ()))
+(setq ring-bell-function 'ignore)
 (setq mark-ring-max 64)
 (setq global-mark-ring-max 128)
 (setq save-interprogram-paste-before-kill t)
@@ -152,39 +146,37 @@
 (setq echo-keystrokes 0.01)
 (setq gc-cons-threshold 10000000)
 (setq initial-major-mode 'emacs-lisp-mode)
+(setq-default indent-tabs-mode nil)
 
 (setq inhibit-splash-screen t)
 (setq inhibit-startup-echo-area-message t)
 (setq inhibit-startup-message t)
 
 
+(xterm-mouse-mode t)
 (which-function-mode t)
 (blink-cursor-mode -1)
-(global-auto-revert-mode 1)
+(global-auto-revert-mode t)
 (electric-indent-mode t)
 (electric-pair-mode t)
-(transient-mark-mode 1)
-(delete-selection-mode 1)
-
-
-(setq-default
- indent-tabs-mode nil)
+(transient-mark-mode t)
+(delete-selection-mode t)
+(random t) ;; seed
 
 
 (defun my-find-file-check-large-file ()
   (when (> (buffer-size) (* 1024 1024))
     (setq buffer-read-only t)
     (buffer-disable-undo)
+    (when (fboundp #'undo-tree-mode)
+      (undo-tree-mode -1))
     (fundamental-mode)))
 
 
 (add-hook 'find-file-hook (lambda ()
-                            (my-find-file-check-large-file)
-                            (visual-line-mode)
                             (unless (eq major-mode 'org-mode)
                               (setq show-trailing-whitespace t))))
-
-
-(random t) ;; seed
+(add-hook 'find-file-hook #'visual-line-mode)
+(add-hook 'find-file-hook #'my-find-file-check-large-file)
 
 (provide 'init-core)

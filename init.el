@@ -6,82 +6,70 @@
   "The storage location for various persistent files."
   :group 'dotemacs)
 
+(defcustom dotemacs-completion-engine
+  'auto-complete
+  "The completion engine the use."
+  :type '(radio
+          (const :tag "company-mode" company)
+          (const :tag "auto-complete-mode" auto-complete))
+  :group 'dotemacs)
+
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (unless (display-graphic-p) (menu-bar-mode -1))
 
-(add-to-list 'load-path (concat user-emacs-directory "config"))
+(add-to-list 'load-path (concat user-emacs-directory "/config"))
+(let ((base (concat user-emacs-directory "/elisp")))
+  (add-to-list 'load-path base)
+  (dolist (dir (directory-files base t "^[^.]"))
+    (when (file-directory-p dir)
+      (add-to-list 'load-path dir))))
 
 (require 'cl)
 (require 'init-packages)
 (require 'init-util)
 
-(let ((base (concat user-emacs-directory "elisp")))
-  (add-to-list 'load-path base)
-  (dolist (dir (directory-files base t))
-    (when (and (file-directory-p dir)
-               (not (equal (file-name-nondirectory dir) ".."))
-               (not (equal (file-name-nondirectory dir) ".")))
-      (add-to-list 'load-path dir))))
-
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
 
-(defcustom dotemacs-modules
-  '(init-core
+(let ((debug-on-error t))
+  (require 'init-core)
 
-    init-eshell
-    init-org
-    init-erc
-    init-eyecandy
+  (require 'init-eshell)
+  (require 'init-erc)
 
-    init-yasnippet
-    init-completion
+  (if (eq dotemacs-completion-engine 'company)
+      (require 'init-company)
+    (require 'init-auto-complete))
 
-    init-projectile
-    init-helm
-    init-ido
+  (require 'init-lisp)
+  (require 'init-org)
+  (require 'init-vim)
+  (require 'init-stylus)
+  (require 'init-js)
+  (require 'init-go)
+  (require 'init-web)
+  (require 'init-markup)
 
-    init-vcs
-    init-flycheck
+  (require 'init-projectile)
+  (require 'init-helm)
+  (require 'init-ido)
+  (require 'init-vcs)
+  (require 'init-flycheck)
+  (require 'init-yasnippet)
+  (require 'init-smartparens)
+  (require 'init-misc)
 
-    init-lisp
+  (require 'init-evil)
+  (require 'init-macros)
+  (require 'init-eyecandy)
+  (require 'init-overrides)
 
-    init-vim
-    init-stylus
-    init-js
-    init-go
-    init-web
-    init-markup
+  (require 'init-bindings)
 
-    init-smartparens
-    init-misc
-    init-evil
-    init-bindings
-    init-macros
-
-    init-overrides
-
-    init-editor
-    init-git
-    init-flycheck
-    ;; init-latex
-    ;; init-gnus
-    init-ruby
-    init-dired
-    init-r
-    init-sync
-    init-mu)
-
-  "Set of modules enabled in dotemacs."
-  :group 'dotemacs)
-
-(add-to-list 'after-init-hook
-             (lambda ()
-               (dolist (module dotemacs-modules)
-                 (with-demoted-errors "######## INIT-ERROR ######## %s"
-                   (require module)))))
-(server-force-delete)
-(setq server-socket-dir "/tmp/samim/emacs1000/server")
-(server-start)
+  (require 'init-ruby)
+  (require 'init-dired)
+  (require 'init-r)
+  (require 'init-sync)
+  (require 'init-mu))
