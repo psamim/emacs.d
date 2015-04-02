@@ -99,13 +99,13 @@
 (defun psamim-set-window-fonts (&rest frame)
   (if (display-graphic-p)
       (progn
-        (set-fontset-font "fontset-default" 'unicode "Dejavu Sans Mono")
+        (set-fontset-font "fontset-default" 'unicode "Fantasque Sans Mono")
         (set-fontset-font
          "fontset-default"
          (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
          ;; "FreeFarsi Monospace-17"))
          "B Traffic-15")
-        (set-face-font 'default "Ubuntu Mono-15")
+        (set-face-font 'default "Fantasque Sans Mono-15")
         (my-set-transparency 0.9)
           ;; (git-gutter+-toggle-fringe)
           )))
