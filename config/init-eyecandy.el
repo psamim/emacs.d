@@ -105,12 +105,12 @@
          ;; "FreeFarsi Monospace-17"))
          "B Traffic-15")
         (set-face-font 'default "Fantasque Sans Mono-15")
-        (my-set-transparency 0.9)
-          ;; (git-gutter+-toggle-fringe)
-          )))
+        (my-set-transparency 0.94)
+        ;; (git-gutter+-toggle-fringe)
+        )))
 
 (require-package 'solarized-theme)
-(load-theme 'solarized-light)
+(load-theme 'solarized-dark)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
