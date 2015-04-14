@@ -179,6 +179,45 @@
   (setq org-latex-classes nil))
 
 (add-to-list 'org-latex-classes
+             '("doc-fa"
+               "\\documentclass[11pt,a4paper]{article}
+\\usepackage[T1]{fontenc}
+\\usepackage{fontspec}
+\\usepackage{longtable}
+\\usepackage{graphicx}
+\\usepackage{geometry}
+\\usepackage{float}
+\\usepackage{wrapfig}
+\\usepackage{rotating}
+\\usepackage[normalem]{ulem}
+\\usepackage{amsmath}
+\\usepackage{textcomp}
+\\usepackage{marvosym}
+\\usepackage{wasysym}
+\\usepackage{amssymb}
+\\usepackage{hyperref}
+\\usepackage{enumerate}
+\\usepackage{color}
+\\definecolor{bg}{rgb}{0.95,0.95,0.95}
+\\geometry{a4paper, textwidth=6.5in, textheight=10in,
+            marginparsep=7pt, marginparwidth=.6in}
+\\pagestyle{empty}
+      [NO-DEFAULT-PACKAGES]
+      [PACKAGES]
+      [EXTRA]
+\\usepackage{xepersian}
+\\linespread{1.4}
+\\hypersetup{pdfborder=0 0 0}
+\\let\\oldtextbf\\textbf
+\\renewcommand{\\textbf}[1]{\\textcolor{red}{\\oldtextbf{#1}}}
+\\settextfont{XB Yas}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+(add-to-list 'org-latex-classes
              '("article-fa"
                "\\documentclass[11pt,a4paper]{article}
 \\usepackage[T1]{fontenc}

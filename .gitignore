@@ -1,3 +1,5 @@
 /.cache/
 /custom.el
 /elpa/
+/session*
+/tramp
