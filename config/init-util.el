@@ -198,4 +198,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (interactive)
   (find-file (file-name-directory buffer-file-name)))
 
-(provide 'init-util)
+(defun psamim-open-todo()
+  (interactive)
+  (find-file "~/Notes/todo.org")
+  (writeroom-mode))
+
+  (provide 'init-util)
