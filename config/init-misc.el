@@ -115,5 +115,13 @@
     (require-package 'exec-path-from-shell)
     (exec-path-from-shell-initialize)))
 
+(require-package 'cider)
+(require 'cider)
+(setq cider-show-error-buffer nil)
+(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+(setq cider-repl-result-prefix ";; => ")
+(setq cider-repl-use-clojure-font-lock t)
+(add-hook 'cider-repl-mode-hook 'company-mode)
+(add-hook 'cider-mode-hook 'company-mode)
 
 (provide 'init-misc)
