@@ -198,6 +198,8 @@
 \\usepackage{hyperref}
 \\usepackage{enumerate}
 \\usepackage{color}
+\\usepackage{fancyhdr}
+\\usepackage{lastpage}
 \\definecolor{bg}{rgb}{0.95,0.95,0.95}
 \\geometry{a4paper, textwidth=6.5in, textheight=10in,
             marginparsep=7pt, marginparwidth=.6in}
@@ -210,6 +212,13 @@
 \\hypersetup{pdfborder=0 0 0}
 \\let\\oldtextbf\\textbf
 \\renewcommand{\\textbf}[1]{\\textcolor{red}{\\oldtextbf{#1}}}
+\\pagestyle{fancy}
+\\fancyhead{}
+\\fancyfoot[R]{محل نگهداری: واحد برنامه‌نویسی}
+\\fancyfoot[L]{سطح دسترسی: برنامه‌نویس}
+\\fancyfoot[C]{\\pageref{LastPage} / \\thepage }
+\\renewcommand{\\footrulewidth}{1pt}
+\\renewcommand{\\headrulewidth}{0pt}
 \\settextfont{XB Yas}"
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
@@ -247,7 +256,7 @@
 \\usepackage{xepersian}
 \\linespread{1.4}
 \\hypersetup{pdfborder=0 0 0}
-\\settextfont{Yas}"
+\\settextfont{XB Yas}"
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
