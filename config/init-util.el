@@ -129,6 +129,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (interactive)
   (set-buffer-file-coding-system 'undecided-dos nil))
 
+<<<<<<< HEAD
 (defun require-package (package)
   "Ensures that PACKAGE is installed."
   (unless (or (package-installed-p package)
@@ -138,6 +139,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (package-install package)))
 
 ;; Samim's cofs
+=======
+;; Samim's functions
+>>>>>>> master
 
 (defun psamim-add-semicolon-at-the-end-of-line ()
   "Add a semicolon to the end of line and go to next"
@@ -164,8 +168,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
                          (read-string "Search DDG: "))))))
 
 (defun psamim-switch-full-screen ()
- (interactive)
- (shell-command "wmctrl -r :ACTIVE: -btoggle,fullscreen"))
+  (interactive)
+  (shell-command "wmctrl -r :ACTIVE: -btoggle,fullscreen"))
 
 (defun psamim-new-daily-journal ()
   (interactive)
@@ -213,4 +217,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (interactive)
   (find-file (file-name-directory buffer-file-name)))
 
+<<<<<<< HEAD
 (provide 'init-util)
+=======
+(defun psamim-open-todo()
+  (interactive)
+  (find-file "~/Notes/todo.org")
+  (writeroom-mode))
+
+  (provide 'init-util)
+>>>>>>> master

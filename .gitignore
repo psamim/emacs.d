@@ -1,0 +1,7 @@
+/.cache/
+/custom.el
+/elpa/
+/session*
+/tramp
+/image-dired/
+/.mc-lists.el

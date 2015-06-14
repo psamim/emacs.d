@@ -33,7 +33,6 @@
 
   )
 
-
 ;; Samim's configs
 (setq ac-disable-faces nil)
 

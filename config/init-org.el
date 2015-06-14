@@ -1,5 +1,5 @@
 (require 'org)
-(setq org-default-notes-file "~/Note/notes.org"
+(setq org-default-notes-file "~/Dropbox/notes/notes.org"
       org-log-done t
       org-startup-indented t
       org-export-babel-evaluate nil
@@ -93,51 +93,51 @@
 ; Custom agendas and trees
 (setq org-agenda-custom-commands
       (quote (
-        ("tt" "All todos" tags-tree "TODO=\"TODO\"|TODO=\"NEXT\"")
-        ("tn" "All todos" tags-tree "TODO=\"NEXT\"")
-        ("un" "@uni NEXT" tags-tree "@uni+TODO=\"NEXT\"")
-        ("ut" "@uni TODO" tags-tree "@uni+TODO=\"TODO\"")
-        ("ua" "@uni ALL" tags-tree "@uni+TODO=\"NEXT\"|@uni+TODO=\"TODO\"")
-        ("wn" "@work NEXT" tags-tree "@work+TODO=\"NEXT\"")
-        ("wt" "@work TODO" tags-tree "@work+TODO=\"TODO\"")
-        ("wa" "@work ALL" tags-tree "@work+TODO=\"NEXT\"|@work+TODO=\"TODO\"")
-        ;; ("mn" "@me NEXT" tags-tree "@me+TODO=\"NEXT\"|@tasks+TODO=\"NEXT\"")
-        ;; ("mt" "@me TODO" tags-tree "@me+TODO=\"TODO\"|@tasks+TODO=\"TODO\"")
-        ;; ("ma" "@me ALL" tags-tree "@me+TODO=\"TODO\"|@tasks+TODO=\"TODO\"|@me+TODO=\"NEXT\"|@tasks+TODO=\"NEXT\"")
+              ("tt" "All todos" tags-tree "TODO=\"TODO\"|TODO=\"NEXT\"")
+              ("tn" "All todos" tags-tree "TODO=\"NEXT\"")
+              ("un" "@uni NEXT" tags-tree "@uni+TODO=\"NEXT\"")
+              ("ut" "@uni TODO" tags-tree "@uni+TODO=\"TODO\"")
+              ("ua" "@uni ALL" tags-tree "@uni+TODO=\"NEXT\"|@uni+TODO=\"TODO\"")
+              ("wn" "@work NEXT" tags-tree "@work+TODO=\"NEXT\"")
+              ("wt" "@work TODO" tags-tree "@work+TODO=\"TODO\"")
+              ("wa" "@work ALL" tags-tree "@work+TODO=\"NEXT\"|@work+TODO=\"TODO\"")
+              ;; ("mn" "@me NEXT" tags-tree "@me+TODO=\"NEXT\"|@tasks+TODO=\"NEXT\"")
+              ;; ("mt" "@me TODO" tags-tree "@me+TODO=\"TODO\"|@tasks+TODO=\"TODO\"")
+              ;; ("ma" "@me ALL" tags-tree "@me+TODO=\"TODO\"|@tasks+TODO=\"TODO\"|@me+TODO=\"NEXT\"|@tasks+TODO=\"NEXT\"")
 
-       ("wg" "Work Agenda"
-         (
-          (tags-todo "@work+TODO=\"NEXT\"")
-          (tags-todo "@work+TODO=\"TODO\"")
-          )
-         ((org-agenda-compact-blocks t))) ;; options set here apply to the entire block
+              ("wg" "Work Agenda"
+               (
+                (tags-todo "@work+TODO=\"NEXT\"")
+                (tags-todo "@work+TODO=\"TODO\"")
+                )
+               ((org-agenda-compact-blocks t))) ;; options set here apply to the entire block
 
-        ("ug" "Uni Agenda"
-         (
-          (tags-todo "@uni+TODO=\"NEXT\"")
-          (tags-todo "@uni+TODO=\"TODO\"")
-          )
-         ((org-agenda-compact-blocks t))) ;; options set here apply to the entire block
+              ("ug" "Uni Agenda"
+               (
+                (tags-todo "@uni+TODO=\"NEXT\"")
+                (tags-todo "@uni+TODO=\"TODO\"")
+                )
+               ((org-agenda-compact-blocks t))) ;; options set here apply to the entire block
 
-        ("mg" "Me Agenda"
-         (
-          (tags-todo "@me+TODO=\"NEXT\"|@tasks+TODO=\"NEXT\"")
-          (tags-todo "@me+TODO=\"TODO\"|@tasks+TODO=\"TODO\"")
-          )
-         ((org-agenda-compact-blocks t))) ;; options set here apply to the entire block
+              ("mg" "Me Agenda"
+               (
+                (tags-todo "@me+TODO=\"NEXT\"|@tasks+TODO=\"NEXT\"")
+                (tags-todo "@me+TODO=\"TODO\"|@tasks+TODO=\"TODO\"")
+                )
+               ((org-agenda-compact-blocks t))) ;; options set here apply to the entire block
 
-        )))
+              )))
 
 
-(setq org-agenda-files (quote ("~/Note/todo.org")))
+(setq org-agenda-files (quote ("~/Dropbox/notes/todo.org")))
 ;; (setq org-mobile-directory "~/Owncloud/orgs")
 ;; (setq org-mobile-directory "~/.orgs/mob")
-(setq org-directory "~/Note")
-;; (setq org-mobile-inbox-for-pull "~/Note/mob.org")
-(setq org-archive-location "~/Note/archive/todo.org::")
+(setq org-directory "~/Dropbox/notes")
+;; (setq org-mobile-inbox-for-pull "~/Dropbox/notes/mob.org")
+(setq org-archive-location "~/Dropbox/notes/archive/todo.org::")
 (setq org-refile-targets (quote ((nil :maxlevel . 9)
                                  (org-agenda-files :maxlevel . 2)
-                                 ("~/Note/ideas.org" :maxlevel . 1))))
+                                 ("~/Dropbox/notes/ideas.org" :maxlevel . 1))))
 ;; Syntax Highlighting
 ;; http://joat-programmer.blogspot.com/2013/07/org-mode-version-8-and-pdf-export-with.html
 ;; Include the latex-exporter
@@ -179,6 +179,54 @@
   (setq org-latex-classes nil))
 
 (add-to-list 'org-latex-classes
+             '("doc-fa"
+               "\\documentclass[11pt,a4paper]{article}
+\\usepackage[T1]{fontenc}
+\\usepackage{fontspec}
+\\usepackage{longtable}
+\\usepackage{graphicx}
+\\usepackage{geometry}
+\\usepackage{float}
+\\usepackage{wrapfig}
+\\usepackage{rotating}
+\\usepackage[normalem]{ulem}
+\\usepackage{amsmath}
+\\usepackage{textcomp}
+\\usepackage{marvosym}
+\\usepackage{wasysym}
+\\usepackage{amssymb}
+\\usepackage{hyperref}
+\\usepackage{enumerate}
+\\usepackage{color}
+\\usepackage{fancyhdr}
+\\usepackage{lastpage}
+\\definecolor{bg}{rgb}{0.95,0.95,0.95}
+\\geometry{a4paper, textwidth=6.5in, textheight=10in,
+            marginparsep=7pt, marginparwidth=.6in}
+\\pagestyle{empty}
+      [NO-DEFAULT-PACKAGES]
+      [PACKAGES]
+      [EXTRA]
+\\usepackage{xepersian}
+\\linespread{1.4}
+\\hypersetup{pdfborder=0 0 0}
+\\let\\oldtextbf\\textbf
+\\renewcommand{\\textbf}[1]{\\textcolor{red}{\\oldtextbf{#1}}}
+\\pagestyle{fancy}
+\\fancyhead{}
+\\fancyfoot[R]{محل نگهداری: واحد برنامه‌نویسی}
+\\fancyfoot[L]{سطح دسترسی: برنامه‌نویس}
+\\fancyfoot[C]{\\pageref{LastPage} / \\thepage }
+\\renewcommand{\\footrulewidth}{1pt}
+\\renewcommand{\\headrulewidth}{0pt}
+\\settextfont{XB Yas}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+(add-to-list 'org-latex-classes
              '("article-fa"
                "\\documentclass[11pt,a4paper]{article}
 \\usepackage[T1]{fontenc}
@@ -208,7 +256,7 @@
 \\usepackage{xepersian}
 \\linespread{1.4}
 \\hypersetup{pdfborder=0 0 0}
-\\settextfont{Yas}"
+\\settextfont{XB Yas}"
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -247,6 +295,39 @@
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")))
+
+(add-to-list 'org-latex-classes
+             '("assignment-unno"
+               "\\documentclass[11pt,a4paper]{article}
+\\usepackage[utf8]{inputenc}
+\\usepackage[T1]{fontenc}
+\\usepackage{fixltx2e}
+\\usepackage{graphicx}
+\\usepackage{longtable}
+\\usepackage{float}
+\\usepackage{wrapfig}
+\\usepackage{rotating}
+\\usepackage[normalem]{ulem}
+\\usepackage{amsmath}
+\\usepackage{textcomp}
+\\usepackage{marvosym}
+\\usepackage{wasysym}
+\\usepackage{amssymb}
+\\usepackage{hyperref}
+\\usepackage{mathpazo}
+\\usepackage{color}
+\\usepackage{enumerate}
+\\definecolor{bg}{rgb}{0.95,0.95,0.95}
+\\tolerance=1000
+      [NO-DEFAULT-PACKAGES]
+      [PACKAGES]
+      [EXTRA]
+\\linespread{1.1}
+\\hypersetup{pdfborder=0 0 0}"
+               ("\\section*{%s}" . "\\section{%s}")
+               ("\\subsection*{%s}" . "\\subsection{%s}")
+               ("\\subsubsection*{%s}" . "\\subsubsection{%s}")
                ("\\paragraph{%s}" . "\\paragraph*{%s}")))
 
 
@@ -289,7 +370,7 @@
 
 (custom-set-variables
  '(cfw:display-calendar-holidays nil)
- '(org-agenda-files (quote ("~/Note/todo.org")))
+ '(org-agenda-files (quote ("~/Dropbox/notes/todo.org")))
  '(org-agenda-ndays 7)
  '(org-deadline-warning-days 14)
  '(org-agenda-show-all-dates t)
