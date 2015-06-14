@@ -7,7 +7,7 @@
   :group 'dotemacs)
 
 (defcustom dotemacs-completion-engine
-  'auto-complete
+  'company
   "The completion engine the use."
   :type '(radio
           (const :tag "company-mode" company)
@@ -49,6 +49,8 @@
                          ("gnu" . "http://elpa.gnu.org/packages/")))
 (setq package-enable-at-startup nil)
 (package-initialize)
+
+(require 'init-util)
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
