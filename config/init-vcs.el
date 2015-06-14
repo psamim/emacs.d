@@ -1,18 +1,18 @@
+(setq vc-make-backup-files t)
+
 (after 'vc-git
   (require-package 'magit)
+
+  (setq magit-last-seen-setup-instructions "1.4.0")
 
   (after 'magit
     (setq magit-diff-options '("--histogram"))
     (setq magit-stage-all-confirm nil)
-    (setq magit-status-buffer-switch-function 'switch-to-buffer))
+    (setq magit-unstage-all-confirm nil)
+    (setq magit-status-buffer-switch-function 'switch-to-buffer)
+    (setq magit-show-child-count t))
 
   (after 'evil
-    (after 'git-commit-mode
-      (add-hook 'git-commit-mode-hook #'evil-emacs-state))
-
-    (after 'git-rebase-mode
-      (add-hook 'git-rebase-mode-hook #'evil-emacs-state))
-
     (after 'magit-blame
       (defadvice magit-blame-file-on (after advice-for-magit-blame-file-on activate)
         (evil-emacs-state))

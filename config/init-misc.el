@@ -9,8 +9,8 @@
 
 (require-package 'multiple-cursors)
 (after 'evil
-  (add-hook 'multiple-cursors-mode-enabled-hook 'evil-emacs-state)
-  (add-hook 'multiple-cursors-mode-disabled-hook 'evil-normal-state))
+  (add-hook 'multiple-cursors-mode-enabled-hook #'evil-emacs-state)
+  (add-hook 'multiple-cursors-mode-disabled-hook #'evil-normal-state))
 
 
 (require-package 'wgrep)
@@ -28,18 +28,13 @@
   (require-package 'wgrep-ag))
 
 
-(when (executable-find "ack")
-  (require-package 'ack-and-a-half)
-  (require-package 'wgrep-ack))
-
-
 (require-package 'project-explorer)
 (after 'project-explorer
   (setq pe/cache-directory (concat dotemacs-cache-directory "project-explorer"))
   (setq pe/omit-regex (concat pe/omit-regex "\\|^node_modules$")))
 
 
-(require-package 'ace-jump-mode)
+(require-package 'avy)
 
 
 (require-package 'expand-region)
@@ -51,8 +46,9 @@
 
 (require-package 'aggressive-indent)
 (require 'aggressive-indent)
-(add-to-list 'aggressive-indent-excluded-modes 'stylus-mode)
-(add-to-list 'aggressive-indent-excluded-modes 'org-mode)
+(add-to-list 'aggressive-indent-excluded-modes #'stylus-mode)
+(add-to-list 'aggressive-indent-excluded-modes #'org-mode)
+(add-to-list 'aggressive-indent-excluded-modes #'vimrc-mode)
 (global-aggressive-indent-mode)
 
 
@@ -68,7 +64,7 @@
 
 
 (require-package 'rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 
 (require-package 'framemove)

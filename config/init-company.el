@@ -1,61 +1,70 @@
-(require-package 'company)
-(require 'company)
+(when (eq dotemacs-completion-engine 'company)
 
-(setq company-idle-delay 0.2)
-(setq company-minimum-prefix-length 1)
-(setq company-show-numbers t)
-(setq company-tooltip-limit 20)
+  (defgroup dotemacs-company nil
+    "Configuration options for company-mode."
+    :group 'dotemacs
+    :prefix 'dotemacs-company)
 
-(setq company-dabbrev-downcase nil)
-(setq company-dabbrev-ignore-case t)
+  (defcustom dotemacs-company/ycmd-server-command nil
+    "The path to the ycmd package."
+    :group 'dotemacs-company)
 
-(setq company-dabbrev-code-ignore-case t)
-(setq company-dabbrev-code-everywhere t)
+  (require-package 'company)
+  (require 'company)
 
-(setq company-etags-ignore-case t)
+  (setq company-idle-delay 0.2)
+  (setq company-minimum-prefix-length 1)
+  (setq company-show-numbers t)
+  (setq company-tooltip-limit 20)
 
-(unless (face-attribute 'company-tooltip :background)
-  (set-face-attribute 'company-tooltip nil :background "black" :foreground "gray40")
-  (set-face-attribute 'company-tooltip-selection nil :inherit 'company-tooltip :background "gray15")
-  (set-face-attribute 'company-preview nil :background "black")
-  (set-face-attribute 'company-preview-common nil :inherit 'company-preview :foreground "gray40")
-  (set-face-attribute 'company-scrollbar-bg nil :inherit 'company-tooltip :background "gray20")
-  (set-face-attribute 'company-scrollbar-fg nil :background "gray40"))
+  (setq company-dabbrev-downcase nil)
+  (setq company-dabbrev-ignore-case t)
 
-(when (executable-find "tern")
-  (after "company-tern-autoloads"
-    (add-to-list 'company-backends 'company-tern)))
+  (setq company-dabbrev-code-ignore-case t)
+  (setq company-dabbrev-code-everywhere t)
 
-(setq company-global-modes
-      '(not
-        eshell-mode comint-mode org-mode erc-mode))
+  (setq company-etags-ignore-case t)
 
-(defadvice company-complete-common (around advice-for-company-complete-common activate)
-  (when (null (yas-expand))
-    ad-do-it))
+  (unless (face-attribute 'company-tooltip :background)
+    (set-face-attribute 'company-tooltip nil :background "black" :foreground "gray40")
+    (set-face-attribute 'company-tooltip-selection nil :inherit 'company-tooltip :background "gray15")
+    (set-face-attribute 'company-preview nil :background "black")
+    (set-face-attribute 'company-preview-common nil :inherit 'company-preview :foreground "gray40")
+    (set-face-attribute 'company-scrollbar-bg nil :inherit 'company-tooltip :background "gray20")
+    (set-face-attribute 'company-scrollbar-fg nil :background "gray40"))
 
-(defun my-company-tab ()
-  (interactive)
-  (when (null (yas-expand))
-    (company-select-next)))
+  (when (executable-find "tern")
+    (after "company-tern-autoloads"
+      (add-to-list 'company-backends 'company-tern)))
 
-(defcustom dotemacs-ycmd-server-path nil
-  "The path to the ycmd package."
-  :group 'dotemacs)
+  (setq company-global-modes
+        '(not
+          eshell-mode comint-mode org-mode erc-mode))
 
-(when dotemacs-ycmd-server-path
-  (setq ycmd-server-command `("python" ,dotemacs-ycmd-server-path))
-  (require-package 'ycmd)
-  (ycmd-setup)
+  (defadvice company-complete-common (around advice-for-company-complete-common activate)
+    (when (null (yas-expand))
+      ad-do-it))
 
-  (require-package 'company-ycmd)
-  (company-ycmd-setup))
+  (defun my-company-tab ()
+    (interactive)
+    (when (null (yas-expand))
+      (company-select-next)))
 
-(global-company-mode)
+  (when dotemacs-company/ycmd-server-command
+    (setq ycmd-server-command `("python" ,dotemacs-company/ycmd-server-command))
+    (require-package 'ycmd)
+    (ycmd-setup)
 
-(when (display-graphic-p)
-  (require-package 'company-quickhelp)
-  (setq company-quickhelp-delay 0.2)
-  (company-quickhelp-mode t))
+    (require-package 'company-ycmd)
+    (company-ycmd-setup))
+
+  (global-company-mode)
+
+  (when (display-graphic-p)
+    (require-package 'company-quickhelp)
+    (setq company-quickhelp-delay 0.2)
+    (company-quickhelp-mode t))
+
+  )
 
 (provide 'init-company)
