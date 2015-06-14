@@ -3,3 +3,5 @@
 /elpa/
 /session*
 /tramp
+/image-dired/
+/.mc-lists.el
