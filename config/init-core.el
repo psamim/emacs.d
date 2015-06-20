@@ -1,5 +1,5 @@
 (require 'server)
-(setq server-socket-dir "/tmp/samim/emacs1000/server")
+;; (setq server-socket-dir "~/.emacs-server-socket")
 (unless (server-running-p)
   (server-start))
 
