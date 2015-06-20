@@ -186,7 +186,7 @@
   (global-set-key [f2] 'project-explorer-open)
   (autoload 'pe/show-file "project-explorer")
   (global-set-key [f3] 'pe/show-file)
-  (define-key evil-normal-state-map (kbd "SPC D")  'pe/show-file)
+  ;(define-key evil-normal-state-map (kbd "SPC D")  'pe/show-file)
   (after 'project-explorer
     (define-key project-explorer-mode-map (kbd "C-l") 'evil-window-right)))
 
