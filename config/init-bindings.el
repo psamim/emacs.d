@@ -314,4 +314,10 @@
   (define-key evil-normal-state-map (kbd "C-ن") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "C-م") 'evil-window-right))
 
+(defun bind-ido-keys ()
+  "Keybindings for ido mode."
+  (define-key ido-completion-map (kbd "C-j") 'ido-next-match) 
+  (define-key ido-completion-map (kbd "C-k")   'ido-prev-match))
+(add-hook 'ido-setup-hook #'bind-ido-keys)
+
 (provide 'init-bindings)
