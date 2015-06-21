@@ -11,8 +11,9 @@
 
 ;; eshell
 (setq eshell-directory-name (concat dotemacs-cache-directory "eshell"))
-(setq eshell-scroll-to-bottom-on-input 'all)
+(setq eshell-scroll-to-bottom-on-input 'this)
 (setq eshell-buffer-shorthand t)
+
 
 (when (executable-find "fortune")
   (defadvice eshell (before advice-for-eshell activate)
@@ -58,9 +59,9 @@
 
 
 (defun my-current-git-branch ()
-  (let ((branch (car (loop for match in (split-string (shell-command-to-string "git branch") "\n")
-                           when (string-match "^\*" match)
-                           collect match))))
+  (let ((branch (car (cl-loop for match in (split-string (shell-command-to-string "git branch") "\n")
+                              when (string-match "^\*" match)
+                              collect match))))
     (if (not (eq branch nil))
         (concat " [" (substring branch 2) "]")
       "")))
@@ -70,14 +71,6 @@
   (concat (propertize (abbreviate-file-name (eshell/pwd)) 'face 'eshell-prompt)
           (propertize (my-current-git-branch) 'face 'font-lock-function-name-face)
           (propertize " $ " 'face 'font-lock-constant-face)))
-
-
-(defun my-eshell-ido-complete-command-history ()
-  (interactive)
-  (eshell-kill-input)
-  (insert
-   (ido-completing-read "Run command: " (delete-dups (ring-elements eshell-history-ring))))
-  (eshell-send-input))
 
 
 (defun eshell/j ()
@@ -102,7 +95,10 @@
 	  (lambda ()
 	    ;; get rid of annoying 'terminal is not fully functional' warning
 	    (when (executable-find "cat")
-	      (setenv "PAGER" "cat"))))
+	      (setenv "PAGER" "cat"))
+
+            (setenv "EDITOR" "emacsclient")
+            (setenv "NODE_NO_READLINE" "1")))
 
 
 (provide 'init-eshell)

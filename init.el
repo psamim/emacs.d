@@ -7,12 +7,31 @@
   :group 'dotemacs)
 
 (defcustom dotemacs-completion-engine
-  'auto-complete
+  'company
   "The completion engine the use."
   :type '(radio
           (const :tag "company-mode" company)
           (const :tag "auto-complete-mode" auto-complete))
   :group 'dotemacs)
+
+(with-current-buffer (get-buffer-create "*Require Times*")
+  (insert "| feature | timestamp | elapsed |\n")
+  (insert "|---------+-----------+---------|\n"))
+
+(defadvice require (around require-advice activate)
+  (let ((elapsed)
+        (loaded (memq feature features))
+        (start (current-time)))
+    (prog1
+        ad-do-it
+      (unless loaded
+        (with-current-buffer (get-buffer-create "*Require Times*")
+          (goto-char (point-max))
+          (setq elapsed (float-time (time-subtract (current-time) start)))
+          (insert (format "| %s | %s | %f |\n"
+                          feature
+                          (format-time-string "%Y-%m-%d %H:%M:%S.%3N" (current-time))
+                          elapsed)))))))
 
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -25,52 +44,20 @@
     (when (file-directory-p dir)
       (add-to-list 'load-path dir))))
 
-(require 'cl)
-(require 'init-packages)
+(setq package-archives '(("melpa" . "http://melpa.org/packages/")
+                         ("org" . "http://orgmode.org/elpa/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")))
+(setq package-enable-at-startup nil)
+(package-initialize)
+
 (require 'init-util)
 
 (setq custom-file (concat user-emacs-directory "custom.el"))
 (when (file-exists-p custom-file)
   (load custom-file))
 
+(eval-when-compile (require 'cl))
 (let ((debug-on-error t))
-  (require 'init-core)
-
-  (require 'init-eshell)
-  (require 'init-erc)
-
-  (if (eq dotemacs-completion-engine 'company)
-      (require 'init-company)
-    (require 'init-auto-complete))
-
-  (require 'init-lisp)
-  (require 'init-org)
-  (require 'init-vim)
-  (require 'init-stylus)
-  (require 'init-js)
-  (require 'init-go)
-  (require 'init-web)
-  (require 'init-markup)
-
-  (require 'init-projectile)
-  (require 'init-helm)
-  (require 'init-ido)
-  (require 'init-vcs)
-  (require 'init-flycheck)
-  (require 'init-yasnippet)
-  (require 'init-smartparens)
-  (require 'init-misc)
-
-  (require 'init-evil)
-  (require 'init-macros)
-  (require 'init-eyecandy)
-  (require 'init-overrides)
-
-  (require 'init-bindings)
-
-  (require 'init-ruby)
-  (require 'init-dired)
-  (require 'init-r)
-  (require 'init-sync)
-;;  (require 'init-mu)
-)
+  (cl-loop for file in (directory-files (concat user-emacs-directory "config/"))
+           unless (file-directory-p file)
+           do (require (intern (file-name-base file)))))

@@ -75,6 +75,7 @@
     (define-key evil-normal-state-map (kbd "SPC b") 'helm-mini)
     (define-key evil-normal-state-map (kbd "g b") 'helm-mini)
     (define-key evil-normal-state-map (kbd "SPC a") 'helm-apropos)
+    (define-key evil-normal-state-map (kbd "SPC e") 'helm-recentf)
     (define-key evil-normal-state-map (kbd "SPC f") 'helm-find-files)
     (define-key evil-normal-state-map (kbd "SPC o") 'helm-semantic-or-imenu)
     (define-key evil-normal-state-map (kbd "SPC t") 'helm-etags-select)
@@ -130,23 +131,20 @@
     (evil-define-key 'normal stylus-mode-map (kbd ", p") 'my-stylus-compile-and-show-buffer))
 
   (after "projectile-autoloads"
-    (define-key evil-normal-state-map (kbd "SPC e") 'projectile-recentf)
     (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file)
     (let ((binding (kbd "SPC /")))
       (cond ((executable-find "pt")
              (define-key evil-normal-state-map binding 'projectile-pt))
             ((executable-find "ag")
              (define-key evil-normal-state-map binding
-	       (bind
-		(setq current-prefix-arg t)
-		(call-interactively #'projectile-ag))))
+               (bind
+                (setq current-prefix-arg t)
+                (call-interactively #'projectile-ag))))
             ((executable-find "ack")
              (define-key evil-normal-state-map binding 'projectile-ack))
             (t
              (define-key evil-normal-state-map binding 'projectile-grep))))
     (after "helm-projectile-autoloads"
-      (require 'helm-projectile)
-      (define-key evil-normal-state-map (kbd "SPC e") 'helm-projectile-recentf)
       (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile)))
 
   (after "multiple-cursors-autoloads"
@@ -154,10 +152,10 @@
       (evil-define-key 'normal js2-mode-map (kbd "g r") 'js2r-rename-var))
     (define-key evil-normal-state-map (kbd "g r") 'mc/mark-all-like-this-dwim))
 
-  (after "ace-jump-mode-autoloads"
-    (define-key evil-operator-state-map (kbd "z") 'evil-ace-jump-char-mode)
-    (define-key evil-normal-state-map (kbd "s") 'evil-ace-jump-char-mode)
-    (define-key evil-motion-state-map (kbd "S-SPC") 'evil-ace-jump-line-mode))
+  (after "avy-autoloads"
+    (define-key evil-operator-state-map (kbd "z") 'avy-goto-char-2)
+    (define-key evil-normal-state-map (kbd "s") 'avy-goto-char-2)
+    (define-key evil-motion-state-map (kbd "S-SPC") 'avy-goto-line))
 
   ;; butter fingers
   (evil-ex-define-cmd "Q" 'evil-quit)
@@ -184,7 +182,7 @@
   (global-set-key [f2] 'project-explorer-open)
   (autoload 'pe/show-file "project-explorer")
   (global-set-key [f3] 'pe/show-file)
-  (define-key evil-normal-state-map (kbd "SPC D")  'pe/show-file)
+  ;(define-key evil-normal-state-map (kbd "SPC D")  'pe/show-file)
   (after 'project-explorer
     (define-key project-explorer-mode-map (kbd "C-l") 'evil-window-right)))
 
@@ -235,12 +233,11 @@
   (global-set-key (kbd "M-x") 'helm-M-x)
   (global-set-key (kbd "C-x C-m") 'helm-M-x)
   (global-set-key (kbd "C-c C-m") 'helm-M-x)
-  (global-set-key (kbd "C-x b") 'helm-buffers-list))
+  (global-set-key (kbd "C-x b") 'helm-buffers-list)
 
-
-(add-hook 'eshell-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c h") #'my-eshell-ido-complete-command-history)))
+  (add-hook 'eshell-mode-hook
+            (lambda ()
+              (local-set-key (kbd "C-c h") #'helm-eshell-history))))
 
 
 (after 'help-mode

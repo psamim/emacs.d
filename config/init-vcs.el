@@ -3,6 +3,8 @@
 (after 'vc-git
   (require-package 'magit)
 
+  (setq magit-last-seen-setup-instructions "1.4.0")
+
   (after 'magit
     (setq magit-diff-options '("--histogram"))
     (setq magit-stage-all-confirm nil)
@@ -25,9 +27,11 @@
 
   (global-git-gutter+-mode))
 
+
 (require-package 'diff-hl)
 (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
 (unless (display-graphic-p)
   (diff-hl-margin-mode))
+
 
 (provide 'init-vcs)

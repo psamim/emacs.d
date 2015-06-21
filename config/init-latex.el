@@ -1,14 +1,14 @@
-(require-package 'auctex)
+;(require-package 'auctex)
 ;(require 'auctex-pkg)
-(require 'auctex-autoloads)
-(require 'init-ac-auctex)
+;(require 'auctex-autoloads)
+;(require 'init-ac-auctex)
 (require 'reftex)
 
-(add-to-list 'TeX-command-list
-		'("PDFLaTeX" "pdflatex %s" TeX-run-command t t :help "To PDF") t)
+;(add-to-list 'TeX-command-list
+;		'("PDFLaTeX" "pdflatex %s" TeX-run-command t t :help "To PDF") t)
 
-(add-to-list 'TeX-command-list
-		'("XeTex" "xelatex %s" TeX-run-command t t :help "Using XeTex") t)
+;(add-to-list 'TeX-command-list
+;		'("XeTex" "xelatex %s" TeX-run-command t t :help "Using XeTex") t)
 
 (defun my-latex-mode-hook-funcs ()
   (flyspell-mode 1)

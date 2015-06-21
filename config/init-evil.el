@@ -51,9 +51,8 @@
 (global-evil-leader-mode t)
 
 
-(setq evilnc-hotkey-comment-operator "gc")
-(require-package 'evil-nerd-commenter)
-(require 'evil-nerd-commenter)
+(require-package 'evil-commentary)
+(evil-commentary-mode t)
 
 
 (require-package 'evil-surround)
@@ -62,6 +61,10 @@
 
 (require-package 'evil-exchange)
 (evil-exchange-install)
+
+
+(require-package 'evil-anzu)
+(require 'evil-anzu)
 
 
 (setq evil-jumper-auto-center t)

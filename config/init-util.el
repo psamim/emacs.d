@@ -16,10 +16,18 @@
                                (require-package (quote ,mode))
                                (,mode)))))
 
+(defmacro delayed-init (&rest body)
+  "Runs BODY after idle for a predetermined amount of time."
+  `(run-with-idle-timer
+    1.5
+    nil
+    (lambda () ,@body)))
+
 (defun my-recompile-init ()
   "Byte-compile all your dotfiles again."
   (interactive)
-  (byte-recompile-directory (concat user-emacs-directory "config") 0))
+  (byte-recompile-directory (concat user-emacs-directory "config") 0)
+  (byte-compile-file (concat user-emacs-directory "init.el")))
 
 (defun my-window-killer ()
   "closes the window, and deletes the buffer if it's the last window open."
@@ -69,7 +77,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   "Replace the preceding sexp with its value."
   (interactive)
   (let ((value (eval (preceding-sexp))))
-    (backware-kill-sexp)
+    (backward-kill-sexp)
     (insert (format "%s" value))))
 
 (defun my-rename-current-buffer-file ()
@@ -122,7 +130,16 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (interactive)
   (set-buffer-file-coding-system 'undecided-dos nil))
 
+(defun require-package (package)
+  "Ensures that PACKAGE is installed."
+  (unless (or (package-installed-p package)
+              (require package nil 'noerror))
+    (unless (assoc package package-archive-contents)
+      (package-refresh-contents))
+    (package-install package)))
+
 ;; Samim's functions
+
 
 (defun psamim-add-semicolon-at-the-end-of-line ()
   "Add a semicolon to the end of line and go to next"
@@ -198,9 +215,11 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (interactive)
   (find-file (file-name-directory buffer-file-name)))
 
+
 (defun psamim-open-todo()
   (interactive)
   (find-file "~/Notes/todo.org")
   (writeroom-mode))
 
-  (provide 'init-util)
+(provide 'init-util)
+

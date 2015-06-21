@@ -107,7 +107,8 @@
 
 ;; better scrolling
 (setq scroll-conservatively 9999
-      scroll-preserve-screen-position t)
+      scroll-preserve-screen-position t
+      scroll-margin 3)
 
 
 ;; better buffer names for duplicates
@@ -119,7 +120,8 @@
 
 
 (defun my-do-not-kill-scratch-buffer ()
-  (if (member (buffer-name (current-buffer)) '("*scratch*" "*Messages*"))
+  (if (member (buffer-name (current-buffer))
+              '("*scratch*" "*Messages*" "*Require Times*"))
       (progn
         (bury-buffer)
         nil)
@@ -130,6 +132,7 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 
+(setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
 (set-selection-coding-system 'utf-8)
@@ -146,6 +149,7 @@
 (setq echo-keystrokes 0.01)
 (setq gc-cons-threshold 10000000)
 (setq initial-major-mode 'emacs-lisp-mode)
+(setq eval-expression-print-level nil)
 (setq-default indent-tabs-mode nil)
 
 (setq inhibit-splash-screen t)
