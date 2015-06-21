@@ -4,6 +4,7 @@
   :keymap (make-sparse-keymap))
 
 ;; Be h j k l
+(after 'evil
 (evil-define-key 'normal psamim-dired-mode-map "l" 'dired-find-file)
 (evil-define-key 'normal psamim-dired-mode-map "h" 'dired-up-directory)
 (evil-define-key 'normal psamim-dired-mode-map "n" 'evil-search-next)
@@ -19,7 +20,7 @@
 
 ;; Go to home
 (evil-define-key 'normal psamim-dired-mode-map "gh" (lambda() (interactive) (find-file "~")))
-(evil-define-key 'normal psamim-dired-mode-map "gm" (lambda() (interactive) (find-file "/media/")))
+(evil-define-key 'normal psamim-dired-mode-map "gm" (lambda() (interactive) (find-file "/media/"))))
 
 (add-hook 'dired-mode-hook (lambda() (psamim-dired-mode) (hl-line-mode)))
 
