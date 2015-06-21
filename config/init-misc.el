@@ -79,8 +79,8 @@
 (require-package 'discover-my-major)
 
 
-;; (require-package 'paradox)
-;; (setq paradox-execute-asynchronously nil)
+(require-package 'paradox)
+(setq paradox-execute-asynchronously nil)
 
 
 (when (eq system-type 'darwin)
