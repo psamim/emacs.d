@@ -7,3 +7,4 @@
 /.mc-lists.el
 /ac-comphist.dat
 /custom.elc
+/config/*.elc
