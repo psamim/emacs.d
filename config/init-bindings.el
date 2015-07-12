@@ -48,7 +48,12 @@
 
     (after "magit-autoloads"
       (evil-leader/set-key
-        "g" 'magit-dispatch-popup)))
+        "g s" 'magit-status
+        "g b" 'magit-blame-popup
+        "g l" 'magit-log-popup
+        "g d" 'magit-diff-popup
+        "g z" 'magit-stash-popup
+        "g c" 'magit-commit-popup)))
 
   (after "evil-numbers-autoloads"
     (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
@@ -106,6 +111,10 @@
   (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
   (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
   (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+  (define-key evil-normal-state-map (kbd "C-w C-h") 'evil-window-left)
+  (define-key evil-normal-state-map (kbd "C-w C-j") 'evil-window-down)
+  (define-key evil-normal-state-map (kbd "C-w C-k") 'evil-window-up)
+  (define-key evil-normal-state-map (kbd "C-w C-l") 'evil-window-right)
 
   (define-key evil-motion-state-map "j" 'evil-next-visual-line)
   (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
@@ -155,6 +164,14 @@
     (define-key evil-operator-state-map (kbd "z") 'avy-goto-char-2)
     (define-key evil-normal-state-map (kbd "s") 'avy-goto-char-2)
     (define-key evil-motion-state-map (kbd "S-SPC") 'avy-goto-line))
+
+  (after 'eshell
+    (add-hook 'eshell-mode-hook
+              (lambda ()
+                (local-set-key (kbd "C-h") 'evil-window-left)
+                (local-set-key (kbd "C-j") 'evil-window-down)
+                (local-set-key (kbd "C-k") 'evil-window-up)
+                (local-set-key (kbd "C-l") 'evil-window-right))))
 
   ;; butter fingers
   (evil-ex-define-cmd "Q" 'evil-quit)
