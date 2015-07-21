@@ -16,22 +16,26 @@
 (evil-define-key 'normal psamim-dired-mode-map "[tab]" 'dired-hide-subdir)
 (evil-define-key 'normal psamim-dired-mode-map "w" 'dired-toggle-read-only)
 ;; (evil-define-key 'normal psamim-dired-mode-map "d" 'dired-details-toggle)
-(evil-define-key 'normal psamim-dired-mode-map "a" 'gnus-dired-attach)
+;; (evil-define-key 'normal psamim-dired-mode-map "a" 'gnus-dired-attach)
 
 ;; Go to home
 (evil-define-key 'normal psamim-dired-mode-map "gh" (lambda() (interactive) (find-file "~")))
 (evil-define-key 'normal psamim-dired-mode-map "gm" (lambda() (interactive) (find-file "/media/"))))
 
-(add-hook 'dired-mode-hook (lambda() (psamim-dired-mode) (hl-line-mode)))
+(add-hook 'dired-mode-hook
+          (lambda()
+            (psamim-dired-mode)
+ ;;           (ranger)
+            (hl-line-mode)))
 
-;; Colorize dired
-(require-package 'dired+)
-(require 'dired+)
+;; ;; Colorize dired
+;; (require-package 'dired+)
+;; (require 'dired+)
 
 ;; Hide owner, group, time and other details
-(require-package 'dired-details)
-(require 'dired-details)
-(dired-details-install)
+;; (require-package 'dired-details)
+;; (require 'dired-details)
+;; (dired-details-install)
 
 ;; Search dired
 (require-package 'dired-narrow)
@@ -64,5 +68,8 @@
 ;; When there are two direds in vertical splits
 ;; copy/move from one to another
 (setq dired-dwim-target t)
+
+(require-package 'ranger)
+(require 'ranger)
 
 (provide 'init-dired)
