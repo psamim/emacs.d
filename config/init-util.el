@@ -254,8 +254,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (interactive)
   (shell-command "synclient TouchpadOff=0"))
 
-(add-hook 'focus-in-hook #'turn-off-mouse)
-(add-hook 'focus-out-hook #'turn-on-mouse)
-(add-hook 'delete-frame-functions #'turn-on-mouse)
+;; (add-hook 'focus-in-hook #'turn-off-mouse)
+;; (add-hook 'focus-out-hook #'turn-on-mouse)
+;; (add-hook 'delete-frame-functions #'turn-on-mouse)
 
 (provide 'init-util)
