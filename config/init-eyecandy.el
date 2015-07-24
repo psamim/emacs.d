@@ -129,9 +129,9 @@
 
 (menu-bar-mode -1)
 
-(require 'elscreen)
-(elscreen-start)
-(elscreen-toggle-display-tab)
+;;(require 'elscreen)
+;;(elscreen-start)
+;;(elscreen-toggle-display-tab)
 
 (setq frame-title-format
   '("emacs%@" (:eval (system-name)) ": " (:eval (if (buffer-file-name)
