@@ -24,7 +24,7 @@
 
 
 (lazy-major-mode "\\.html?.*$" web-mode)
-(lazy-major-mode "\\.php?.*$" php-mode)
+(lazy-major-mode "\\.php?.*$" web-mode)
 (lazy-major-mode "\\.tmpl?.*$" web-mode)
 
 
