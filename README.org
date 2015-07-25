@@ -1,0 +1,8 @@
+* About
+This is a Emacs configuration targeted for vim users.
+
+* Disclaimer
+Here be dragons.
+
+* License
+MIT
