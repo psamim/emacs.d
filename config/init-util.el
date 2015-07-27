@@ -254,8 +254,18 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (interactive)
   (shell-command "synclient TouchpadOff=0"))
 
+(defvar mouse-on-toggle t)
+(defun toggle-mouse()
+  (interactive)
+  (if (null mouse-on-toggle)
+      (progn
+        (message "Mouse off") (turn-off-mouse) (setq mouse-on-toggle t))
+    (progn 
+      (message "Mouse on") (turn-on-mouse) (setq mouse-on-toggle nil)))
+  )
+
 ;; (add-hook 'focus-in-hook #'turn-off-mouse)
 ;; (add-hook 'focus-out-hook #'turn-on-mouse)
 ;; (add-hook 'delete-frame-functions #'turn-on-mouse)
 
-(provide 'init-util)
+  (provide 'init-util)
