@@ -68,4 +68,15 @@
 (autoload 'turn-on-css-eldoc "css-eldoc")
 (add-hook 'css-mode-hook 'turn-on-css-eldoc)
 
+(defun psamim-web-mode-hook ()
+  (setq indent-tabs-mode t)
+  (let ((my-tab-width 4))
+    (setq tab-width my-tab-width)
+    (setq c-basic-indent my-tab-width)
+    (setq web-mode-code-indent-offset my-tab-width)
+    (set (make-local-variable 'tab-stop-list)
+         (number-sequence my-tab-width 200 my-tab-width))))
+
+(add-hook 'web-mode-hook  'psamim-web-mode-hook)
+
 (provide 'init-web)
