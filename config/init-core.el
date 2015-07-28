@@ -179,7 +179,7 @@
 
 (add-hook 'find-file-hook (lambda ()
                             (unless (eq major-mode 'org-mode)
-                              (setq show-trailing-whitespace t))))
+                              (setq show-trailing-whitespace nil))))
 (add-hook 'find-file-hook #'visual-line-mode)
 (add-hook 'find-file-hook #'my-find-file-check-large-file)
 
