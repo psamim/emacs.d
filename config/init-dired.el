@@ -16,7 +16,7 @@
   (evil-define-key 'normal psamim-dired-mode-map "[tab]" 'dired-hide-subdir)
   (evil-define-key 'normal psamim-dired-mode-map "w" 'dired-toggle-read-only)
   (evil-define-key 'normal psamim-dired-mode-map "d" 'dired-details-toggle)
-  (evil-define-key 'normal psamim-dired-mode-map "zh" 'dired-omit-switch)
+  (evil-define-key 'normal psamim-dired-mode-map "zh" 'dired-omit-mode)
   ;; (evil-define-key 'normal psamim-dired-mode-map "a" 'gnus-dired-attach)
 
   ;; Go to home
@@ -26,6 +26,7 @@
 (add-hook 'dired-mode-hook
           (lambda()
             (psamim-dired-mode)
+            (dired-omit-mode t)
             (hl-line-mode)))
 
 ;; ;; Colorize dired
@@ -65,25 +66,28 @@
 
 ;; Show hidden files and switch displaying them
 ;; http://emacswiki.org/emacs/DiredOmitMode
+(require 'dired-x)
 (setq dired-omit-files (concat dired-omit-files "\\|^\\..+$"))
 
-(defvar v-dired-omit t
-  "If dired-omit-mode enabled by default. Don't setq me.")
+;; (defvar v-dired-omit t
+;;   "If dired-omit-mode enabled by default. Don't setq me.")
+;; (setq dired-omit-mode t)
+;; (dired-omit-mode t)
 
-(defun dired-omit-switch ()
-  "This function is a small enhancement for `dired-omit-mode', which will
-   \"remember\" omit state across Dired buffers."
-  (interactive)
-  (if (eq v-dired-omit t)
-      (setq v-dired-omit nil)
-    (setq v-dired-omit t))
-  (dired-omit-caller)
-  (revert-buffer))
+;; (defun dired-omit-switch ()
+;;   "This function is a small enhancement for `dired-omit-mode', which will
+;;    \"remember\" omit state across Dired buffers."
+;;   (interactive)
+;;   (if (eq v-dired-omit t)
+;;       (setq v-dired-omit nil)
+;;     (setq v-dired-omit t))
+;;   (dired-omit-caller)
+;;   (revert-buffer))
 
-(defun dired-omit-caller ()
-  (if v-dired-omit
-      (setq dired-omit-mode t)
-    (setq dired-omit-mode nil)))
+;; (defun dired-omit-caller ()
+;;   (if v-dired-omit
+;;       (setq dired-omit-mode t)
+;;     (setq dired-omit-mode nil)))
 
 ;; Change dired details
 ;; (custom-set-variables
