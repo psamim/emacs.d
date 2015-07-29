@@ -33,7 +33,7 @@
 (after 'smartparens (diminish 'smartparens-mode))
 (after 'company (diminish 'company-mode))
 (after 'elisp-slime-nav (diminish 'elisp-slime-nav-mode))
-(after 'git-gutter (diminish 'git-gutter-mode))
+(after 'git-gutter+ (diminish 'git-gutter+-mode))
 (after 'highlight-symbol (diminish 'highlight-symbol-mode))
 (after 'indent-guide (diminish 'indent-guide-mode))
 (after 'hideshow (diminish 'hs-minor-mode))
@@ -81,8 +81,10 @@
 (setq highlight-symbol-idle-delay 0.3)
 (add-hook 'prog-mode-hook 'highlight-symbol-mode)
 
+
 (require-package 'highlight-numbers)
 (add-hook 'prog-mode-hook 'highlight-numbers-mode)
+
 
 (require-package 'highlight-quoted)
 (add-hook 'prog-mode-hook 'highlight-quoted-mode)
