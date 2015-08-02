@@ -83,6 +83,11 @@
 (setq paradox-execute-asynchronously nil)
 
 
+(require-package 'vlf)
+(setq vlf-application 'dont-ask)
+(require 'vlf-setup)
+
+
 (when (eq system-type 'darwin)
   (require-package 'vkill))
 
