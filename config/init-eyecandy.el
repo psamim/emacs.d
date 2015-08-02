@@ -41,13 +41,7 @@
 (after 'helm-mode (diminish 'helm-mode))
 (after 'evil-commentary (diminish 'evil-commentary-mode))
 (after 'flycheck (diminish 'flycheck-mode))
-
-;; Samim diabled sml
-;; (require-package 'smart-mode-line)
-;; (setq sml/show-client nil)
-;; (setq sml/show-eol nil)
-;; (setq sml/show-frame-identification nil)
-;; (sml/setup)
+(after 'flyspell (diminish 'flyspell-mode))
 
 
 (if (fboundp 'global-prettify-symbols-mode)
@@ -73,8 +67,8 @@
  (diminish 'color-identifiers-mode))
 
 
-(require-package 'fancy-narrow)
-(fancy-narrow-mode)
+;; (require-package 'fancy-narrow)
+;; (fancy-narrow-mode)
 
 
 (require-package 'highlight-symbol)
@@ -134,9 +128,31 @@
 ;;(elscreen-toggle-display-tab)
 
 (setq frame-title-format
-  '("emacs%@" (:eval (system-name)) ": " (:eval (if (buffer-file-name)
-                (abbreviate-file-name (buffer-file-name))
-                  "%b")) " [%*]"))
+      '("emacs%@" (:eval (system-name)) ": " (:eval (if (buffer-file-name)
+                                                        (abbreviate-file-name (buffer-file-name))
+                                                      "%b")) " [%*]"))
+(setq mode-line-format
+      '("%l "
+        ;; Standard info about the current buffer
+        mode-line-mule-info
+        mode-line-modified
+        " "
+        mode-line-buffer-identification " " 
+        (vc-mode vc-mode)
+        ;; Some specific information about the current buffer:
+        ;; Misc information, notably battery state and function name
+        " "
+        ;; mode-line-misc-info
+        ;; And the modes, which I don't really care for anyway
+        " " mode-line-modes
+        mode-line-end-spaces))
 
+;; Samim diabled sml
+(require-package 'smart-mode-line)
+(setq sml/show-client nil)
+(setq sml/show-eol nil)
+(setq sml/show-frame-identification nil)
+(setq sml/theme 'respectful)
+(sml/setup)
 
 (provide 'init-eyecandy)
