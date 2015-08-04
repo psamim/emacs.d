@@ -42,6 +42,7 @@
 (after 'evil-commentary (diminish 'evil-commentary-mode))
 (after 'flycheck (diminish 'flycheck-mode))
 (after 'flyspell (diminish 'flyspell-mode))
+(after 'aggressive-indent (diminish 'aggressive-indent-mode))
 
 
 (if (fboundp 'global-prettify-symbols-mode)
@@ -156,5 +157,6 @@
 (setq sml/show-frame-identification nil)
 (setq sml/theme 'respectful)
 (sml/setup)
+(set-face-attribute 'mode-line nil  :height 110)
 
 (provide 'init-eyecandy)
