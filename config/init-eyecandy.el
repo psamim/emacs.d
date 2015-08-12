@@ -3,9 +3,9 @@
 
 
 (line-number-mode t)
-(column-number-mode t)
-(display-time-mode t)
-(size-indication-mode t)
+;; (column-number-mode nil)
+;; (display-time-mode nil)
+;; (size-indication-mode nil)
 
 
 (defun my-fold-overlay (ov)
@@ -40,13 +40,9 @@
 (after 'ivy (diminish 'ivy-mode))
 (after 'helm-mode (diminish 'helm-mode))
 (after 'evil-commentary (diminish 'evil-commentary-mode))
-
-
-(require-package 'smart-mode-line)
-(setq sml/show-client t)
-(setq sml/show-eol t)
-(setq sml/show-frame-identification t)
-(sml/setup)
+(after 'flycheck (diminish 'flycheck-mode))
+(after 'flyspell (diminish 'flyspell-mode))
+(after 'aggressive-indent (diminish 'aggressive-indent-mode))
 
 
 (if (fboundp 'global-prettify-symbols-mode)
@@ -89,7 +85,78 @@
 (add-hook 'prog-mode-hook 'highlight-quoted-mode)
 
 
+(require-package 'indent-guide)
+;; this is pretty slow on big files
+(require 'indent-guide)
+(setq indent-guide-recursive t)
+(add-to-list 'indent-guide-inhibit-modes 'package-menu-mode)
+(add-to-list 'indent-guide-inhibit-modes 'mu4e-main-mode)
+(indent-guide-global-mode)
+(setq indent-guide-char "¦")
+
 (add-hook 'find-file-hook 'hl-line-mode)
 
+;; Samim's confs
+(defun psamim-set-window-fonts (&rest frame)
+  (if (display-graphic-p)
+      (progn
+        (set-fontset-font "fontset-default" 'unicode "Fantasque Sans Mono")
+        (set-fontset-font
+         "fontset-default"
+         (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
+         ;; "FreeFarsi Monospace-17"))
+         "B Traffic-15")
+        (set-face-font 'default "Fantasque Sans Mono-15")
+        (my-set-transparency 0.94)
+        ;; (git-gutter+-toggle-fringe)
+        )))
+
+(require-package 'solarized-theme)
+(load-theme 'solarized-dark)
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ ; '(secondary-selection ((t (:background "#002B36")))))
+ )
+
+(require-package 'writeroom-mode)
+
+(menu-bar-mode -1)
+
+;;(require 'elscreen)
+;;(elscreen-start)
+;;(elscreen-toggle-display-tab)
+
+(setq frame-title-format
+      '("emacs%@" (:eval (system-name)) ": " (:eval (if (buffer-file-name)
+                                                        (abbreviate-file-name (buffer-file-name))
+                                                      "%b")) " [%*]"))
+(setq mode-line-format
+      '("%l "
+        ;; Standard info about the current buffer
+        mode-line-mule-info
+        mode-line-modified
+        " "
+        mode-line-buffer-identification " " 
+        (vc-mode vc-mode)
+        ;; Some specific information about the current buffer:
+        ;; Misc information, notably battery state and function name
+        " "
+        ;; mode-line-misc-info
+        ;; And the modes, which I don't really care for anyway
+        " " mode-line-modes
+        mode-line-end-spaces))
+
+;; Samim diabled sml
+(require-package 'smart-mode-line)
+(setq sml/show-client nil)
+(setq sml/show-eol nil)
+(setq sml/show-frame-identification nil)
+(setq sml/theme 'respectful)
+(sml/setup)
+(set-face-attribute 'mode-line nil  :height 110)
 
 (provide 'init-eyecandy)

@@ -33,4 +33,26 @@
 
   )
 
+;; Samim's configs
+(setq ac-disable-faces nil)
+
+ (ac-config-default)
+(setq-default ac-sources
+    	'(ac-source-filename
+          ac-source-files-in-current-dir
+        ;ac-etags
+        ;ac-source-abbrev
+        ac-source-dictionary
+        ;ac-source-dabbrev
+        ac-source-words-in-buffer
+        ac-source-words-in-all-buffer
+        ;ac-source-yasnippet
+        ac-source-words-in-same-mode-buffers))
+
+; Latex Configs
+;(defun my-ac-tex-setup()
+ ; (setq ac-sources (append '(
+  ;                           ) ac-sources)))
+;(add-hook 'LaTeX-mode-hook 'my-ac-tex-setup)
+
 (provide 'init-auto-complete)

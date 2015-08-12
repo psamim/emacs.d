@@ -1,7 +1,10 @@
-.cache
-elpa
-auto-save-list
-eshell
-el-get
-custom.el
-*.elc
+/.cache/
+/custom.el
+/elpa/
+/session*
+/tramp
+/image-dired/
+/.mc-lists.el
+/ac-comphist.dat
+/custom.elc
+/config/*.elc

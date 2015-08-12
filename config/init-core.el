@@ -1,4 +1,5 @@
 (require 'server)
+ (setq server-socket-dir "/tmp/samim/emacs1000/server/")
 (unless (server-running-p)
   (server-start))
 
@@ -169,7 +170,7 @@
 
 (add-hook 'find-file-hook (lambda ()
                             (unless (eq major-mode 'org-mode)
-                              (setq show-trailing-whitespace t))))
+                              (setq show-trailing-whitespace nil))))
 (add-hook 'find-file-hook #'visual-line-mode)
 
 (provide 'init-core)
